@@ -1,0 +1,23 @@
+int a = 10;
+int b = 6;
+
+{
+    int a = 5;
+    b = 9;
+}
+
+while a > 0 {
+    a = a - 1;
+    b = 8 + a;
+}
+
+read a;  // 10
+print b;  // 8
+
+read a;
+
+if a == 5 {
+    print 5;
+} else {
+    print 6;
+}
