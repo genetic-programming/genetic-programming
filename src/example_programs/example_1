@@ -11,8 +11,8 @@ while a > 0 {
     b = 8 + a;
 }
 
-read a;  // 10
-print b;  // 8
+read a;
+print b;
 
 read a;
 
