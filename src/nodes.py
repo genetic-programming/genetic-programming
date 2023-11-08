@@ -21,6 +21,7 @@ class NodeData(BaseModel):
     growable: bool = False
     grammar_successors: list[list[NodeType]] = []
     possible_values: list[str] = []
+    allowed_swaps: list[NodeType] | None = None
     
 
 GRAMMAR = {
@@ -80,10 +81,7 @@ class LanguageNode(Node):
 
 class Individual(LanguageNode):
     def __init__(self) -> None:
-        super().__init__(
-            node_type=NodeType.PROGRAM,
-            name=self.node_title,
-        )
+        super().__init__(node_type=NodeType.PROGRAM)
 
 
 def swap_parents(node_1: LanguageNode, node_2: LanguageNode) -> None:
