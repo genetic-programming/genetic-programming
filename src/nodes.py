@@ -1,47 +1,11 @@
 from __future__ import annotations
 
 import random
-from enum import StrEnum, auto
-from string import ascii_lowercase
 from typing import Any
 
 from anytree import Node, PreOrderIter
-from pydantic import BaseModel
 
-
-class NodeType(StrEnum):
-    PROGRAM = auto()
-    STATEMENT = auto()
-    ASSIGNMENT = auto()
-    DECLARATION = auto()
-    VAR_TYPE = auto()
-    VAR_NAME = auto()
-    LITERAL = auto()
-
-
-class NodeData(BaseModel):
-    mutations_allowed: bool = True
-    growable: bool = False
-    grammar_successors: list[list[NodeType]] = []
-    possible_values: list[str] = []
-    allowed_swaps: set[NodeType] = set()
-    
-
-GRAMMAR = {
-    NodeType.PROGRAM: NodeData(growable=True, grammar_successors=[[NodeType.STATEMENT]]),
-    NodeType.STATEMENT: NodeData(grammar_successors=[[NodeType.DECLARATION], [NodeType.ASSIGNMENT]]),
-    NodeType.ASSIGNMENT: NodeData(
-        grammar_successors=[
-            [NodeType.DECLARATION, NodeType.VAR_NAME],
-            [NodeType.DECLARATION, NodeType.LITERAL]
-        ],
-        possible_values=["="],
-    ),
-    NodeType.DECLARATION: NodeData(grammar_successors=[[NodeType.VAR_TYPE, NodeType.VAR_NAME]]),
-    NodeType.VAR_TYPE: NodeData(possible_values=["int", "bool", "float"]),
-    NodeType.VAR_NAME: NodeData(possible_values=list(ascii_lowercase)),
-    NodeType.LITERAL: NodeData(possible_values=["true", "false", "1", "2", "3", ".5", ".1", "1.5"]),
-}
+from grammar import NodeType, GRAMMAR
 
 
 def random_value(node_type: NodeType) -> str:
@@ -106,12 +70,13 @@ class LanguageNode(Node):
         parent_node.random_init()
         
     def random_init(self) -> None:
-        successors = GRAMMAR[self.node_type].grammar_successors
+        successors = GRAMMAR[self.node_type].successors
         if not successors:
             return
         
         new_nodes_types = random.choice(successors)
         for new_node_type in new_nodes_types:
             new_node = create_node_random(node_type=new_node_type)
-            new_node.random_init()
+            if not GRAMMAR[new_node.node_type].growable:
+                new_node.random_init()
             new_node.parent = self

@@ -3,7 +3,8 @@ from typing import Callable
 
 from anytree import PreOrderIter
 
-from nodes import LanguageNode, NodeType, GRAMMAR, swap_parents, random_value
+from nodes import LanguageNode, swap_parents, random_value
+from grammar import NodeType, GRAMMAR
 
 
 class Individual(LanguageNode):
