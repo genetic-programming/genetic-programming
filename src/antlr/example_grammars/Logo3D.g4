@@ -97,7 +97,7 @@ parent
    : 'parent' '[' name ']' 
    ;
 
-node_name
+node_title
    : STRING
    ;
 
