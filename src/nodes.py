@@ -12,9 +12,11 @@ from pydantic import BaseModel
 class NodeType(StrEnum):
     PROGRAM = auto()
     STATEMENT = auto()
+    ASSIGNMENT = auto()
     DECLARATION = auto()
     VAR_TYPE = auto()
     VAR_NAME = auto()
+    LITERAL = auto()
 
 
 class NodeData(BaseModel):
@@ -27,10 +29,18 @@ class NodeData(BaseModel):
 
 GRAMMAR = {
     NodeType.PROGRAM: NodeData(growable=True, grammar_successors=[[NodeType.STATEMENT]]),
-    NodeType.STATEMENT: NodeData(grammar_successors=[[NodeType.DECLARATION]]),
+    NodeType.STATEMENT: NodeData(grammar_successors=[[NodeType.DECLARATION], [NodeType.ASSIGNMENT]]),
+    NodeType.ASSIGNMENT: NodeData(
+        grammar_successors=[
+            [NodeType.DECLARATION, NodeType.VAR_NAME],
+            [NodeType.DECLARATION, NodeType.LITERAL]
+        ],
+        possible_values=["="],
+    ),
     NodeType.DECLARATION: NodeData(grammar_successors=[[NodeType.VAR_TYPE, NodeType.VAR_NAME]]),
     NodeType.VAR_TYPE: NodeData(possible_values=["int", "bool", "float"]),
     NodeType.VAR_NAME: NodeData(possible_values=list(ascii_lowercase)),
+    NodeType.LITERAL: NodeData(possible_values=["true", "false", "1", "2", "3", ".5", ".1", "1.5"]),
 }
 
 
