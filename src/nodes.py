@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import random
 from enum import StrEnum, auto
+from string import ascii_lowercase
 from typing import Any
 
 from anytree import Node, PreOrderIter
@@ -21,7 +22,7 @@ class NodeData(BaseModel):
     growable: bool = False
     grammar_successors: list[list[NodeType]] = []
     possible_values: list[str] = []
-    allowed_swaps: list[NodeType] | None = None
+    allowed_swaps: set[NodeType] = set()
     
 
 GRAMMAR = {
@@ -29,8 +30,40 @@ GRAMMAR = {
     NodeType.STATEMENT: NodeData(grammar_successors=[[NodeType.DECLARATION]]),
     NodeType.DECLARATION: NodeData(grammar_successors=[[NodeType.VAR_TYPE, NodeType.VAR_NAME]]),
     NodeType.VAR_TYPE: NodeData(possible_values=["int", "bool", "float"]),
-    NodeType.VAR_NAME: NodeData(possible_values=["a", "b", "c"]),
+    NodeType.VAR_NAME: NodeData(possible_values=list(ascii_lowercase)),
 }
+
+
+def random_value(node_type: NodeType) -> str:
+    possible_values = GRAMMAR[node_type].possible_values
+    return random.choice(possible_values) if possible_values else None
+
+
+def create_node_random(node_type: NodeType) -> LanguageNode:
+    return LanguageNode(
+        node_type=node_type,
+        value=random_value(node_type),
+    )
+
+
+def swap_parents(node_1: LanguageNode, node_2: LanguageNode) -> None:
+    parent_1 = node_1.parent
+    parent_2 = node_2.parent
+    children_1 = parent_1.children
+    children_2 = parent_2.children
+    
+    children_1 = list(children_1)
+    index_1 = children_1.index(node_1)
+    children_1[index_1] = node_2
+    children_1 = tuple(children_1)
+
+    children_2 = list(children_2)
+    index_2 = children_2.index(node_2)
+    children_2[index_2] = node_1
+    children_2 = tuple(children_2)
+    
+    parent_1.children = children_1
+    parent_2.children = children_2
 
 
 class LanguageNode(Node):
@@ -69,22 +102,6 @@ class LanguageNode(Node):
         
         new_nodes_types = random.choice(successors)
         for new_node_type in new_nodes_types:
-            possible_values = GRAMMAR[new_node_type].possible_values
-            value = random.choice(possible_values) if possible_values else None
-            new_node = LanguageNode(
-                node_type=new_node_type,
-                value=value,
-                parent=self,
-            )
+            new_node = create_node_random(node_type=new_node_type)
             new_node.random_init()
-            
-
-class Individual(LanguageNode):
-    def __init__(self) -> None:
-        super().__init__(node_type=NodeType.PROGRAM)
-
-
-def swap_parents(node_1: LanguageNode, node_2: LanguageNode) -> None:
-    tmp = node_1.parent
-    node_1.parent = node_2.parent
-    node_2.parent = tmp
+            new_node.parent = self
