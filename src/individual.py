@@ -1,7 +1,18 @@
-from anytree import RenderTree
-from anytree.exporter import UniqueDotExporter
+import random
 
-from nodes import Individual
+from anytree import PreOrderIter
+
+from nodes import LanguageNode, NodeType, GRAMMAR, swap_parents, create_node_random, random_value
+
+
+class Individual(LanguageNode):
+    def __init__(self) -> None:
+        super().__init__(node_type=NodeType.PROGRAM)
+        
+    def mutate(self) -> None:
+        mutate_candidates = PreOrderIter(self, filter_=lambda node: node.value is not None)
+        node_to_mutate: LanguageNode = random.choice(list(mutate_candidates))
+        node_to_mutate.value = random_value(node_to_mutate.node_type)
 
 
 def create_individual(size: int) -> Individual:
@@ -13,16 +24,15 @@ def create_individual(size: int) -> Individual:
     return individual
 
 
-def crossover(
+def random_crossover(
     individual_1: Individual,
     individual_2: Individual,
-) -> Individual:
-    pass
-
-
-indiv_1 = create_individual(size=5)
-print(RenderTree(indiv_1))
-UniqueDotExporter(indiv_1).to_picture("individual_1.png")
-
-indiv_2 = create_individual(size=1)
-UniqueDotExporter(indiv_2).to_picture("individual_2.png")
+) -> None:
+    random_node: LanguageNode = random.choice(list(individual_1.descendants))
+    allowed_swaps = GRAMMAR[random_node.node_type].allowed_swaps
+    allowed_swaps.add(random_node.node_type)
+    
+    swap_candidates = PreOrderIter(individual_2, filter_=lambda node: node.node_type in allowed_swaps)
+    node_to_swap: LanguageNode = random.choice(list(swap_candidates))
+    
+    swap_parents(random_node, node_to_swap)
