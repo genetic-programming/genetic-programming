@@ -1,5 +1,6 @@
 # Generated from /Users/spoton/Studia/pg/genetic-programming/src/antlr/Language.g4 by ANTLR 4.13.1
 from antlr4 import *
+
 if "." in __name__:
     from .LanguageParser import LanguageParser
 else:
@@ -7,117 +8,95 @@ else:
 
 # This class defines a complete generic visitor for a parse tree produced by LanguageParser.
 
+
 class LanguageVisitor(ParseTreeVisitor):
-
     # Visit a parse tree produced by LanguageParser#program.
-    def visitProgram(self, ctx:LanguageParser.ProgramContext):
+    def visitProgram(self, ctx: LanguageParser.ProgramContext):
         return self.visitChildren(ctx)
-
 
     # Visit a parse tree produced by LanguageParser#statements.
-    def visitStatements(self, ctx:LanguageParser.StatementsContext):
+    def visitStatements(self, ctx: LanguageParser.StatementsContext):
         return self.visitChildren(ctx)
-
 
     # Visit a parse tree produced by LanguageParser#statement.
-    def visitStatement(self, ctx:LanguageParser.StatementContext):
+    def visitStatement(self, ctx: LanguageParser.StatementContext):
         return self.visitChildren(ctx)
-
 
     # Visit a parse tree produced by LanguageParser#line.
-    def visitLine(self, ctx:LanguageParser.LineContext):
+    def visitLine(self, ctx: LanguageParser.LineContext):
         return self.visitChildren(ctx)
 
-
-    # Visit a parse tree produced by LanguageParser#conditional_statement.
-    def visitConditional_statement(self, ctx:LanguageParser.Conditional_statementContext):
+    # Visit a parse tree produced by LanguageParser#conditionalStatement.
+    def visitConditionalStatement(self, ctx: LanguageParser.ConditionalStatementContext):
         return self.visitChildren(ctx)
 
-
-    # Visit a parse tree produced by LanguageParser#loop_statement.
-    def visitLoop_statement(self, ctx:LanguageParser.Loop_statementContext):
+    # Visit a parse tree produced by LanguageParser#loopStatement.
+    def visitLoopStatement(self, ctx: LanguageParser.LoopStatementContext):
         return self.visitChildren(ctx)
 
-
-    # Visit a parse tree produced by LanguageParser#compound_statement.
-    def visitCompound_statement(self, ctx:LanguageParser.Compound_statementContext):
+    # Visit a parse tree produced by LanguageParser#compoundStatement.
+    def visitCompoundStatement(self, ctx: LanguageParser.CompoundStatementContext):
         return self.visitChildren(ctx)
-
 
     # Visit a parse tree produced by LanguageParser#expression.
-    def visitExpression(self, ctx:LanguageParser.ExpressionContext):
+    def visitExpression(self, ctx: LanguageParser.ExpressionContext):
         return self.visitChildren(ctx)
 
-
-    # Visit a parse tree produced by LanguageParser#boolean_unary_operator.
-    def visitBoolean_unary_operator(self, ctx:LanguageParser.Boolean_unary_operatorContext):
+    # Visit a parse tree produced by LanguageParser#booleanUnaryOperator.
+    def visitBooleanUnaryOperator(self, ctx: LanguageParser.BooleanUnaryOperatorContext):
         return self.visitChildren(ctx)
 
-
-    # Visit a parse tree produced by LanguageParser#numeric_unary_operator.
-    def visitNumeric_unary_operator(self, ctx:LanguageParser.Numeric_unary_operatorContext):
+    # Visit a parse tree produced by LanguageParser#numericUnaryOperator.
+    def visitNumericUnaryOperator(self, ctx: LanguageParser.NumericUnaryOperatorContext):
         return self.visitChildren(ctx)
 
-
-    # Visit a parse tree produced by LanguageParser#multiplication_operator.
-    def visitMultiplication_operator(self, ctx:LanguageParser.Multiplication_operatorContext):
+    # Visit a parse tree produced by LanguageParser#multiplicationOperator.
+    def visitMultiplicationOperator(self, ctx: LanguageParser.MultiplicationOperatorContext):
         return self.visitChildren(ctx)
 
-
-    # Visit a parse tree produced by LanguageParser#addition_operator.
-    def visitAddition_operator(self, ctx:LanguageParser.Addition_operatorContext):
+    # Visit a parse tree produced by LanguageParser#additionOperator.
+    def visitAdditionOperator(self, ctx: LanguageParser.AdditionOperatorContext):
         return self.visitChildren(ctx)
 
-
-    # Visit a parse tree produced by LanguageParser#comparison_operator.
-    def visitComparison_operator(self, ctx:LanguageParser.Comparison_operatorContext):
+    # Visit a parse tree produced by LanguageParser#comparisonOperator.
+    def visitComparisonOperator(self, ctx: LanguageParser.ComparisonOperatorContext):
         return self.visitChildren(ctx)
 
-
-    # Visit a parse tree produced by LanguageParser#and_operator.
-    def visitAnd_operator(self, ctx:LanguageParser.And_operatorContext):
+    # Visit a parse tree produced by LanguageParser#andOperator.
+    def visitAndOperator(self, ctx: LanguageParser.AndOperatorContext):
         return self.visitChildren(ctx)
 
-
-    # Visit a parse tree produced by LanguageParser#or_operator.
-    def visitOr_operator(self, ctx:LanguageParser.Or_operatorContext):
+    # Visit a parse tree produced by LanguageParser#orOperator.
+    def visitOrOperator(self, ctx: LanguageParser.OrOperatorContext):
         return self.visitChildren(ctx)
-
 
     # Visit a parse tree produced by LanguageParser#atom.
-    def visitAtom(self, ctx:LanguageParser.AtomContext):
+    def visitAtom(self, ctx: LanguageParser.AtomContext):
         return self.visitChildren(ctx)
-
 
     # Visit a parse tree produced by LanguageParser#declaration.
-    def visitDeclaration(self, ctx:LanguageParser.DeclarationContext):
+    def visitDeclaration(self, ctx: LanguageParser.DeclarationContext):
         return self.visitChildren(ctx)
 
-
-    # Visit a parse tree produced by LanguageParser#var_type.
-    def visitVar_type(self, ctx:LanguageParser.Var_typeContext):
+    # Visit a parse tree produced by LanguageParser#varType.
+    def visitVarType(self, ctx: LanguageParser.VarTypeContext):
         return self.visitChildren(ctx)
-
 
     # Visit a parse tree produced by LanguageParser#assignment.
-    def visitAssignment(self, ctx:LanguageParser.AssignmentContext):
+    def visitAssignment(self, ctx: LanguageParser.AssignmentContext):
         return self.visitChildren(ctx)
-
 
     # Visit a parse tree produced by LanguageParser#literal.
-    def visitLiteral(self, ctx:LanguageParser.LiteralContext):
+    def visitLiteral(self, ctx: LanguageParser.LiteralContext):
         return self.visitChildren(ctx)
-
 
     # Visit a parse tree produced by LanguageParser#printStatement.
-    def visitPrintStatement(self, ctx:LanguageParser.PrintStatementContext):
+    def visitPrintStatement(self, ctx: LanguageParser.PrintStatementContext):
         return self.visitChildren(ctx)
-
 
     # Visit a parse tree produced by LanguageParser#readStatement.
-    def visitReadStatement(self, ctx:LanguageParser.ReadStatementContext):
+    def visitReadStatement(self, ctx: LanguageParser.ReadStatementContext):
         return self.visitChildren(ctx)
-
 
 
 del LanguageParser

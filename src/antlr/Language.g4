@@ -12,9 +12,9 @@ statements
 
 statement
 	: line ';'
-	| conditional_statement
-	| loop_statement
-	| compound_statement
+	| conditionalStatement
+	| loopStatement
+	| compoundStatement
 	;
 
 line
@@ -27,63 +27,63 @@ line
 
 
 // STATEMENTS
-conditional_statement
-    : If expression compound_statement ( Else compound_statement )?
+conditionalStatement
+    : If expression compoundStatement ( Else compoundStatement )?
     ;
 
-loop_statement
-	: While expression compound_statement
+loopStatement
+	: While expression compoundStatement
 	;
 
-compound_statement
+compoundStatement
     : '{' (statements)? '}'
     ;
 
 
 // EXPRESSIONS
 expression
-    :   boolean_unary_operator expression
-    |   numeric_unary_operator expression
-    |   expression multiplication_operator expression
-    |   expression addition_operator expression
-    |   expression comparison_operator expression
-    |   expression and_operator expression
-    |   expression or_operator expression
+    :   booleanUnaryOperator expression
+    |   numericUnaryOperator expression
+    |   expression multiplicationOperator expression
+    |   expression additionOperator expression
+    |   expression comparisonOperator expression
+    |   expression andOperator expression
+    |   expression orOperator expression
     |   '(' expression ')'
     |   atom
     ;
 
-boolean_unary_operator
+booleanUnaryOperator
     : Not
     ;
 
-numeric_unary_operator
+numericUnaryOperator
     : '+'
     | '-'
     ;
 
-multiplication_operator
+multiplicationOperator
     : '*'
     | '/'
     ;
 
-addition_operator
+additionOperator
     : '+'
     | '-'
     ;
 
-comparison_operator
+comparisonOperator
     : '<'
     | '>'
     | '=='
     | '!='
     ;
 
-and_operator
+andOperator
     : And
     ;
 
-or_operator
+orOperator
     : Or
     ;
 
@@ -95,10 +95,10 @@ atom
 
 // VARIABLES AND TYPES
 declaration
-	: var_type VARIABLE_NAME
+	: varType VARIABLE_NAME
 	;
 
-var_type
+varType
     : Int
     | Float
     | Bool

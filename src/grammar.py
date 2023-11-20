@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from enum import StrEnum, auto
+from enum import auto, StrEnum
 from string import ascii_lowercase
 
 from pydantic import BaseModel
@@ -9,18 +9,18 @@ from pydantic import BaseModel
 class NodeType(StrEnum):
     PROGRAM = auto()
     STATEMENT = auto()
-    
+
     LINE = auto()
     CONDITIONAL_STATEMENT = auto()
     LOOP_STATEMENT = auto()
     COMPOUND_STATEMENT = auto()
-    
+
     EXPRESSION = auto()
     DECLARATION = auto()
     ASSIGNMENT = auto()
     PRINT_STATEMENT = auto()
     READ_STATEMENT = auto()
-    
+
     VAR_TYPE = auto()
     VAR_NAME = auto()
     LITERAL = auto()
@@ -85,7 +85,7 @@ GRAMMAR = {
     NodeType.ASSIGNMENT: NodeData(
         successors=[
             [NodeType.DECLARATION, NodeType.VAR_NAME],
-            [NodeType.DECLARATION, NodeType.EXPRESSION]
+            [NodeType.DECLARATION, NodeType.EXPRESSION],
         ],
     ),
     NodeType.VAR_NAME: NodeData(possible_values=list(ascii_lowercase)),

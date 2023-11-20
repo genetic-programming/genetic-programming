@@ -1,210 +1,189 @@
 # Generated from /Users/spoton/Studia/pg/genetic-programming/src/antlr/Language.g4 by ANTLR 4.13.1
 from antlr4 import *
+
 if "." in __name__:
     from .LanguageParser import LanguageParser
 else:
     from LanguageParser import LanguageParser
 
+
 # This class defines a complete listener for a parse tree produced by LanguageParser.
 class LanguageListener(ParseTreeListener):
-
     # Enter a parse tree produced by LanguageParser#program.
-    def enterProgram(self, ctx:LanguageParser.ProgramContext):
+    def enterProgram(self, ctx: LanguageParser.ProgramContext):
         pass
 
     # Exit a parse tree produced by LanguageParser#program.
-    def exitProgram(self, ctx:LanguageParser.ProgramContext):
+    def exitProgram(self, ctx: LanguageParser.ProgramContext):
         pass
 
-
     # Enter a parse tree produced by LanguageParser#statements.
-    def enterStatements(self, ctx:LanguageParser.StatementsContext):
+    def enterStatements(self, ctx: LanguageParser.StatementsContext):
         pass
 
     # Exit a parse tree produced by LanguageParser#statements.
-    def exitStatements(self, ctx:LanguageParser.StatementsContext):
+    def exitStatements(self, ctx: LanguageParser.StatementsContext):
         pass
 
-
     # Enter a parse tree produced by LanguageParser#statement.
-    def enterStatement(self, ctx:LanguageParser.StatementContext):
+    def enterStatement(self, ctx: LanguageParser.StatementContext):
         pass
 
     # Exit a parse tree produced by LanguageParser#statement.
-    def exitStatement(self, ctx:LanguageParser.StatementContext):
+    def exitStatement(self, ctx: LanguageParser.StatementContext):
         pass
 
-
     # Enter a parse tree produced by LanguageParser#line.
-    def enterLine(self, ctx:LanguageParser.LineContext):
+    def enterLine(self, ctx: LanguageParser.LineContext):
         pass
 
     # Exit a parse tree produced by LanguageParser#line.
-    def exitLine(self, ctx:LanguageParser.LineContext):
+    def exitLine(self, ctx: LanguageParser.LineContext):
         pass
 
-
-    # Enter a parse tree produced by LanguageParser#conditional_statement.
-    def enterConditional_statement(self, ctx:LanguageParser.Conditional_statementContext):
+    # Enter a parse tree produced by LanguageParser#conditionalStatement.
+    def enterConditionalStatement(self, ctx: LanguageParser.ConditionalStatementContext):
         pass
 
-    # Exit a parse tree produced by LanguageParser#conditional_statement.
-    def exitConditional_statement(self, ctx:LanguageParser.Conditional_statementContext):
+    # Exit a parse tree produced by LanguageParser#conditionalStatement.
+    def exitConditionalStatement(self, ctx: LanguageParser.ConditionalStatementContext):
         pass
 
-
-    # Enter a parse tree produced by LanguageParser#loop_statement.
-    def enterLoop_statement(self, ctx:LanguageParser.Loop_statementContext):
+    # Enter a parse tree produced by LanguageParser#loopStatement.
+    def enterLoopStatement(self, ctx: LanguageParser.LoopStatementContext):
         pass
 
-    # Exit a parse tree produced by LanguageParser#loop_statement.
-    def exitLoop_statement(self, ctx:LanguageParser.Loop_statementContext):
+    # Exit a parse tree produced by LanguageParser#loopStatement.
+    def exitLoopStatement(self, ctx: LanguageParser.LoopStatementContext):
         pass
 
-
-    # Enter a parse tree produced by LanguageParser#compound_statement.
-    def enterCompound_statement(self, ctx:LanguageParser.Compound_statementContext):
+    # Enter a parse tree produced by LanguageParser#compoundStatement.
+    def enterCompoundStatement(self, ctx: LanguageParser.CompoundStatementContext):
         pass
 
-    # Exit a parse tree produced by LanguageParser#compound_statement.
-    def exitCompound_statement(self, ctx:LanguageParser.Compound_statementContext):
+    # Exit a parse tree produced by LanguageParser#compoundStatement.
+    def exitCompoundStatement(self, ctx: LanguageParser.CompoundStatementContext):
         pass
-
 
     # Enter a parse tree produced by LanguageParser#expression.
-    def enterExpression(self, ctx:LanguageParser.ExpressionContext):
+    def enterExpression(self, ctx: LanguageParser.ExpressionContext):
         pass
 
     # Exit a parse tree produced by LanguageParser#expression.
-    def exitExpression(self, ctx:LanguageParser.ExpressionContext):
+    def exitExpression(self, ctx: LanguageParser.ExpressionContext):
         pass
 
-
-    # Enter a parse tree produced by LanguageParser#boolean_unary_operator.
-    def enterBoolean_unary_operator(self, ctx:LanguageParser.Boolean_unary_operatorContext):
+    # Enter a parse tree produced by LanguageParser#booleanUnaryOperator.
+    def enterBooleanUnaryOperator(self, ctx: LanguageParser.BooleanUnaryOperatorContext):
         pass
 
-    # Exit a parse tree produced by LanguageParser#boolean_unary_operator.
-    def exitBoolean_unary_operator(self, ctx:LanguageParser.Boolean_unary_operatorContext):
+    # Exit a parse tree produced by LanguageParser#booleanUnaryOperator.
+    def exitBooleanUnaryOperator(self, ctx: LanguageParser.BooleanUnaryOperatorContext):
         pass
 
-
-    # Enter a parse tree produced by LanguageParser#numeric_unary_operator.
-    def enterNumeric_unary_operator(self, ctx:LanguageParser.Numeric_unary_operatorContext):
+    # Enter a parse tree produced by LanguageParser#numericUnaryOperator.
+    def enterNumericUnaryOperator(self, ctx: LanguageParser.NumericUnaryOperatorContext):
         pass
 
-    # Exit a parse tree produced by LanguageParser#numeric_unary_operator.
-    def exitNumeric_unary_operator(self, ctx:LanguageParser.Numeric_unary_operatorContext):
+    # Exit a parse tree produced by LanguageParser#numericUnaryOperator.
+    def exitNumericUnaryOperator(self, ctx: LanguageParser.NumericUnaryOperatorContext):
         pass
 
-
-    # Enter a parse tree produced by LanguageParser#multiplication_operator.
-    def enterMultiplication_operator(self, ctx:LanguageParser.Multiplication_operatorContext):
+    # Enter a parse tree produced by LanguageParser#multiplicationOperator.
+    def enterMultiplicationOperator(self, ctx: LanguageParser.MultiplicationOperatorContext):
         pass
 
-    # Exit a parse tree produced by LanguageParser#multiplication_operator.
-    def exitMultiplication_operator(self, ctx:LanguageParser.Multiplication_operatorContext):
+    # Exit a parse tree produced by LanguageParser#multiplicationOperator.
+    def exitMultiplicationOperator(self, ctx: LanguageParser.MultiplicationOperatorContext):
         pass
 
-
-    # Enter a parse tree produced by LanguageParser#addition_operator.
-    def enterAddition_operator(self, ctx:LanguageParser.Addition_operatorContext):
+    # Enter a parse tree produced by LanguageParser#additionOperator.
+    def enterAdditionOperator(self, ctx: LanguageParser.AdditionOperatorContext):
         pass
 
-    # Exit a parse tree produced by LanguageParser#addition_operator.
-    def exitAddition_operator(self, ctx:LanguageParser.Addition_operatorContext):
+    # Exit a parse tree produced by LanguageParser#additionOperator.
+    def exitAdditionOperator(self, ctx: LanguageParser.AdditionOperatorContext):
         pass
 
-
-    # Enter a parse tree produced by LanguageParser#comparison_operator.
-    def enterComparison_operator(self, ctx:LanguageParser.Comparison_operatorContext):
+    # Enter a parse tree produced by LanguageParser#comparisonOperator.
+    def enterComparisonOperator(self, ctx: LanguageParser.ComparisonOperatorContext):
         pass
 
-    # Exit a parse tree produced by LanguageParser#comparison_operator.
-    def exitComparison_operator(self, ctx:LanguageParser.Comparison_operatorContext):
+    # Exit a parse tree produced by LanguageParser#comparisonOperator.
+    def exitComparisonOperator(self, ctx: LanguageParser.ComparisonOperatorContext):
         pass
 
-
-    # Enter a parse tree produced by LanguageParser#and_operator.
-    def enterAnd_operator(self, ctx:LanguageParser.And_operatorContext):
+    # Enter a parse tree produced by LanguageParser#andOperator.
+    def enterAndOperator(self, ctx: LanguageParser.AndOperatorContext):
         pass
 
-    # Exit a parse tree produced by LanguageParser#and_operator.
-    def exitAnd_operator(self, ctx:LanguageParser.And_operatorContext):
+    # Exit a parse tree produced by LanguageParser#andOperator.
+    def exitAndOperator(self, ctx: LanguageParser.AndOperatorContext):
         pass
 
-
-    # Enter a parse tree produced by LanguageParser#or_operator.
-    def enterOr_operator(self, ctx:LanguageParser.Or_operatorContext):
+    # Enter a parse tree produced by LanguageParser#orOperator.
+    def enterOrOperator(self, ctx: LanguageParser.OrOperatorContext):
         pass
 
-    # Exit a parse tree produced by LanguageParser#or_operator.
-    def exitOr_operator(self, ctx:LanguageParser.Or_operatorContext):
+    # Exit a parse tree produced by LanguageParser#orOperator.
+    def exitOrOperator(self, ctx: LanguageParser.OrOperatorContext):
         pass
-
 
     # Enter a parse tree produced by LanguageParser#atom.
-    def enterAtom(self, ctx:LanguageParser.AtomContext):
+    def enterAtom(self, ctx: LanguageParser.AtomContext):
         pass
 
     # Exit a parse tree produced by LanguageParser#atom.
-    def exitAtom(self, ctx:LanguageParser.AtomContext):
+    def exitAtom(self, ctx: LanguageParser.AtomContext):
         pass
 
-
     # Enter a parse tree produced by LanguageParser#declaration.
-    def enterDeclaration(self, ctx:LanguageParser.DeclarationContext):
+    def enterDeclaration(self, ctx: LanguageParser.DeclarationContext):
         pass
 
     # Exit a parse tree produced by LanguageParser#declaration.
-    def exitDeclaration(self, ctx:LanguageParser.DeclarationContext):
+    def exitDeclaration(self, ctx: LanguageParser.DeclarationContext):
         pass
 
-
-    # Enter a parse tree produced by LanguageParser#var_type.
-    def enterVar_type(self, ctx:LanguageParser.Var_typeContext):
+    # Enter a parse tree produced by LanguageParser#varType.
+    def enterVarType(self, ctx: LanguageParser.VarTypeContext):
         pass
 
-    # Exit a parse tree produced by LanguageParser#var_type.
-    def exitVar_type(self, ctx:LanguageParser.Var_typeContext):
+    # Exit a parse tree produced by LanguageParser#varType.
+    def exitVarType(self, ctx: LanguageParser.VarTypeContext):
         pass
-
 
     # Enter a parse tree produced by LanguageParser#assignment.
-    def enterAssignment(self, ctx:LanguageParser.AssignmentContext):
+    def enterAssignment(self, ctx: LanguageParser.AssignmentContext):
         pass
 
     # Exit a parse tree produced by LanguageParser#assignment.
-    def exitAssignment(self, ctx:LanguageParser.AssignmentContext):
+    def exitAssignment(self, ctx: LanguageParser.AssignmentContext):
         pass
 
-
     # Enter a parse tree produced by LanguageParser#literal.
-    def enterLiteral(self, ctx:LanguageParser.LiteralContext):
+    def enterLiteral(self, ctx: LanguageParser.LiteralContext):
         pass
 
     # Exit a parse tree produced by LanguageParser#literal.
-    def exitLiteral(self, ctx:LanguageParser.LiteralContext):
+    def exitLiteral(self, ctx: LanguageParser.LiteralContext):
         pass
 
-
     # Enter a parse tree produced by LanguageParser#printStatement.
-    def enterPrintStatement(self, ctx:LanguageParser.PrintStatementContext):
+    def enterPrintStatement(self, ctx: LanguageParser.PrintStatementContext):
         pass
 
     # Exit a parse tree produced by LanguageParser#printStatement.
-    def exitPrintStatement(self, ctx:LanguageParser.PrintStatementContext):
+    def exitPrintStatement(self, ctx: LanguageParser.PrintStatementContext):
         pass
 
-
     # Enter a parse tree produced by LanguageParser#readStatement.
-    def enterReadStatement(self, ctx:LanguageParser.ReadStatementContext):
+    def enterReadStatement(self, ctx: LanguageParser.ReadStatementContext):
         pass
 
     # Exit a parse tree produced by LanguageParser#readStatement.
-    def exitReadStatement(self, ctx:LanguageParser.ReadStatementContext):
+    def exitReadStatement(self, ctx: LanguageParser.ReadStatementContext):
         pass
-
 
 
 del LanguageParser

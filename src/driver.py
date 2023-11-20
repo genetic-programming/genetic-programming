@@ -4,7 +4,6 @@ from anytree.exporter import UniqueDotExporter
 from individual import create_individual, random_crossover
 from tournament import Tournament
 
-
 # Tworzenie osobników
 indiv_1 = create_individual(size=2)
 print(RenderTree(indiv_1))
