@@ -32,13 +32,13 @@ class Interpreter:
         self.interpret_stream(input_stream)
 
     def interpret_stream(self, input_stream: InputStream) -> None:
-        self.set_input(input_stream)
+        self._set_input(input_stream)
         pe_ctx = self.get_primary_expression_ctx()
         if pe_ctx is None or self.parser.getNumberOfSyntaxErrors() > 0:
             return
         self.walk_and_visit_tree(pe_ctx)
 
-    def set_input(self, input_stream: InputStream) -> None:
+    def _set_input(self, input_stream: InputStream) -> None:
         self.lexer.inputStream = input_stream
         token_stream = CommonTokenStream(self.lexer)
         self.parser.setTokenStream(token_stream)
