@@ -4,7 +4,8 @@ import random
 from typing import Any
 
 from anytree import Node, PreOrderIter
-from grammar import GRAMMAR, NodeType
+
+from gp_algorithm.grammar import GRAMMAR, NodeType
 
 
 def random_value(node_type: NodeType) -> str:

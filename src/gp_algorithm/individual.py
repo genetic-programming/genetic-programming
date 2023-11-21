@@ -3,8 +3,9 @@ import random
 from typing import Callable, Protocol
 
 from anytree import PreOrderIter
-from grammar import GRAMMAR, NodeType
-from nodes import LanguageNode, random_value, swap_parents
+
+from gp_algorithm.grammar import GRAMMAR, NodeType
+from gp_algorithm.nodes import LanguageNode, random_value, swap_parents
 
 
 class Individual(LanguageNode):
@@ -22,7 +23,7 @@ class Individual(LanguageNode):
         return ""
 
     def save_to_file(self, file_name: str) -> None:
-        with open(file_name, "wb") as file:
+        with open(file_name, "wb+") as file:
             pickle.dump(self, file)
 
 

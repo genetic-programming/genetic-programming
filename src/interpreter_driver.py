@@ -2,6 +2,7 @@ from argparse import ArgumentParser
 from pathlib import Path
 
 from interpreter.interpreter import create_interpreter
+from interpreter.language_types.integer import IntegerType
 
 
 def main() -> None:
@@ -9,7 +10,7 @@ def main() -> None:
     Runs interpreter on given file from /src/ directory.
 
     Example usages:
-    $ python driver.py ./example_programs/example1
+    $ python interpreter_driver.py ./example_programs/example1
     """
 
     parser = ArgumentParser()
@@ -32,7 +33,8 @@ def main() -> None:
     source_file_path = str(Path(__file__).parent / args.source)
 
     interpreter = create_interpreter(print_stacktraces=args.print_stacktraces)
-    interpreter.interpret_file(file_path=source_file_path)
+    result = interpreter.interpret_file(file_path=source_file_path, inputs=[IntegerType(1), IntegerType(1)])
+    print(result)  # noqa: T201
 
 
 if __name__ == "__main__":

@@ -1,6 +1,6 @@
 from typing import Callable, Generator
 
-from individual import Individual
+from gp_algorithm.individual import Individual
 
 
 class Tournament:
