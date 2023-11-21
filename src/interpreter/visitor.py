@@ -9,22 +9,20 @@ from interpreter.exceptions import (
     VariableUnassignedError,
     VariableValueUnassignableError,
 )
+from interpreter.expressions_visitor import ExpressionsVisitor
 from interpreter.language_types.base_type import LanguageType
 from interpreter.language_types.boolean import BooleanType, CONST_TRUE
 from interpreter.language_types.float import FloatType
 from interpreter.language_types.integer import IntegerType
 from interpreter.variable_stack import VariableStack
-from interpreter.visitors.expressions import ExpressionsVisitor
 
 
 class Visitor(ExpressionsVisitor):
-    def __init__(
-        self,
-        variable_stack: VariableStack,
-        allow_prints: bool = False,
-    ) -> None:
+    def __init__(self, variable_stack: VariableStack) -> None:
         self.variable_stack = variable_stack
-        self._allow_prints = allow_prints
+        self.program_input: list[LanguageType] = []
+        self.program_output: list[str] = []
+        self.program_output_limit: int = 100
 
     # PRIMARY EXPRESSION
     @handle_exception
@@ -32,6 +30,7 @@ class Visitor(ExpressionsVisitor):
         self.variable_stack.append_frame("main")
         self.variable_stack.append_subframe()
         super().visitProgram(ctx)
+        self.variable_stack.pop_subframe()
         self.variable_stack.pop_frame()
 
     # STATEMENTS
@@ -111,13 +110,7 @@ class Visitor(ExpressionsVisitor):
         else:
             raise NotImplementedError("Unknown variable type")
 
-        if type(var) is not type(expr):
-            raise VariableAssignedTypeError(
-                val_type=expr.type_name,
-                name=var_name,
-                type=var.type_name,
-            )
-        var.value = expr.value
+        self.assign_expr_to_var(var=var, var_name=var_name, expr=expr)
 
     @handle_exception
     def visitLiteral(self, ctx: LanguageParser.LiteralContext) -> LanguageType:
@@ -133,3 +126,35 @@ class Visitor(ExpressionsVisitor):
     def visitErrorNode(self, error_node: ErrorNodeImpl) -> None:
         exc = LanguageSyntaxError(extra_info=str(error_node))
         exc.inject_context_to_exc(error_node.parentCtx)
+
+    # IO
+    @handle_exception
+    def visitPrintStatement(self, ctx: LanguageParser.PrintStatementContext) -> None:
+        language_type = self.visitExpression(ctx.expression())
+        self.program_output.append(str(language_type.value))
+        if len(self.program_output) > self.program_output_limit:
+            raise RuntimeError("Program output reached limit 1000")
+
+    @handle_exception
+    def visitReadStatement(self, ctx: LanguageParser.ReadStatementContext) -> None:
+        var_name = ctx.VARIABLE_NAME().symbol.text
+        var = self.variable_stack.get_var(var_name)
+        try:
+            expr = self.program_input.pop(0)
+        except IndexError:
+            raise RuntimeError("Not sufficient inputs")
+        self.assign_expr_to_var(var=var, var_name=var_name, expr=expr)
+
+    @staticmethod
+    def assign_expr_to_var(
+        var: LanguageType,
+        var_name: str,
+        expr: LanguageType,
+    ) -> None:
+        if type(var) is not type(expr):
+            raise VariableAssignedTypeError(
+                val_type=expr.type_name,
+                name=var_name,
+                type=var.type_name,
+            )
+        var.value = expr.value

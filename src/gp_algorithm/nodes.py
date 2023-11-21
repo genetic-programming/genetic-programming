@@ -4,7 +4,6 @@ import random
 from typing import Any
 
 from anytree import Node, PreOrderIter
-
 from grammar import GRAMMAR, NodeType
 
 

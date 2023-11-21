@@ -13,6 +13,16 @@ class Listener(LanguageListener):
         self.variable_stack = variable_stack
 
     @handle_exception
+    def enterProgram(self, ctx: LanguageParser.ProgramContext) -> None:
+        self.variable_stack.append_frame("main")
+        self.variable_stack.append_subframe()
+
+    @handle_exception
+    def exitProgram(self, ctx: LanguageParser.ProgramContext) -> None:
+        self.variable_stack.pop_subframe()
+        self.variable_stack.pop_frame()
+
+    @handle_exception
     def enterCompoundStatement(self, ctx: LanguageParser.CompoundStatementContext) -> None:
         self.variable_stack.append_subframe()
 

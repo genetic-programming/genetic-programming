@@ -1,33 +1,24 @@
 from typing import Callable
 
 import pytest
-from antlr4 import ParseTreeWalker, TokenStream
 
-from interpreter.interpreter import Interpreter
-from interpreter.listener import Listener
-from interpreter.recognizers import CustomLexer, CustomParser
-from interpreter.variable_stack import VariableStack
-from interpreter.visitors.main import Visitor
+from interpreter.interpreter import create_interpreter
+from interpreter.language_types.base_type import LanguageType
+from interpreter.language_types.integer import IntegerType
 
 
 @pytest.mark.parametrize(
-    "file_name",
+    ("file_name", "inputs"),
     [
-        "test",
+        ("test_1", []),
+        ("test_2", [IntegerType(1), IntegerType(1)]),
     ],
 )
 def test_interpret_file(
     file_name: str,
+    inputs: list[LanguageType],
     get_input_path: Callable[[str], str],
 ) -> None:
-    variable_stack = VariableStack()
-    interpreter = Interpreter(
-        CustomLexer(),
-        CustomParser(input=TokenStream()),
-        Listener(variable_stack=variable_stack),
-        ParseTreeWalker(),
-        Visitor(variable_stack=variable_stack, allow_prints=True),
-        print_stacktraces=True,
-    )
+    interpreter = create_interpreter(print_stacktraces=True)
     input_path = get_input_path(file_name)
-    interpreter.interpret_file(input_path)
+    interpreter.interpret_file(file_path=input_path, inputs=inputs)

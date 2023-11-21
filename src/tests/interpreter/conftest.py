@@ -8,7 +8,7 @@ from antlr4 import CommonTokenStream, InputStream
 from antlr.LanguageParser import LanguageParser
 from interpreter.recognizers import CustomLexer, CustomParser
 from interpreter.variable_stack import VariableStack
-from interpreter.visitors.main import Visitor
+from interpreter.visitor import Visitor
 
 
 @pytest.fixture()
