@@ -4,10 +4,10 @@ import pytest
 
 from antlr.LanguageParser import LanguageParser
 from interpreter.exceptions import IncompatibleTypesError, LanguageZeroDivisionError
-from interpreter.types.base_type import LanguageType
-from interpreter.types.boolean import CONST_FALSE, CONST_TRUE
-from interpreter.types.float import FloatType
-from interpreter.types.integer import IntegerType
+from interpreter.language_types.base_type import LanguageType
+from interpreter.language_types.boolean import CONST_FALSE, CONST_TRUE
+from interpreter.language_types.float import FloatType
+from interpreter.language_types.integer import IntegerType
 from interpreter.visitors.main import Visitor
 
 

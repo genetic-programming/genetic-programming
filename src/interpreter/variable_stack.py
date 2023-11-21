@@ -4,7 +4,7 @@ from interpreter.exceptions import (
     VariableRedeclarationError,
     VariableUndeclaredError,
 )
-from interpreter.types.base_type import LanguageType
+from interpreter.language_types.base_type import LanguageType
 
 
 class Frame:

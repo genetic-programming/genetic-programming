@@ -9,10 +9,10 @@ from interpreter.exceptions import (
     VariableUnassignedError,
     VariableValueUnassignableError,
 )
-from interpreter.types.base_type import LanguageType
-from interpreter.types.boolean import BooleanType, CONST_TRUE
-from interpreter.types.float import FloatType
-from interpreter.types.integer import IntegerType
+from interpreter.language_types.base_type import LanguageType
+from interpreter.language_types.boolean import BooleanType, CONST_TRUE
+from interpreter.language_types.float import FloatType
+from interpreter.language_types.integer import IntegerType
 from interpreter.variable_stack import VariableStack
 from interpreter.visitors.expressions import ExpressionsVisitor
 

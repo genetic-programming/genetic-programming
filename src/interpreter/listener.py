@@ -1,10 +1,10 @@
 from antlr.LanguageListener import LanguageListener
 from antlr.LanguageParser import LanguageParser
 from interpreter.decorators import handle_exception
-from interpreter.types.base_type import LanguageType
-from interpreter.types.boolean import BooleanType
-from interpreter.types.float import FloatType
-from interpreter.types.integer import IntegerType
+from interpreter.language_types.base_type import LanguageType
+from interpreter.language_types.boolean import BooleanType
+from interpreter.language_types.float import FloatType
+from interpreter.language_types.integer import IntegerType
 from interpreter.variable_stack import VariableStack
 
 

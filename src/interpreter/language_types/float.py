@@ -1,8 +1,8 @@
 from typing import TYPE_CHECKING
 
 from interpreter.exceptions import IncompatibleTypesError, LanguageValueError, LanguageZeroDivisionError
-from interpreter.types.base_type import LanguageType
-from interpreter.types.boolean import BooleanType
+from interpreter.language_types.base_type import LanguageType
+from interpreter.language_types.boolean import BooleanType
 
 if TYPE_CHECKING:
     from typing import Any

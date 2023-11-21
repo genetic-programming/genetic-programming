@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING
 
 from interpreter.exceptions import IncompatibleTypesError, LanguageValueError
-from interpreter.types.base_type import LanguageType
+from interpreter.language_types.base_type import LanguageType
 
 if TYPE_CHECKING:
     from typing import Any

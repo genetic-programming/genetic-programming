@@ -5,7 +5,7 @@ from antlr.LanguageParser import LanguageParser
 from antlr.LanguageVisitor import LanguageVisitor
 from interpreter.decorators import handle_exception
 from interpreter.exceptions import NullValueUsageError
-from interpreter.types.base_type import LanguageType
+from interpreter.language_types.base_type import LanguageType
 
 
 class ExpressionsVisitor(LanguageVisitor):
