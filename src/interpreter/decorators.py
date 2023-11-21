@@ -7,7 +7,7 @@ if TYPE_CHECKING:
 
     from antlr4 import ParserRuleContext
 
-    from interpreter.visitors.main import Visitor
+    from interpreter.visitor import Visitor
 
 
 def handle_exception(method: "Callable") -> "Callable":

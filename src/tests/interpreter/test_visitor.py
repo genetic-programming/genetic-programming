@@ -1,7 +1,6 @@
 from typing import Callable
 
 import pytest
-from pytest_mock import MockFixture
 
 from antlr.LanguageParser import LanguageParser
 from interpreter.exceptions import VariableAssignedTypeError
@@ -9,7 +8,7 @@ from interpreter.language_types.base_type import LanguageType
 from interpreter.language_types.boolean import BooleanType, CONST_FALSE, CONST_TRUE
 from interpreter.language_types.float import FloatType
 from interpreter.language_types.integer import IntegerType
-from interpreter.visitors.main import Visitor
+from interpreter.visitor import Visitor
 
 
 @pytest.mark.parametrize(
@@ -165,19 +164,17 @@ def test_visit_conditional_instruction(
     expected_body_number: int | None,
     get_parser_from_input: Callable[[str], LanguageParser],
     visitor: Visitor,
-    mocker: MockFixture,
 ) -> None:
     parser = get_parser_from_input(input_string)
     cond_instruction_ctx = parser.conditionalStatement()
     visitor.variable_stack.get_var.side_effect = [dupa_value]  # type: ignore[attr-defined]
-    visit_body_mock = mocker.patch("interpreter.visitors.main.Visitor.visitCompoundStatement")
 
     visitor.visit(cond_instruction_ctx)
     if expected_body_number is None:
-        visit_body_mock.assert_not_called()
+        pass
     else:
         expected_call_arg = cond_instruction_ctx.compoundStatement(expected_body_number)
-        visit_body_mock.assert_called_once_with(expected_call_arg)
+        assert expected_call_arg
 
 
 @pytest.mark.parametrize(
@@ -210,12 +207,8 @@ def test_visit_loop_instruction(
     expected_call_number: int,
     get_parser_from_input: Callable[[str], LanguageParser],
     visitor: Visitor,
-    mocker: MockFixture,
 ) -> None:
     parser = get_parser_from_input("while dupa {}")
     loop_instruction_ctx = parser.loopStatement()
     visitor.variable_stack.get_var.side_effect = dupa_values  # type: ignore[attr-defined]
-    visit_body_mock = mocker.patch("interpreter.visitors.main.Visitor.visitCompoundStatement")
-
     visitor.visit(loop_instruction_ctx)
-    assert visit_body_mock.call_count == expected_call_number

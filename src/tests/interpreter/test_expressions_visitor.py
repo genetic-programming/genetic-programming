@@ -8,7 +8,7 @@ from interpreter.language_types.base_type import LanguageType
 from interpreter.language_types.boolean import CONST_FALSE, CONST_TRUE
 from interpreter.language_types.float import FloatType
 from interpreter.language_types.integer import IntegerType
-from interpreter.visitors.main import Visitor
+from interpreter.visitor import Visitor
 
 
 @pytest.mark.parametrize(

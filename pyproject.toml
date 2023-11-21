@@ -65,6 +65,7 @@ ignore_unused = [
     "pytest",
     "pytest-asyncio",
     "pytest-cov",
+    "pytest-mock",
 ]
 
 [tool.mypy]
