@@ -12,6 +12,12 @@ jobs:
     name: lint and test
     runs-on: ubuntu-latest
     steps:
+      - name: Install wget
+        run: |
+          apt update
+          apt install wget
+      - name: Install poetry
+        run: wget -O- https://install.python-poetry.org | python - --version 1.6.1
       - name: Install dependencies
         run: |
           poetry config virtualenvs.create false
