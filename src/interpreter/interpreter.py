@@ -74,4 +74,4 @@ class Interpreter:
     def _handle_exception(self, exc: LanguageException) -> None:
         if self._print_stacktraces:
             raise exc
-        print(exc)
+        print(exc)  # noqa: T201

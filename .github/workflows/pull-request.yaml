@@ -12,23 +12,28 @@ jobs:
     name: lint and test
     runs-on: ubuntu-latest
     steps:
-      - name: Install wget
-        run: |
-          apt update
-          apt install wget
-      - name: Install poetry
-        run: wget -O- https://install.python-poetry.org | python - --version 1.6.1
+      - name: Repo checkout
+        uses: actions/checkout@v3
+      - name: Set up python
+        id: setup-python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: Install and configure Poetry
+        uses: snok/install-poetry@v1
+        with:
+          version: 1.6.1
       - name: Install dependencies
         run: |
           poetry config virtualenvs.create false
           poetry install --only=main --no-interaction --no-ansi
-      - name: Repo checkout
-        uses: actions/checkout@v3
+      - name: Install project
+        run: poetry install --no-interaction
       - name: Run linters and tests
         run: |
-          make dc/ci/check/lint/black
-          make dc/ci/check/lint/deps
-          make dc/ci/check/lint/flake8
-          make dc/ci/check/lint/isort
-          make dc/ci/check/mypy
-          make dc/ci/test
+          make ci/check/lint/black
+          make ci/check/lint/deps
+          make ci/check/lint/flake8
+          make ci/check/lint/isort
+          make ci/check/mypy
+          make ci/test
