@@ -73,8 +73,7 @@ additionOperator
     ;
 
 comparisonOperator
-    : '<'
-    | '>'
+    : '>'
     | '=='
     | '!='
     ;

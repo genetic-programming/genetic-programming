@@ -26,7 +26,6 @@ from gp_algorithm.interpreter.visitor import Visitor
         ("100. - 7 / (5 + 2)", FloatType(99.0)),
         ("100 > 10 and true", CONST_TRUE),
         ("1 > 2", CONST_FALSE),
-        ("1 < 2", CONST_TRUE),
         ("2. > 2", CONST_FALSE),
         ("2 > 1.", CONST_TRUE),
         ("2 == 2", CONST_TRUE),
