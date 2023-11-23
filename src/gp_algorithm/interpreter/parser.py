@@ -76,9 +76,9 @@ class Parser(LanguageParser, RecognizerWithCustomListener):
         self.set_token_stream(data=literal)
         return self.literal()
 
-    def parse_program(self, data: str) -> LanguageParser.ProgramContext:
+    def parse_program(self, data: str) -> LanguageParser.StatementsContext:
         self.set_token_stream(data=data)
-        return self.program()
+        return self.statements()
 
     def set_token_stream(self, data: str) -> None:
         self._lexer.inputStream = InputStream(data)

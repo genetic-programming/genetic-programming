@@ -33,7 +33,7 @@ class Interpreter:
         tree = self.parse_str(data=data)
         return self.interpret_tree(tree=tree, program_input=program_input)
 
-    def parse_str(self, data: str) -> Parser.ProgramContext:
+    def parse_str(self, data: str) -> Parser.StatementsContext:
         tree = self._parser.parse_program(data=data)
         errors = self._parser.get_errors()
         for error in errors:
@@ -47,7 +47,7 @@ class Interpreter:
 
     def interpret_tree(
         self,
-        tree: LanguageParser.ProgramContext,
+        tree: LanguageParser.StatementsContext,
         program_input: list[LanguageType],
     ) -> list[str]:
-        return self._visitor.visit_program(program_ctx=tree, program_input=program_input)
+        return self._visitor.visit_tree(tree=tree, program_input=program_input)

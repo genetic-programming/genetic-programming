@@ -102,11 +102,6 @@ class VariableValueUnassignableError(LanguageException):
     attrs = {"expr": "not specified"}
 
 
-class VariableAssignedTypeError(LanguageException):
-    message_schema = "Cannot assign value type {val_type} to variable {name} of type {type}."
-    attrs = {"val_type": "not specified", "name": "not specified", "type": "not specified"}
-
-
 class IncompatibleTypesError(LanguageException):
     message_schema = "Unsupported operand {operand} for {type_1} and {type_2}."
     attrs = {"operand": "not specified", "type_1": "not specified", "type_2": "not specified"}
@@ -125,3 +120,8 @@ class ConditionTypeError(LanguageException):
 class LanguageFrameStackEmptyError(LanguageException):
     message_schema = "Could not {failed_event}! Frame stack is empty."
     attrs = {"failed_event": "not specified"}
+
+
+class TooManyStatements(LanguageException):
+    message_schema = "Too many statements."
+    attrs = {}

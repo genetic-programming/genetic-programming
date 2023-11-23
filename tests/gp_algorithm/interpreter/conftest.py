@@ -1,19 +1,17 @@
 from pathlib import Path
 from typing import Callable
-from unittest.mock import create_autospec
 
 import pytest
 
 from antlr.LanguageParser import LanguageParser
 from gp_algorithm.interpreter.parser import Parser
-from gp_algorithm.interpreter.variable_stack import VariableStack
 from gp_algorithm.interpreter.visitor import Visitor
 
 
 @pytest.fixture()
 def visitor() -> Visitor:
-    variable_stack = create_autospec(VariableStack)
-    visitor = Visitor(variable_stack=variable_stack)
+    visitor = Visitor()
+    visitor._variable_stack.add_frame()
     return visitor
 
 

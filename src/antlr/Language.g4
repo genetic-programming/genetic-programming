@@ -2,12 +2,8 @@ grammar Language;
 
 
 // PRIMARY EXPRESSION
-program
-   : statements? EOF
-   ;
-
 statements
-    : statement+
+    : statement*
     ;
 
 statement
@@ -19,10 +15,12 @@ statement
 
 line
     : expression
-	| declaration
 	| assignment
 	| printStatement
-	| readStatement
+    ;
+
+assignment
+    : VARIABLE_NAME '=' expression
     ;
 
 
@@ -36,21 +34,36 @@ loopStatement
 	;
 
 compoundStatement
-    : '{' (statements)? '}'
+    : '{' statements '}'
+    ;
+
+printStatement
+    : Print expression
     ;
 
 
 // EXPRESSIONS
 expression
-    :   booleanUnaryOperator expression
-    |   numericUnaryOperator expression
-    |   expression multiplicationOperator expression
-    |   expression additionOperator expression
-    |   expression comparisonOperator expression
-    |   expression andOperator expression
-    |   expression orOperator expression
-    |   '(' expression ')'
-    |   atom
+    : booleanUnaryOperator expression
+    | numericUnaryOperator expression
+    | expression multiplicationOperator expression
+    | expression additionOperator expression
+    | expression comparisonOperator expression
+    | expression andOperator expression
+    | expression orOperator expression
+    | nestedExpression
+    | VARIABLE_NAME
+    | literal
+    | Read
+    ;
+
+nestedExpression
+    : '(' expression ')'
+    ;
+
+literal
+    : BOOLEAN_VAL
+    | INT_VAL
     ;
 
 booleanUnaryOperator
@@ -58,8 +71,7 @@ booleanUnaryOperator
     ;
 
 numericUnaryOperator
-    : '+'
-    | '-'
+    : '-'
     ;
 
 multiplicationOperator
@@ -86,42 +98,6 @@ orOperator
     : Or
     ;
 
-atom
-    : VARIABLE_NAME
-    | literal
-    ;
-
-
-// VARIABLES AND TYPES
-declaration
-	: varType VARIABLE_NAME
-	;
-
-varType
-    : Int
-    | Bool
-    ;
-
-assignment
-    : declaration '=' expression
-    | VARIABLE_NAME '=' expression
-    ;
-
-literal
-    : BOOLEAN_VAL
-    | INT_VAL
-    ;
-
-
-// IO
-printStatement
-    : Print expression
-    ;
-
-readStatement
-    : Read VARIABLE_NAME
-    ;
-
 
 // KEYWORDS AND OTHER LEXER VARIABLES
 
@@ -138,9 +114,6 @@ While: 'while';
 Not: 'not';
 And: 'and';
 Or: 'or';
-
-Int: 'int';
-Bool: 'bool';
 
 Print: 'print';
 Read: 'read';

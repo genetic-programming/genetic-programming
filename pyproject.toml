@@ -99,4 +99,4 @@ line-length = 120
 # pytest settings
 [tool.pytest.ini_options]
 python_files = ["tests.py", "test_*.py", "*_tests.py"]
-addopts = "--strict-markers -p no:warnings --cov=. --cov-fail-under=63.92 --cov-config=.coveragerc"
+addopts = "--strict-markers -p no:warnings --cov=. --cov-fail-under=67.91 --cov-config=.coveragerc"
