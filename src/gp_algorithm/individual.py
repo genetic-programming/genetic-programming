@@ -4,8 +4,8 @@ from typing import Callable
 from anytree import PreOrderIter
 
 from gp_algorithm.grammar import GRAMMAR, NodeType
+from gp_algorithm.interpreter.interpreter import Interpreter
 from gp_algorithm.nodes import LanguageNode, random_value, swap_parents
-from interpreter.interpreter import Interpreter
 
 
 class Individual(LanguageNode):

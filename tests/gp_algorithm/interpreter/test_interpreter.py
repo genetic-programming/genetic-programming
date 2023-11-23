@@ -2,7 +2,7 @@ from typing import Callable
 
 import pytest
 
-from interpreter.interpreter import Interpreter
+from gp_algorithm.interpreter.interpreter import Interpreter
 
 
 @pytest.mark.parametrize(

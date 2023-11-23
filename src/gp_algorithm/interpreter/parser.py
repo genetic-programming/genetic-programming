@@ -12,7 +12,7 @@ from antlr4.Token import CommonToken
 
 from antlr.LanguageLexer import LanguageLexer
 from antlr.LanguageParser import LanguageParser
-from interpreter.exceptions import (
+from gp_algorithm.interpreter.exceptions import (
     FailedPredicateException,
     InputMismatchException,
     LanguageException,
