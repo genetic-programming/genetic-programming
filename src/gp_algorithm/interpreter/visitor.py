@@ -73,18 +73,12 @@ class ExpressionsVisitor(LanguageVisitor):
                 return left + right
             case "-":
                 return left - right
-            case "<":
-                return ~(left.is_greater_than(right) and left.is_equal(right))
             case ">":
                 return left.is_greater_than(right)
             case "==":
                 return left.is_equal(right)
             case "!=":
                 return ~left.is_equal(right)
-            case "<=":
-                return ~left.is_greater_than(right) or left.is_equal(right)
-            case ">=":
-                return left.is_greater_than(right) or left.is_equal(right)
             case "and":
                 return left and right
             case "or":

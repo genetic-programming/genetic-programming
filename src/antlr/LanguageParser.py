@@ -15,7 +15,7 @@ def serializedATN():
     return [
         4,
         1,
-        34,
+        33,
         166,
         2,
         0,
@@ -400,15 +400,15 @@ def serializedATN():
         1,
         0,
         10,
-        13,
+        12,
         1,
         0,
-        26,
-        28,
+        25,
+        27,
         1,
         0,
-        31,
-        33,
+        30,
+        32,
         164,
         0,
         45,
@@ -749,7 +749,7 @@ def serializedATN():
         69,
         70,
         5,
-        20,
+        19,
         0,
         0,
         70,
@@ -767,7 +767,7 @@ def serializedATN():
         72,
         73,
         5,
-        21,
+        20,
         0,
         0,
         73,
@@ -797,7 +797,7 @@ def serializedATN():
         76,
         77,
         5,
-        22,
+        21,
         0,
         0,
         77,
@@ -1145,7 +1145,7 @@ def serializedATN():
         125,
         126,
         5,
-        23,
+        22,
         0,
         0,
         126,
@@ -1205,7 +1205,7 @@ def serializedATN():
         135,
         136,
         5,
-        24,
+        23,
         0,
         0,
         136,
@@ -1217,7 +1217,7 @@ def serializedATN():
         137,
         138,
         5,
-        25,
+        24,
         0,
         0,
         138,
@@ -1229,7 +1229,7 @@ def serializedATN():
         139,
         142,
         5,
-        34,
+        33,
         0,
         0,
         140,
@@ -1265,7 +1265,7 @@ def serializedATN():
         144,
         145,
         5,
-        34,
+        33,
         0,
         0,
         145,
@@ -1295,7 +1295,7 @@ def serializedATN():
         149,
         150,
         5,
-        14,
+        13,
         0,
         0,
         150,
@@ -1313,13 +1313,13 @@ def serializedATN():
         152,
         153,
         5,
-        34,
+        33,
         0,
         0,
         153,
         154,
         5,
-        14,
+        13,
         0,
         0,
         154,
@@ -1361,7 +1361,7 @@ def serializedATN():
         159,
         160,
         5,
-        29,
+        28,
         0,
         0,
         160,
@@ -1379,13 +1379,13 @@ def serializedATN():
         162,
         163,
         5,
-        30,
+        29,
         0,
         0,
         163,
         164,
         5,
-        34,
+        33,
         0,
         0,
         164,
@@ -1429,7 +1429,6 @@ class LanguageParser(Parser):
         "'-'",
         "'*'",
         "'/'",
-        "'<'",
         "'>'",
         "'=='",
         "'!='",
@@ -1453,7 +1452,6 @@ class LanguageParser(Parser):
     ]
 
     symbolicNames = [
-        "<INVALID>",
         "<INVALID>",
         "<INVALID>",
         "<INVALID>",
@@ -1552,27 +1550,26 @@ class LanguageParser(Parser):
     T__10 = 11
     T__11 = 12
     T__12 = 13
-    T__13 = 14
-    SPACE = 15
-    TAB = 16
-    NEWLINE = 17
-    LINECOMMENT = 18
-    BLOCKCOMMENT = 19
-    If = 20
-    Else = 21
-    While = 22
-    Not = 23
-    And = 24
-    Or = 25
-    Int = 26
-    Float = 27
-    Bool = 28
-    Print = 29
-    Read = 30
-    BOOLEAN_VAL = 31
-    FLOAT_VAL = 32
-    INT_VAL = 33
-    VARIABLE_NAME = 34
+    SPACE = 14
+    TAB = 15
+    NEWLINE = 16
+    LINECOMMENT = 17
+    BLOCKCOMMENT = 18
+    If = 19
+    Else = 20
+    While = 21
+    Not = 22
+    And = 23
+    Or = 24
+    Int = 25
+    Float = 26
+    Bool = 27
+    Print = 28
+    Read = 29
+    BOOLEAN_VAL = 30
+    FLOAT_VAL = 31
+    INT_VAL = 32
+    VARIABLE_NAME = 33
 
     def __init__(self, input: TokenStream, output: TextIO = sys.stdout):
         super().__init__(input, output)
@@ -1619,7 +1616,7 @@ class LanguageParser(Parser):
             self.state = 45
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            if ((_la) & ~0x3F) == 0 and ((1 << _la) & 34306261204) != 0:
+            if ((_la) & ~0x3F) == 0 and ((1 << _la) & 17153130708) != 0:
                 self.state = 44
                 self.statements()
 
@@ -1678,7 +1675,7 @@ class LanguageParser(Parser):
                 self.state = 52
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
-                if not ((((_la) & ~0x3F) == 0 and ((1 << _la) & 34306261204) != 0)):
+                if not ((((_la) & ~0x3F) == 0 and ((1 << _la) & 17153130708) != 0)):
                     break
 
         except RecognitionException as re:
@@ -1732,19 +1729,19 @@ class LanguageParser(Parser):
             self.state = 60
             self._errHandler.sync(self)
             token = self._input.LA(1)
-            if token in [4, 6, 7, 23, 26, 27, 28, 29, 30, 31, 32, 33, 34]:
+            if token in [4, 6, 7, 22, 25, 26, 27, 28, 29, 30, 31, 32, 33]:
                 self.enterOuterAlt(localctx, 1)
                 self.state = 54
                 self.line()
                 self.state = 55
                 self.match(LanguageParser.T__0)
                 pass
-            elif token in [20]:
+            elif token in [19]:
                 self.enterOuterAlt(localctx, 2)
                 self.state = 57
                 self.conditionalStatement()
                 pass
-            elif token in [22]:
+            elif token in [21]:
                 self.enterOuterAlt(localctx, 3)
                 self.state = 58
                 self.loopStatement()
@@ -1903,7 +1900,7 @@ class LanguageParser(Parser):
             self.state = 74
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            if _la == 21:
+            if _la == 20:
                 self.state = 72
                 self.match(LanguageParser.Else)
                 self.state = 73
@@ -2007,7 +2004,7 @@ class LanguageParser(Parser):
             self.state = 82
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            if ((_la) & ~0x3F) == 0 and ((1 << _la) & 34306261204) != 0:
+            if ((_la) & ~0x3F) == 0 and ((1 << _la) & 17153130708) != 0:
                 self.state = 81
                 self.statements()
 
@@ -2087,7 +2084,7 @@ class LanguageParser(Parser):
             self.state = 98
             self._errHandler.sync(self)
             token = self._input.LA(1)
-            if token in [23]:
+            if token in [22]:
                 self.state = 87
                 self.booleanUnaryOperator()
                 self.state = 88
@@ -2107,7 +2104,7 @@ class LanguageParser(Parser):
                 self.state = 95
                 self.match(LanguageParser.T__4)
                 pass
-            elif token in [31, 32, 33, 34]:
+            elif token in [30, 31, 32, 33]:
                 self.state = 97
                 self.atom()
                 pass
@@ -2417,7 +2414,7 @@ class LanguageParser(Parser):
             self.enterOuterAlt(localctx, 1)
             self.state = 133
             _la = self._input.LA(1)
-            if not ((((_la) & ~0x3F) == 0 and ((1 << _la) & 15360) != 0)):
+            if not ((((_la) & ~0x3F) == 0 and ((1 << _la) & 7168) != 0)):
                 self._errHandler.recoverInline(self)
             else:
                 self._errHandler.reportMatch(self)
@@ -2551,12 +2548,12 @@ class LanguageParser(Parser):
             self.state = 141
             self._errHandler.sync(self)
             token = self._input.LA(1)
-            if token in [34]:
+            if token in [33]:
                 self.enterOuterAlt(localctx, 1)
                 self.state = 139
                 self.match(LanguageParser.VARIABLE_NAME)
                 pass
-            elif token in [31, 32, 33]:
+            elif token in [30, 31, 32]:
                 self.enterOuterAlt(localctx, 2)
                 self.state = 140
                 self.literal()
@@ -2660,7 +2657,7 @@ class LanguageParser(Parser):
             self.enterOuterAlt(localctx, 1)
             self.state = 146
             _la = self._input.LA(1)
-            if not ((((_la) & ~0x3F) == 0 and ((1 << _la) & 469762048) != 0)):
+            if not ((((_la) & ~0x3F) == 0 and ((1 << _la) & 234881024) != 0)):
                 self._errHandler.recoverInline(self)
             else:
                 self._errHandler.reportMatch(self)
@@ -2713,21 +2710,21 @@ class LanguageParser(Parser):
             self.state = 155
             self._errHandler.sync(self)
             token = self._input.LA(1)
-            if token in [26, 27, 28]:
+            if token in [25, 26, 27]:
                 self.enterOuterAlt(localctx, 1)
                 self.state = 148
                 self.declaration()
                 self.state = 149
-                self.match(LanguageParser.T__13)
+                self.match(LanguageParser.T__12)
                 self.state = 150
                 self.expression(0)
                 pass
-            elif token in [34]:
+            elif token in [33]:
                 self.enterOuterAlt(localctx, 2)
                 self.state = 152
                 self.match(LanguageParser.VARIABLE_NAME)
                 self.state = 153
-                self.match(LanguageParser.T__13)
+                self.match(LanguageParser.T__12)
                 self.state = 154
                 self.expression(0)
                 pass
@@ -2783,7 +2780,7 @@ class LanguageParser(Parser):
             self.enterOuterAlt(localctx, 1)
             self.state = 157
             _la = self._input.LA(1)
-            if not ((((_la) & ~0x3F) == 0 and ((1 << _la) & 15032385536) != 0)):
+            if not ((((_la) & ~0x3F) == 0 and ((1 << _la) & 7516192768) != 0)):
                 self._errHandler.recoverInline(self)
             else:
                 self._errHandler.reportMatch(self)
