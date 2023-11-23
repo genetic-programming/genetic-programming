@@ -56,9 +56,9 @@ def test_visit_var_type_incorrect(
 @pytest.mark.parametrize(
     ("input_string", "expected_var_type", "expected_name"),
     [
-        ("float a", FloatType, "a"),
-        ("int a", IntegerType, "a"),
-        ("bool jpdrugigmd", BooleanType, "jpdrugigmd"),
+        ("float v2137", FloatType, "v2137"),
+        ("int v2137", IntegerType, "v2137"),
+        ("bool v2137", BooleanType, "v2137"),
     ],
 )
 def test_visit_declaration(
@@ -81,9 +81,9 @@ def test_visit_declaration(
 @pytest.mark.parametrize(
     ("input_string", "value_from_stack", "expected_value"),
     [
-        ("a = 0.", FloatType(10.0), FloatType(0.0)),
-        ("a = 0", IntegerType(8643), IntegerType(0)),
-        ("chuj = true", BooleanType(False), CONST_TRUE),
+        ("v420 = 0.", FloatType(10.0), FloatType(0.0)),
+        ("v420 = 0", IntegerType(8643), IntegerType(0)),
+        ("v420 = true", BooleanType(False), CONST_TRUE),
     ],
 )
 def test_visit_assignment(
@@ -105,9 +105,9 @@ def test_visit_assignment(
 @pytest.mark.parametrize(
     ("input_string", "value_from_stack", "expected_value"),
     [
-        ("float a = 0.", FloatType(None), FloatType(0.0)),
-        ("int a = 0", IntegerType(None), IntegerType(0)),
-        ("bool chuj = true", BooleanType(None), CONST_TRUE),
+        ("float v2137 = 0.", FloatType(None), FloatType(0.0)),
+        ("int v2137 = 0", IntegerType(None), IntegerType(0)),
+        ("bool v2137 = true", BooleanType(None), CONST_TRUE),
     ],
 )
 def test_visit_assignment_with_declaration(
@@ -129,9 +129,9 @@ def test_visit_assignment_with_declaration(
 @pytest.mark.parametrize(
     ("input_string", "value_from_stack"),
     [
-        ("a = 0.", IntegerType(None)),
-        ("int a = 0.", IntegerType(None)),
-        ("bool chuj = 0", BooleanType(None)),
+        ("v2137 = 0.", IntegerType(None)),
+        ("int v2137 = 0.", IntegerType(None)),
+        ("bool v2137 = 0", BooleanType(None)),
     ],
 )
 def test_visit_assignment_incorrect_types(
@@ -150,24 +150,24 @@ def test_visit_assignment_incorrect_types(
 
 
 @pytest.mark.parametrize(
-    ("input_string", "dupa_value", "expected_body_number"),
+    ("input_string", "v2137_value", "expected_body_number"),
     [
-        pytest.param("if dupa {}", CONST_TRUE, 0, id="condition met"),
-        pytest.param("if dupa {}", CONST_FALSE, None, id="condition not met"),
-        pytest.param("if dupa {} else {}", CONST_TRUE, 0, id="condition met with else"),
-        pytest.param("if dupa {} else {}", CONST_FALSE, 1, id="condition not met with else"),
+        pytest.param("if v2137 {}", CONST_TRUE, 0, id="condition met"),
+        pytest.param("if v2137 {}", CONST_FALSE, None, id="condition not met"),
+        pytest.param("if v2137 {} else {}", CONST_TRUE, 0, id="condition met with else"),
+        pytest.param("if v2137 {} else {}", CONST_FALSE, 1, id="condition not met with else"),
     ],
 )
 def test_visit_conditional_instruction(
     input_string: str,
-    dupa_value: LanguageType,
+    v2137_value: LanguageType,
     expected_body_number: int | None,
     get_parser_from_input: Callable[[str], LanguageParser],
     visitor: Visitor,
 ) -> None:
     parser = get_parser_from_input(input_string)
     cond_instruction_ctx = parser.conditionalStatement()
-    visitor._variable_stack.get_var.side_effect = [dupa_value]  # type: ignore[attr-defined]
+    visitor._variable_stack.get_var.side_effect = [v2137_value]  # type: ignore[attr-defined]
 
     visitor.visit(cond_instruction_ctx)
     if expected_body_number is None:
@@ -178,7 +178,7 @@ def test_visit_conditional_instruction(
 
 
 @pytest.mark.parametrize(
-    ("dupa_values", "expected_call_number"),
+    ("v2137_values", "expected_call_number"),
     [
         pytest.param(
             [CONST_FALSE],
@@ -188,27 +188,27 @@ def test_visit_conditional_instruction(
         pytest.param(
             [CONST_TRUE, CONST_FALSE],
             1,
-            id="dupa set to false after one repetition",
+            id="v2137 set to false after one repetition",
         ),
         pytest.param(
             [CONST_TRUE, CONST_TRUE, CONST_FALSE],
             2,
-            id="dupa set to false after two repetitions",
+            id="v2137 set to false after two repetitions",
         ),
         pytest.param(
             [CONST_TRUE, CONST_TRUE, CONST_TRUE, CONST_FALSE],
             3,
-            id="dupa set to false after three repetitions",
+            id="v2137 set to false after three repetitions",
         ),
     ],
 )
 def test_visit_loop_instruction(
-    dupa_values: list[LanguageType],
+    v2137_values: list[LanguageType],
     expected_call_number: int,
     get_parser_from_input: Callable[[str], LanguageParser],
     visitor: Visitor,
 ) -> None:
-    parser = get_parser_from_input("while dupa {}")
+    parser = get_parser_from_input("while v2137 {}")
     loop_instruction_ctx = parser.loopStatement()
-    visitor._variable_stack.get_var.side_effect = dupa_values  # type: ignore[attr-defined]
+    visitor._variable_stack.get_var.side_effect = v2137_values  # type: ignore[attr-defined]
     visitor.visit(loop_instruction_ctx)

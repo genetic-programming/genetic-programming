@@ -1,22 +1,22 @@
-int a = 10;
-int b = 6;
+int v0 = 10;
+int v1 = 6;
 
 {
-    int a = 5;
-    b = 9;
+    int v0 = 5;
+    v1 = 9;
 }
 
-while a > 0 {
-    a = a - 1;
-    b = 8 + a;
+while v0 > 0 {
+    v0 = v0 - 1;
+    v1 = 8 + v0;
 }
 
-read a;
-print b;
+read v0;
+print v1;
 
-read a;
+read v0;
 
-if a == 5 {
+if v0 == 5 {
     print 5;
 } else {
     print 6;

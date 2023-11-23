@@ -164,6 +164,6 @@ INT_VAL
     ;
 
 VARIABLE_NAME
-    : [a-z_]+
+    : 'v' [0-9]*
     ;
 
