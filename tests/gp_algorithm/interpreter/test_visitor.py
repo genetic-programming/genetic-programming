@@ -1,78 +1,13 @@
 from typing import Callable
+from unittest.mock import Mock
 
 import pytest
 
 from antlr.LanguageParser import LanguageParser
-from gp_algorithm.interpreter.exceptions import VariableAssignedTypeError
 from gp_algorithm.interpreter.language_types.base_type import LanguageType
 from gp_algorithm.interpreter.language_types.boolean import BooleanType, CONST_FALSE, CONST_TRUE
 from gp_algorithm.interpreter.language_types.integer import IntegerType
 from gp_algorithm.interpreter.visitor import Visitor
-
-
-@pytest.mark.parametrize(
-    ("input_string", "expected"),
-    [
-        ("int", IntegerType),
-        ("bool", BooleanType),
-    ],
-)
-def test_visit_var_type(
-    input_string: str,
-    expected: type[LanguageType],
-    get_parser_from_input: Callable[[str], LanguageParser],
-    visitor: Visitor,
-) -> None:
-    parser = get_parser_from_input(input_string)
-    var_type_ctx = parser.varType()
-
-    result = visitor.visit(var_type_ctx)
-    assert result == expected
-
-
-@pytest.mark.parametrize(
-    "input_string",
-    [
-        "Float",
-        "Int",
-        "Bool",
-        "incorrect",
-    ],
-)
-def test_visit_var_type_incorrect(
-    input_string: str,
-    get_parser_from_input: Callable[[str], LanguageParser],
-    visitor: Visitor,
-) -> None:
-    parser = get_parser_from_input(input_string)
-    var_type_ctx = parser.varType()
-
-    with pytest.raises(NotImplementedError):
-        visitor.visit(var_type_ctx)
-
-
-@pytest.mark.parametrize(
-    ("input_string", "expected_var_type", "expected_name"),
-    [
-        ("int v2137", IntegerType, "v2137"),
-        ("bool v2137", BooleanType, "v2137"),
-    ],
-)
-def test_visit_declaration(
-    input_string: str,
-    expected_var_type: type[LanguageType],
-    expected_name: str,
-    get_parser_from_input: Callable[[str], LanguageParser],
-    visitor: Visitor,
-) -> None:
-    parser = get_parser_from_input(input_string)
-    declaration_ctx = parser.declaration()
-
-    visitor.visit(declaration_ctx)
-    visitor._variable_stack.declare_var.assert_called_once_with(  # type: ignore[attr-defined]
-        expected_var_type,
-        expected_name,
-    )
 
 
 @pytest.mark.parametrize(
@@ -91,55 +26,10 @@ def test_visit_assignment(
 ) -> None:
     parser = get_parser_from_input(input_string)
     assignment_ctx = parser.assignment()
-    visitor._variable_stack.get_var.return_value = value_from_stack  # type: ignore[attr-defined]
 
+    visitor._variable_stack.set_var("v420", value_from_stack)
     visitor.visit(assignment_ctx)
-    visitor._variable_stack.get_var.assert_called_once()  # type: ignore[attr-defined]
-    assert value_from_stack == expected_value
-
-
-@pytest.mark.parametrize(
-    ("input_string", "value_from_stack", "expected_value"),
-    [
-        ("int v2137 = 0", IntegerType(None), IntegerType(0)),
-        ("bool v2137 = true", BooleanType(None), CONST_TRUE),
-    ],
-)
-def test_visit_assignment_with_declaration(
-    input_string: str,
-    value_from_stack: LanguageType,
-    expected_value: LanguageType,
-    get_parser_from_input: Callable[[str], LanguageParser],
-    visitor: Visitor,
-) -> None:
-    parser = get_parser_from_input(input_string)
-    assignment_ctx = parser.assignment()
-    visitor._variable_stack.declare_var.return_value = value_from_stack  # type: ignore[attr-defined]
-
-    visitor.visit(assignment_ctx)
-    visitor._variable_stack.declare_var.assert_called_once()  # type: ignore[attr-defined]
-    assert value_from_stack == expected_value
-
-
-@pytest.mark.parametrize(
-    ("input_string", "value_from_stack"),
-    [
-        ("bool v2137 = 0", BooleanType(None)),
-    ],
-)
-def test_visit_assignment_incorrect_types(
-    input_string: str,
-    value_from_stack: LanguageType,
-    get_parser_from_input: Callable[[str], LanguageParser],
-    visitor: Visitor,
-) -> None:
-    parser = get_parser_from_input(input_string)
-    assignment_ctx = parser.assignment()
-    visitor._variable_stack.get_var.return_value = value_from_stack  # type: ignore[attr-defined]
-    visitor._variable_stack.declare_var.return_value = value_from_stack  # type: ignore[attr-defined]
-
-    with pytest.raises(VariableAssignedTypeError):
-        visitor.visit(assignment_ctx)
+    assert visitor._variable_stack.get_var("v420") == expected_value
 
 
 @pytest.mark.parametrize(
@@ -160,8 +50,8 @@ def test_visit_conditional_instruction(
 ) -> None:
     parser = get_parser_from_input(input_string)
     cond_instruction_ctx = parser.conditionalStatement()
-    visitor._variable_stack.get_var.side_effect = [v2137_value]  # type: ignore[attr-defined]
 
+    visitor._variable_stack.set_var("v2137", v2137_value)
     visitor.visit(cond_instruction_ctx)
     if expected_body_number is None:
         pass
@@ -203,5 +93,6 @@ def test_visit_loop_instruction(
 ) -> None:
     parser = get_parser_from_input("while v2137 {}")
     loop_instruction_ctx = parser.loopStatement()
-    visitor._variable_stack.get_var.side_effect = v2137_values  # type: ignore[attr-defined]
+
+    visitor._variable_stack.get_var = Mock(side_effect=v2137_values)
     visitor.visit(loop_instruction_ctx)

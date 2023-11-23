@@ -1,8 +1,4 @@
-from gp_algorithm.interpreter.exceptions import (
-    LanguageFrameStackEmptyError,
-    VariableRedeclarationError,
-    VariableUndeclaredError,
-)
+from gp_algorithm.interpreter.exceptions import LanguageFrameStackEmptyError, VariableUndeclaredError
 from gp_algorithm.interpreter.language_types.base_type import LanguageType
 
 
@@ -22,16 +18,16 @@ class VariableStack:
             raise LanguageFrameStackEmptyError(failed_event="pop subframe")
         self.frames_stacks.pop()
 
-    def declare_var(self, var_type: type[LanguageType], var_name: str) -> LanguageType:
+    def set_var(self, var_name: str, expr: LanguageType) -> None:
         if len(self.frames_stacks) == 0:
             raise LanguageFrameStackEmptyError(failed_event="declare variable")
 
-        if self.current_frame.get(var_name) is not None:
-            raise VariableRedeclarationError(var_name=var_name)
+        for frame in self.frames_stacks:
+            var = frame.get(var_name)
+            if var is not None:
+                frame[var_name] = expr
 
-        var = var_type(None)
-        self.current_frame[var_name] = var
-        return var
+        self.current_frame[var_name] = expr
 
     def get_var(self, var_name: str) -> LanguageType:
         if len(self.frames_stacks) == 0:
