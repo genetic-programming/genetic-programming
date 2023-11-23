@@ -1,6 +1,7 @@
 from typing import TYPE_CHECKING
 
 from interpreter.exceptions import IncompatibleTypesError, LanguageValueError, LanguageZeroDivisionError
+from interpreter.language_types.base_type import LanguageType
 from interpreter.language_types.boolean import BooleanType
 from interpreter.language_types.float import FloatType
 
@@ -92,20 +93,20 @@ class IntegerType(FloatType):
             type_2=other.type_name,
         )
 
+    def is_greater_than(self, other: "Any") -> "LanguageType":
+        if isinstance(other, LanguageType):
+            return BooleanType(self.value > other.value)
+        raise IncompatibleTypesError(
+            operand=">",
+            type_1=self.type_name,
+            type_2=other.type_name,
+        )
+
     def is_equal(self, other: "Any") -> "BooleanType":
         if isinstance(other, (IntegerType, FloatType)):
             return BooleanType(self.value == other.value)
         raise IncompatibleTypesError(
             operand="==",
-            type_1=self.type_name,
-            type_2=other.type_name,
-        )
-
-    def is_not_equal(self, other: "Any") -> "BooleanType":
-        if isinstance(other, (IntegerType, FloatType)):
-            return BooleanType(self.value != other.value)
-        raise IncompatibleTypesError(
-            operand="!=",
             type_1=self.type_name,
             type_2=other.type_name,
         )

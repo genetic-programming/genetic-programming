@@ -90,16 +90,9 @@ class LanguageType(ABC):
         )
 
     # comparison operators
-    def __gt__(self, other: "Any") -> "LanguageType":
+    def is_greater_than(self, other: "Any") -> "LanguageType":
         raise IncompatibleTypesError(
             operand=">",
-            type_1=self.type_name,
-            type_2=other.type_name,
-        )
-
-    def __lt__(self, other: "Any") -> "LanguageType":
-        raise IncompatibleTypesError(
-            operand="<",
             type_1=self.type_name,
             type_2=other.type_name,
         )
@@ -107,13 +100,6 @@ class LanguageType(ABC):
     def is_equal(self, other: "Any") -> "LanguageType":
         raise IncompatibleTypesError(
             operand="==",
-            type_1=self.type_name,
-            type_2=other.type_name,
-        )
-
-    def is_not_equal(self, other: "Any") -> "LanguageType":
-        raise IncompatibleTypesError(
-            operand="!=",
             type_1=self.type_name,
             type_2=other.type_name,
         )

@@ -1,11 +1,11 @@
-import pickle  # noqa: S403
 import random
-from typing import Callable, Protocol
+from typing import Callable
 
 from anytree import PreOrderIter
 
 from gp_algorithm.grammar import GRAMMAR, NodeType
 from gp_algorithm.nodes import LanguageNode, random_value, swap_parents
+from interpreter.interpreter import Interpreter
 
 
 class Individual(LanguageNode):
@@ -18,18 +18,6 @@ class Individual(LanguageNode):
         mutate_candidates = PreOrderIter(self, filter_=lambda node: node.value is not None)
         node_to_mutate: LanguageNode = random.choice(list(mutate_candidates))  # noqa: S311
         node_to_mutate.value = random_value(node_to_mutate.node_type)
-
-    def cast_to_str(self) -> str:
-        return ""
-
-    def save_to_file(self, file_name: str) -> None:
-        with open(file_name, "wb+") as file:
-            pickle.dump(self, file)
-
-
-def read_individual_from_file(file_name: str) -> Individual:
-    with open(file_name, "rb") as file:
-        return pickle.load(file)  # noqa: S301
 
 
 def random_crossover(
@@ -48,24 +36,22 @@ def random_crossover(
     swap_parents(random_node, node_to_swap)
 
 
-class IndividualInterpreter(Protocol):
-    def interpret_str(self, data: str, inputs: list[str]) -> list[str]:
-        ...
-
-
 def calculate_fitness(
-    interpreter: IndividualInterpreter,
+    interpreter: Interpreter,
     individual: Individual,
-    fitness_function: Callable[[list[str], list[str]], float],
-    input_list: list[list[str]],
-    expected_output_list: list[list[str]],
+    fitness_function: Callable[[list[list[str]]], float],
+    input_strings: list[list[str]],
 ) -> float:
-    fitness: float = 0
-    for inputs, expected_outputs in zip(input_list, expected_output_list):
-        actual_outputs = interpreter.interpret_str(
-            data=individual.cast_to_str(),
-            inputs=inputs,
-        )
-        fitness += fitness_function(actual_outputs, expected_outputs)
+    individual_as_str = individual.cast_to_str()
+    parsed_individual = interpreter.parse_str(data=individual_as_str)
+    program_inputs = interpreter.interpret_inputs(input_strings=input_strings)
 
-    return fitness
+    outputs = []
+    for program_input in program_inputs:
+        output = interpreter.interpret_tree(
+            tree=parsed_individual,
+            program_input=program_input,
+        )
+        outputs.append(output)
+
+    return fitness_function(outputs)

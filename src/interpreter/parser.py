@@ -1,7 +1,9 @@
 from typing import Any
 
+from antlr4 import CommonTokenStream, InputStream
 from antlr4 import NoViableAltException as ANTLRNoViableAltException
 from antlr4 import RecognitionException as ANTLRRecognitionException
+from antlr4 import TokenStream
 from antlr4.error.ErrorListener import ErrorListener
 from antlr4.error.Errors import FailedPredicateException as ANTLRFailedPredicateException
 from antlr4.error.Errors import InputMismatchException as ANTLRInputMismatchException
@@ -51,16 +53,47 @@ class SyntaxErrorListener(ErrorListener):
 
 
 class RecognizerWithCustomListener(Recognizer):
-    def __init__(self, *args: Any, **kwargs: Any) -> None:
+    def __init__(self, *args: Any) -> None:
         super().__init__()
         self.removeErrorListeners()
         listener = SyntaxErrorListener()
         self.addErrorListener(listener)
 
 
-class CustomLexer(LanguageLexer, RecognizerWithCustomListener):
+class Lexer(LanguageLexer, RecognizerWithCustomListener):
     pass
 
 
-class CustomParser(LanguageParser, RecognizerWithCustomListener):
-    pass
+class Parser(LanguageParser, RecognizerWithCustomListener):
+    def __init__(self, lexer: Lexer | None = None) -> None:
+        super().__init__(TokenStream())
+        self._lexer = lexer or Lexer()
+
+    def parse_literals(self, data: list[str]) -> list[LanguageParser.LiteralContext]:
+        return [self.parse_literal(literal) for literal in data]
+
+    def parse_literal(self, literal: str) -> LanguageParser.LiteralContext:
+        self.set_token_stream(data=literal)
+        return self.literal()
+
+    def parse_program(self, data: str) -> LanguageParser.ProgramContext:
+        self.set_token_stream(data=data)
+        return self.program()
+
+    def set_token_stream(self, data: str) -> None:
+        self._lexer.inputStream = InputStream(data)
+        token_stream = CommonTokenStream(self._lexer)
+        self.setTokenStream(token_stream)
+
+    def get_errors(self) -> list[LanguageException]:
+        errors = []
+        for listener in [
+            *self._lexer.getErrorListenerDispatch().delegates,
+            *self.getErrorListenerDispatch().delegates,
+        ]:
+            errors.extend(listener.errors)
+
+        if self.getNumberOfSyntaxErrors() > 0:
+            errors.append(LanguageException())
+
+        return errors

@@ -32,6 +32,7 @@ class NodeData(BaseModel):
     successors: list[list[NodeType]] = []
     possible_values: list[str] = []
     allowed_swaps: set[NodeType] = set()
+    representation: str = "{0}"
 
 
 GRAMMAR = {
@@ -55,38 +56,53 @@ GRAMMAR = {
             [NodeType.PRINT_STATEMENT],
             [NodeType.READ_STATEMENT],
         ],
+        representation="{0};",
     ),
     NodeType.CONDITIONAL_STATEMENT: NodeData(
         successors=[
             [NodeType.EXPRESSION, NodeType.COMPOUND_STATEMENT],
-            [NodeType.EXPRESSION, NodeType.COMPOUND_STATEMENT, NodeType.COMPOUND_STATEMENT],
+            # [NodeType.EXPRESSION, NodeType.COMPOUND_STATEMENT, NodeType.COMPOUND_STATEMENT],
         ],
+        representation="if {0} {1}",
+        # representation="if {0} {1} else {2}",
     ),
     NodeType.LOOP_STATEMENT: NodeData(
         successors=[[NodeType.EXPRESSION, NodeType.COMPOUND_STATEMENT]],
+        representation="while {0} {1}",
     ),
     NodeType.COMPOUND_STATEMENT: NodeData(
         growable=True,
         successors=[[NodeType.STATEMENT]],
+        representation="{{0}}",
     ),
     NodeType.EXPRESSION: NodeData(
         successors=[[NodeType.ATOM]],
     ),
-    NodeType.PRINT_STATEMENT: NodeData(successors=[[NodeType.EXPRESSION]]),
-    NodeType.READ_STATEMENT: NodeData(successors=[[NodeType.VAR_NAME]]),
+    NodeType.PRINT_STATEMENT: NodeData(
+        successors=[[NodeType.EXPRESSION]],
+        representation="print {0}",
+    ),
+    NodeType.READ_STATEMENT: NodeData(
+        successors=[[NodeType.VAR_NAME]],
+        representation="read {0}",
+    ),
     NodeType.ATOM: NodeData(
         successors=[
             [NodeType.VAR_NAME],
             [NodeType.LITERAL],
         ],
     ),
-    NodeType.DECLARATION: NodeData(successors=[[NodeType.VAR_TYPE, NodeType.VAR_NAME]]),
+    NodeType.DECLARATION: NodeData(
+        successors=[[NodeType.VAR_TYPE, NodeType.VAR_NAME]],
+        representation="{0} {1}",
+    ),
     NodeType.VAR_TYPE: NodeData(possible_values=["int", "bool", "float"]),
     NodeType.ASSIGNMENT: NodeData(
         successors=[
             [NodeType.DECLARATION, NodeType.VAR_NAME],
             [NodeType.DECLARATION, NodeType.EXPRESSION],
         ],
+        representation="{0} = {1}",
     ),
     NodeType.VAR_NAME: NodeData(possible_values=list(ascii_lowercase)),
     NodeType.LITERAL: NodeData(possible_values=["true", "false", "1", "2", "3", ".5", ".1", "1.5"]),

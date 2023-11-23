@@ -1,8 +1,7 @@
 from argparse import ArgumentParser
 from pathlib import Path
 
-from interpreter.interpreter import create_interpreter
-from interpreter.language_types.integer import IntegerType
+from interpreter.interpreter import Interpreter
 
 
 def main() -> None:
@@ -32,8 +31,12 @@ def main() -> None:
     args = parser.parse_args()
     source_file_path = str(Path(__file__).parent / args.source)
 
-    interpreter = create_interpreter(print_stacktraces=args.print_stacktraces)
-    result = interpreter.interpret_file(file_path=source_file_path, inputs=[IntegerType(1), IntegerType(1)])
+    interpreter = Interpreter()
+    program_input = interpreter.interpret_input(input_strings=["1", "1"])
+    result = interpreter.interpret_file(
+        file_path=source_file_path,
+        program_input=program_input,
+    )
     print(result)  # noqa: T201
 
 

@@ -27,20 +27,20 @@ class BooleanType(LanguageType):
         return BooleanType(not self.value)
 
     # comparison operators
+    def is_greater_than(self, other: "Any") -> "LanguageType":
+        if isinstance(other, LanguageType):
+            return BooleanType(self.value > other.value)
+        raise IncompatibleTypesError(
+            operand=">",
+            type_1=self.type_name,
+            type_2=other.type_name,
+        )
+
     def is_equal(self, other: "Any") -> "BooleanType":
         if isinstance(other, BooleanType):
             return BooleanType(self.value is other.value)
         raise IncompatibleTypesError(
             operand="==",
-            type_1=self.type_name,
-            type_2=other.type_name,
-        )
-
-    def is_not_equal(self, other: "Any") -> "BooleanType":
-        if isinstance(other, BooleanType):
-            return BooleanType(self.value is not other.value)
-        raise IncompatibleTypesError(
-            operand="!=",
             type_1=self.type_name,
             type_2=other.type_name,
         )

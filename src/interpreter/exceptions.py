@@ -112,20 +112,6 @@ class IncompatibleTypesError(LanguageException):
     attrs = {"operand": "not specified", "type_1": "not specified", "type_2": "not specified"}
 
 
-class UnsupportedOperationError(LanguageException):
-    message_schema = "Operation '{operation}' is unsupported for type '{type}'." "Expected one of: {expected_types}."
-    attrs = {
-        "operation": "not specified",
-        "type": "not specified",
-        "expected_types": "not specified",
-    }
-
-
-class NullValueUsageError(LanguageException):
-    message_schema = "Expression {operand} of {operation} returns nothing thus cannot be used as operand."
-    attrs = {"operand": "not specified", "operation:": "not specified"}
-
-
 class LanguageZeroDivisionError(LanguageException):
     message_schema = "Division by zero."
     attrs = {}
@@ -138,9 +124,4 @@ class ConditionTypeError(LanguageException):
 
 class LanguageFrameStackEmptyError(LanguageException):
     message_schema = "Could not {failed_event}! Frame stack is empty."
-    attrs = {"failed_event": "not specified"}
-
-
-class LanguageSubFrameStackEmptyError(LanguageException):
-    message_schema = "Could not {failed_event}! Subframe stack is empty."
     attrs = {"failed_event": "not specified"}

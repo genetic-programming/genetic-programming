@@ -3,10 +3,9 @@ from typing import Callable
 from unittest.mock import create_autospec
 
 import pytest
-from antlr4 import CommonTokenStream, InputStream
 
 from antlr.LanguageParser import LanguageParser
-from interpreter.recognizers import CustomLexer, CustomParser
+from interpreter.parser import Parser
 from interpreter.variable_stack import VariableStack
 from interpreter.visitor import Visitor
 
@@ -29,9 +28,8 @@ def get_input_path() -> Callable[[str], str]:
 @pytest.fixture()
 def get_parser_from_input() -> Callable[[str], LanguageParser]:
     def _(input_string: str) -> LanguageParser:
-        input_stream = InputStream(input_string)
-        lexer = CustomLexer(input_stream)
-        token_stream = CommonTokenStream(lexer)
-        return CustomParser(token_stream)
+        parser = Parser()
+        parser.set_token_stream(data=input_string)
+        return parser
 
     return _

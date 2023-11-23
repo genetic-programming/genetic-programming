@@ -84,20 +84,20 @@ class FloatType(LanguageType):
             type_2=other.type_name,
         )
 
+    def is_greater_than(self, other: "Any") -> "LanguageType":
+        if isinstance(other, LanguageType):
+            return BooleanType(self.value > other.value)
+        raise IncompatibleTypesError(
+            operand=">",
+            type_1=self.type_name,
+            type_2=other.type_name,
+        )
+
     def is_equal(self, other: "Any") -> "BooleanType":
         if isinstance(other, FloatType):
             return BooleanType(self.value == other.value)
         raise IncompatibleTypesError(
             operand="==",
-            type_1=self.type_name,
-            type_2=other.type_name,
-        )
-
-    def is_not_equal(self, other: "Any") -> "BooleanType":
-        if isinstance(other, FloatType):
-            return BooleanType(self.value != other.value)
-        raise IncompatibleTypesError(
-            operand="!=",
             type_1=self.type_name,
             type_2=other.type_name,
         )

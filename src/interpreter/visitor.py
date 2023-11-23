@@ -1,7 +1,8 @@
-from antlr4.tree.Tree import ErrorNodeImpl
+from antlr4 import ParserRuleContext
+from antlr4.tree.Tree import ErrorNodeImpl, TerminalNodeImpl
 
 from antlr.LanguageParser import LanguageParser
-from interpreter.decorators import handle_exception
+from antlr.LanguageVisitor import LanguageVisitor
 from interpreter.exceptions import (
     ConditionTypeError,
     LanguageSyntaxError,
@@ -9,32 +10,138 @@ from interpreter.exceptions import (
     VariableUnassignedError,
     VariableValueUnassignableError,
 )
-from interpreter.expressions_visitor import ExpressionsVisitor
 from interpreter.language_types.base_type import LanguageType
 from interpreter.language_types.boolean import BooleanType, CONST_TRUE
 from interpreter.language_types.float import FloatType
 from interpreter.language_types.integer import IntegerType
+from interpreter.program_io import ProgramInput, ProgramOutput
 from interpreter.variable_stack import VariableStack
 
 
+class ExpressionsVisitor(LanguageVisitor):
+    def visitExpression(self, ctx: LanguageParser.ExpressionContext) -> LanguageType:
+        children = filter(
+            lambda node: not isinstance(node, TerminalNodeImpl),
+            ctx.children,
+        )
+        match list(children):
+            case [atom_ctx] if ctx.atom():
+                return self.visitAtom(atom_ctx)
+
+            case [expr]:
+                return self.visitExpression(expr)
+
+            case [operator, expr]:
+                return self.handle_unary_operator(operator, expr)
+
+            case [left, operator, right]:
+                return self.handle_operator(left, operator, right)
+
+        raise NotImplementedError(f"Unknown expression type. {ctx.getText()}")
+
+    def handle_unary_operator(
+        self,
+        operator_ctx: LanguageParser.BooleanUnaryOperatorContext,
+        expr_ctx: LanguageParser.ExpressionContext,
+    ) -> LanguageType:
+        expression = self.visitExpression(expr_ctx)
+        operator = self.visit(operator_ctx)
+        match operator:
+            case "not":
+                return ~expression
+            case "+":
+                return +expression
+            case "-":
+                return -expression
+        raise NotImplementedError(f"Unknown unary operator: {operator}")
+
+    def handle_operator(
+        self,
+        left_ctx: LanguageParser.ExpressionContext,
+        operator_ctx: ParserRuleContext,
+        right_ctx: LanguageParser.ExpressionContext,
+    ) -> LanguageType:
+        left = self.visitExpression(left_ctx)
+        right = self.visitExpression(right_ctx)
+        operator = self.visit(operator_ctx)
+        match operator:
+            case "*":
+                return left * right
+            case "/":
+                return left / right
+            case "+":
+                return left + right
+            case "-":
+                return left - right
+            case "<":
+                return ~(left.is_greater_than(right) and left.is_equal(right))
+            case ">":
+                return left.is_greater_than(right)
+            case "==":
+                return left.is_equal(right)
+            case "!=":
+                return ~left.is_equal(right)
+            case "<=":
+                return ~left.is_greater_than(right) or left.is_equal(right)
+            case ">=":
+                return left.is_greater_than(right) or left.is_equal(right)
+            case "and":
+                return left and right
+            case "or":
+                return left or right
+        raise NotImplementedError(f"Unknown operator: {operator}")
+
+    def visitBooleanUnaryOperator(self, ctx: LanguageParser.BooleanUnaryOperatorContext) -> str:
+        return ctx.children[0].symbol.text
+
+    def visitNumericUnaryOperator(self, ctx: LanguageParser.NumericUnaryOperatorContext) -> str:
+        return ctx.children[0].symbol.text
+
+    def visitMultiplicationOperator(self, ctx: LanguageParser.MultiplicationOperatorContext) -> str:
+        return ctx.children[0].symbol.text
+
+    def visitAdditionOperator(self, ctx: LanguageParser.AdditionOperatorContext) -> str:
+        return ctx.children[0].symbol.text
+
+    def visitComparisonOperator(self, ctx: LanguageParser.ComparisonOperatorContext) -> str:
+        return ctx.children[0].symbol.text
+
+    def visitAndOperator(self, ctx: LanguageParser.AndOperatorContext) -> str:
+        return ctx.children[0].symbol.text
+
+    def visitOrOperator(self, ctx: LanguageParser.OrOperatorContext) -> str:
+        return ctx.children[0].symbol.text
+
+
 class Visitor(ExpressionsVisitor):
-    def __init__(self, variable_stack: VariableStack) -> None:
-        self.variable_stack = variable_stack
-        self.program_input: list[LanguageType] = []
-        self.program_output: list[str] = []
-        self.program_output_limit: int = 100
+    def __init__(
+        self,
+        variable_stack: VariableStack | None = None,
+        program_input: ProgramInput | None = None,
+        program_output: ProgramOutput | None = None,
+    ) -> None:
+        self._variable_stack: VariableStack = variable_stack or VariableStack()
+        self._program_input: ProgramInput = program_input or ProgramInput()
+        self._program_output: ProgramOutput = program_output or ProgramOutput()
+
+    def visit_program(
+        self,
+        program_ctx: LanguageParser.ProgramContext,
+        program_input: list[LanguageType],
+    ) -> list[str]:
+        self._program_input.set_inputs(program_input)
+        self.visitProgram(program_ctx)
+        return self._program_output.return_outputs()
 
     # PRIMARY EXPRESSION
-    @handle_exception
+
     def visitProgram(self, ctx: LanguageParser.ProgramContext) -> None:
-        self.variable_stack.append_frame("main")
-        self.variable_stack.append_subframe()
+        self._variable_stack.add_frame()
         super().visitProgram(ctx)
-        self.variable_stack.pop_subframe()
-        self.variable_stack.pop_frame()
+        self._variable_stack.pop_frame()
 
     # STATEMENTS
-    @handle_exception
+
     def visitConditionalStatement(
         self,
         ctx: LanguageParser.ConditionalStatementContext,
@@ -45,7 +152,6 @@ class Visitor(ExpressionsVisitor):
         elif ctx.Else():
             self.visitCompoundStatement(ctx.compoundStatement(1))
 
-    @handle_exception
     def visitLoopStatement(self, ctx: LanguageParser.LoopStatementContext) -> None:
         expression_ctx = ctx.expression()
         body_ctx = ctx.compoundStatement()
@@ -58,31 +164,30 @@ class Visitor(ExpressionsVisitor):
             raise ConditionTypeError(type=condition_value.type_name)
         return condition_value == CONST_TRUE
 
-    @handle_exception
     def visitCompoundStatement(self, ctx: LanguageParser.CompoundStatementContext) -> None:
-        self.variable_stack.append_subframe()
+        self._variable_stack.add_frame()
         super().visitCompoundStatement(ctx)
-        self.variable_stack.pop_subframe()
+        self._variable_stack.pop_frame()
 
     # EXPRESSIONS
-    @handle_exception
+
     def visitAtom(self, ctx: LanguageParser.AtomContext) -> LanguageType:
         if literal := ctx.literal():
             return self.visitLiteral(literal)
         if ctx.VARIABLE_NAME():
             name = ctx.VARIABLE_NAME().symbol.text
-            var = self.variable_stack.get_var(name)
+            var = self._variable_stack.get_var(name)
             if var.value is None:
                 raise VariableUnassignedError(name=name)
             return var
         raise NotImplementedError("Unknown product.")
 
     # VARIABLES AND TYPES
-    @handle_exception
+
     def visitDeclaration(self, ctx: LanguageParser.DeclarationContext) -> LanguageType:
         var_type = self.visitVarType(ctx.varType())
         name = ctx.VARIABLE_NAME().symbol.text
-        var = self.variable_stack.declare_variable(var_type, name)
+        var = self._variable_stack.declare_var(var_type, name)
         return var
 
     def visitVarType(self, ctx: LanguageParser.VarTypeContext) -> type[LanguageType]:
@@ -94,7 +199,6 @@ class Visitor(ExpressionsVisitor):
             return BooleanType
         raise NotImplementedError("Unknown var type")
 
-    @handle_exception
     def visitAssignment(self, ctx: LanguageParser.AssignmentContext) -> None:
         expr: LanguageType = self.visitExpression(ctx.expression())
         if expr is None:
@@ -106,13 +210,12 @@ class Visitor(ExpressionsVisitor):
             var = self.visitDeclaration(declaration_ctx)
         elif var_name_ctx := ctx.VARIABLE_NAME():
             var_name = var_name_ctx.symbol.text
-            var = self.variable_stack.get_var(var_name)
+            var = self._variable_stack.get_var(var_name)
         else:
             raise NotImplementedError("Unknown variable type")
 
         self.assign_expr_to_var(var=var, var_name=var_name, expr=expr)
 
-    @handle_exception
     def visitLiteral(self, ctx: LanguageParser.LiteralContext) -> LanguageType:
         value = ctx.children[0].symbol.text
         if ctx.BOOLEAN_VAL():
@@ -128,21 +231,15 @@ class Visitor(ExpressionsVisitor):
         exc.inject_context_to_exc(error_node.parentCtx)
 
     # IO
-    @handle_exception
+
     def visitPrintStatement(self, ctx: LanguageParser.PrintStatementContext) -> None:
         language_type = self.visitExpression(ctx.expression())
-        self.program_output.append(str(language_type.value))
-        if len(self.program_output) > self.program_output_limit:
-            raise RuntimeError("Program output reached limit 1000")
+        self._program_output.append(str(language_type.value))
 
-    @handle_exception
     def visitReadStatement(self, ctx: LanguageParser.ReadStatementContext) -> None:
         var_name = ctx.VARIABLE_NAME().symbol.text
-        var = self.variable_stack.get_var(var_name)
-        try:
-            expr = self.program_input.pop(0)
-        except IndexError:
-            raise RuntimeError("Not sufficient inputs")
+        var = self._variable_stack.get_var(var_name)
+        expr = self._program_input.pop()
         self.assign_expr_to_var(var=var, var_name=var_name, expr=expr)
 
     @staticmethod

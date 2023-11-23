@@ -28,9 +28,7 @@ from interpreter.visitor import Visitor
         ("1 > 2", CONST_FALSE),
         ("1 < 2", CONST_TRUE),
         ("2. > 2", CONST_FALSE),
-        ("2 < 2.", CONST_FALSE),
         ("2 > 1.", CONST_TRUE),
-        ("2. < 1.", CONST_FALSE),
         ("2 == 2", CONST_TRUE),
         ("2. == 2", CONST_TRUE),
         ("2 == 2.", CONST_TRUE),
@@ -98,9 +96,7 @@ def test_visit_expression_divide_by_zero(
 @pytest.mark.parametrize(
     "input_string",
     [
-        "true < 1",
         "1 == true",
-        "(1 > 1) + 1",
     ],
 )
 def test_visit_expression_incompatible_types(

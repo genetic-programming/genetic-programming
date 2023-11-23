@@ -72,7 +72,7 @@ def test_visit_declaration(
     declaration_ctx = parser.declaration()
 
     visitor.visit(declaration_ctx)
-    visitor.variable_stack.declare_variable.assert_called_once_with(  # type: ignore[attr-defined]
+    visitor._variable_stack.declare_var.assert_called_once_with(  # type: ignore[attr-defined]
         expected_var_type,
         expected_name,
     )
@@ -95,10 +95,10 @@ def test_visit_assignment(
 ) -> None:
     parser = get_parser_from_input(input_string)
     assignment_ctx = parser.assignment()
-    visitor.variable_stack.get_var.return_value = value_from_stack  # type: ignore[attr-defined]
+    visitor._variable_stack.get_var.return_value = value_from_stack  # type: ignore[attr-defined]
 
     visitor.visit(assignment_ctx)
-    visitor.variable_stack.get_var.assert_called_once()  # type: ignore[attr-defined]
+    visitor._variable_stack.get_var.assert_called_once()  # type: ignore[attr-defined]
     assert value_from_stack == expected_value
 
 
@@ -119,10 +119,10 @@ def test_visit_assignment_with_declaration(
 ) -> None:
     parser = get_parser_from_input(input_string)
     assignment_ctx = parser.assignment()
-    visitor.variable_stack.declare_variable.return_value = value_from_stack  # type: ignore[attr-defined]
+    visitor._variable_stack.declare_var.return_value = value_from_stack  # type: ignore[attr-defined]
 
     visitor.visit(assignment_ctx)
-    visitor.variable_stack.declare_variable.assert_called_once()  # type: ignore[attr-defined]
+    visitor._variable_stack.declare_var.assert_called_once()  # type: ignore[attr-defined]
     assert value_from_stack == expected_value
 
 
@@ -142,8 +142,8 @@ def test_visit_assignment_incorrect_types(
 ) -> None:
     parser = get_parser_from_input(input_string)
     assignment_ctx = parser.assignment()
-    visitor.variable_stack.get_var.return_value = value_from_stack  # type: ignore[attr-defined]
-    visitor.variable_stack.declare_variable.return_value = value_from_stack  # type: ignore[attr-defined]
+    visitor._variable_stack.get_var.return_value = value_from_stack  # type: ignore[attr-defined]
+    visitor._variable_stack.declare_var.return_value = value_from_stack  # type: ignore[attr-defined]
 
     with pytest.raises(VariableAssignedTypeError):
         visitor.visit(assignment_ctx)
@@ -167,7 +167,7 @@ def test_visit_conditional_instruction(
 ) -> None:
     parser = get_parser_from_input(input_string)
     cond_instruction_ctx = parser.conditionalStatement()
-    visitor.variable_stack.get_var.side_effect = [dupa_value]  # type: ignore[attr-defined]
+    visitor._variable_stack.get_var.side_effect = [dupa_value]  # type: ignore[attr-defined]
 
     visitor.visit(cond_instruction_ctx)
     if expected_body_number is None:
@@ -210,5 +210,5 @@ def test_visit_loop_instruction(
 ) -> None:
     parser = get_parser_from_input("while dupa {}")
     loop_instruction_ctx = parser.loopStatement()
-    visitor.variable_stack.get_var.side_effect = dupa_values  # type: ignore[attr-defined]
+    visitor._variable_stack.get_var.side_effect = dupa_values  # type: ignore[attr-defined]
     visitor.visit(loop_instruction_ctx)

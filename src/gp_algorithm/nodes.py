@@ -50,6 +50,7 @@ class LanguageNode(Node):
         **kwargs: Any,
     ) -> None:
         self.node_type = node_type
+        self.node_data = GRAMMAR[node_type]
         self.value = value
         super().__init__(
             name=self.node_title,
@@ -65,18 +66,29 @@ class LanguageNode(Node):
         return self.node_type
 
     def grow(self) -> None:
-        growable_descendants = PreOrderIter(self, filter_=lambda node: GRAMMAR[node.node_type].growable)
+        growable_descendants = PreOrderIter(self, filter_=lambda node: node.node_data.growable)
         parent_node: LanguageNode = random.choice(list(growable_descendants))  # noqa: S311
         parent_node.random_init()
 
     def random_init(self) -> None:
-        successors = GRAMMAR[self.node_type].successors
+        successors = self.node_data.successors
         if not successors:
             return
 
         new_nodes_types = random.choice(successors)  # noqa: S311
         for new_node_type in new_nodes_types:
             new_node = create_node_random(node_type=new_node_type)
-            if not GRAMMAR[new_node.node_type].growable:
-                new_node.random_init()
             new_node.parent = self
+            if not new_node.node_data.growable:
+                new_node.random_init()
+
+    def cast_to_str(self) -> str:
+        if self.value:
+            return self.value
+
+        if self.node_data.growable:
+            result = " ".join(["{}" for _ in range(len(self.children))])
+        else:
+            result = self.node_data.representation
+
+        return result.format([child.cast_to_str() for child in self.children])
