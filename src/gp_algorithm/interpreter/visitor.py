@@ -12,7 +12,6 @@ from gp_algorithm.interpreter.exceptions import (
 )
 from gp_algorithm.interpreter.language_types.base_type import LanguageType
 from gp_algorithm.interpreter.language_types.boolean import BooleanType, CONST_TRUE
-from gp_algorithm.interpreter.language_types.float import FloatType
 from gp_algorithm.interpreter.language_types.integer import IntegerType
 from gp_algorithm.interpreter.program_io import ProgramInput, ProgramOutput
 from gp_algorithm.interpreter.variable_stack import VariableStack
@@ -185,8 +184,6 @@ class Visitor(ExpressionsVisitor):
         return var
 
     def visitVarType(self, ctx: LanguageParser.VarTypeContext) -> type[LanguageType]:
-        if ctx.Float():
-            return FloatType
         if ctx.Int():
             return IntegerType
         if ctx.Bool():
@@ -214,8 +211,6 @@ class Visitor(ExpressionsVisitor):
         value = ctx.children[0].symbol.text
         if ctx.BOOLEAN_VAL():
             return BooleanType(value)
-        if ctx.FLOAT_VAL():
-            return FloatType(value)
         if ctx.INT_VAL():
             return IntegerType(value)
         raise NotImplementedError("Unknown literal type")

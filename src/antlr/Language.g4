@@ -99,7 +99,6 @@ declaration
 
 varType
     : Int
-    | Float
     | Bool
     ;
 
@@ -110,7 +109,6 @@ assignment
 
 literal
     : BOOLEAN_VAL
-    | FLOAT_VAL
     | INT_VAL
     ;
 
@@ -142,7 +140,6 @@ And: 'and';
 Or: 'or';
 
 Int: 'int';
-Float: 'float';
 Bool: 'bool';
 
 Print: 'print';
@@ -151,11 +148,6 @@ Read: 'read';
 BOOLEAN_VAL
     : 'true'
     | 'false'
-    ;
-
-FLOAT_VAL  // accepts: 10.11 and 10 and 10. and .01
-    :  INT_VAL '.' [0-9]*
-    | '0'? '.' [0-9]+
     ;
 
 INT_VAL

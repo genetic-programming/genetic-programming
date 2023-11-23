@@ -6,7 +6,6 @@ from antlr.LanguageParser import LanguageParser
 from gp_algorithm.interpreter.exceptions import IncompatibleTypesError, LanguageZeroDivisionError
 from gp_algorithm.interpreter.language_types.base_type import LanguageType
 from gp_algorithm.interpreter.language_types.boolean import CONST_FALSE, CONST_TRUE
-from gp_algorithm.interpreter.language_types.float import FloatType
 from gp_algorithm.interpreter.language_types.integer import IntegerType
 from gp_algorithm.interpreter.visitor import Visitor
 
@@ -19,27 +18,12 @@ from gp_algorithm.interpreter.visitor import Visitor
         ("2 * 5 - 7", IntegerType(3)),
         ("0 * 190", IntegerType(0)),
         ("100 / 30", IntegerType(3)),
-        ("2. * 2.", FloatType(4.0)),
-        ("2. * 2", FloatType(4.0)),
-        ("0. * 190", FloatType(0.0)),
-        ("100. / 30", FloatType(100 / 30)),
-        ("100. - 7 / (5 + 2)", FloatType(99.0)),
         ("100 > 10 and true", CONST_TRUE),
         ("1 > 2", CONST_FALSE),
         ("2. > 2", CONST_FALSE),
         ("2 > 1.", CONST_TRUE),
         ("2 == 2", CONST_TRUE),
-        ("2. == 2", CONST_TRUE),
-        ("2 == 2.", CONST_TRUE),
-        ("2. == 2.", CONST_TRUE),
         ("2 == 1", CONST_FALSE),
-        ("2. == 1", CONST_FALSE),
-        ("2 == 1.", CONST_FALSE),
-        ("2. == 1.", CONST_FALSE),
-        ("2 != 2.1", CONST_TRUE),
-        ("2. != 2.1", CONST_TRUE),
-        ("2 != 2.0", CONST_FALSE),
-        ("2. != 2.0", CONST_FALSE),
         ("2 != 2", CONST_FALSE),
         ("true == true", CONST_TRUE),
         ("true == false", CONST_FALSE),
@@ -75,9 +59,6 @@ def test_visit_expression(
         "1 / 0",
         "1/0",
         "4 / 0",
-        "1 / 0.",
-        "1. / 0",
-        "1. / 0.",
     ],
 )
 def test_visit_expression_divide_by_zero(

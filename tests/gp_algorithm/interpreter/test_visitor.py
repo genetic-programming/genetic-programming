@@ -6,7 +6,6 @@ from antlr.LanguageParser import LanguageParser
 from gp_algorithm.interpreter.exceptions import VariableAssignedTypeError
 from gp_algorithm.interpreter.language_types.base_type import LanguageType
 from gp_algorithm.interpreter.language_types.boolean import BooleanType, CONST_FALSE, CONST_TRUE
-from gp_algorithm.interpreter.language_types.float import FloatType
 from gp_algorithm.interpreter.language_types.integer import IntegerType
 from gp_algorithm.interpreter.visitor import Visitor
 
@@ -14,7 +13,6 @@ from gp_algorithm.interpreter.visitor import Visitor
 @pytest.mark.parametrize(
     ("input_string", "expected"),
     [
-        ("float", FloatType),
         ("int", IntegerType),
         ("bool", BooleanType),
     ],
@@ -56,7 +54,6 @@ def test_visit_var_type_incorrect(
 @pytest.mark.parametrize(
     ("input_string", "expected_var_type", "expected_name"),
     [
-        ("float v2137", FloatType, "v2137"),
         ("int v2137", IntegerType, "v2137"),
         ("bool v2137", BooleanType, "v2137"),
     ],
@@ -81,7 +78,6 @@ def test_visit_declaration(
 @pytest.mark.parametrize(
     ("input_string", "value_from_stack", "expected_value"),
     [
-        ("v420 = 0.", FloatType(10.0), FloatType(0.0)),
         ("v420 = 0", IntegerType(8643), IntegerType(0)),
         ("v420 = true", BooleanType(False), CONST_TRUE),
     ],
@@ -105,7 +101,6 @@ def test_visit_assignment(
 @pytest.mark.parametrize(
     ("input_string", "value_from_stack", "expected_value"),
     [
-        ("float v2137 = 0.", FloatType(None), FloatType(0.0)),
         ("int v2137 = 0", IntegerType(None), IntegerType(0)),
         ("bool v2137 = true", BooleanType(None), CONST_TRUE),
     ],
@@ -129,8 +124,6 @@ def test_visit_assignment_with_declaration(
 @pytest.mark.parametrize(
     ("input_string", "value_from_stack"),
     [
-        ("v2137 = 0.", IntegerType(None)),
-        ("int v2137 = 0.", IntegerType(None)),
         ("bool v2137 = 0", BooleanType(None)),
     ],
 )

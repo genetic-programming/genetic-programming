@@ -3,13 +3,12 @@ from typing import TYPE_CHECKING
 from gp_algorithm.interpreter.exceptions import IncompatibleTypesError, LanguageValueError, LanguageZeroDivisionError
 from gp_algorithm.interpreter.language_types.base_type import LanguageType
 from gp_algorithm.interpreter.language_types.boolean import BooleanType
-from gp_algorithm.interpreter.language_types.float import FloatType
 
 if TYPE_CHECKING:
     from typing import Any
 
 
-class IntegerType(FloatType):
+class IntegerType(LanguageType):
     type_name = "integer"
 
     def _parse_value(self, value: "Any") -> int:
@@ -27,45 +26,37 @@ class IntegerType(FloatType):
         return IntegerType(+self.value)
 
     # arithmetic operators
-    def __add__(self, other: "Any") -> "IntegerType | FloatType":
+    def __add__(self, other: "Any") -> "IntegerType":
         if isinstance(other, IntegerType):
             return IntegerType(self.value + other.value)
-        if isinstance(other, FloatType):
-            return FloatType(self.value + other.value)
         raise IncompatibleTypesError(
             operand="+",
             type_1=self.type_name,
             type_2=other.type_name,
         )
 
-    def __sub__(self, other: "Any") -> "IntegerType | FloatType":
+    def __sub__(self, other: "Any") -> "IntegerType":
         if isinstance(other, IntegerType):
             return IntegerType(self.value - other.value)
-        if isinstance(other, FloatType):
-            return FloatType(self.value - other.value)
         raise IncompatibleTypesError(
             operand="-",
             type_1=self.type_name,
             type_2=other.type_name,
         )
 
-    def __mul__(self, other: "Any") -> "IntegerType | FloatType":
+    def __mul__(self, other: "Any") -> "IntegerType":
         if isinstance(other, IntegerType):
             return IntegerType(self.value * other.value)
-        if isinstance(other, FloatType):
-            return FloatType(self.value * other.value)
         raise IncompatibleTypesError(
             operand="*",
             type_1=self.type_name,
             type_2=other.type_name,
         )
 
-    def __truediv__(self, other: "Any") -> "IntegerType | FloatType":
+    def __truediv__(self, other: "Any") -> "IntegerType":
         try:
             if isinstance(other, IntegerType):
                 return IntegerType(self.value // other.value)
-            if isinstance(other, FloatType):
-                return FloatType(self.value / other.value)
         except ZeroDivisionError:
             raise LanguageZeroDivisionError()
         raise IncompatibleTypesError(
@@ -76,7 +67,7 @@ class IntegerType(FloatType):
 
     # comparison operators
     def __gt__(self, other: "Any") -> "BooleanType":
-        if isinstance(other, (IntegerType, FloatType)):
+        if isinstance(other, IntegerType):
             return BooleanType(self.value > other.value)
         raise IncompatibleTypesError(
             operand=">",
@@ -85,7 +76,7 @@ class IntegerType(FloatType):
         )
 
     def __lt__(self, other: "Any") -> "BooleanType":
-        if isinstance(other, (IntegerType, FloatType)):
+        if isinstance(other, IntegerType):
             return BooleanType(self.value < other.value)
         raise IncompatibleTypesError(
             operand="<",
@@ -103,7 +94,7 @@ class IntegerType(FloatType):
         )
 
     def is_equal(self, other: "Any") -> "BooleanType":
-        if isinstance(other, (IntegerType, FloatType)):
+        if isinstance(other, IntegerType):
             return BooleanType(self.value == other.value)
         raise IncompatibleTypesError(
             operand="==",
