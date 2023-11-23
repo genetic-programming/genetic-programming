@@ -1,4 +1,4 @@
-from interpreter.language_types.base_type import LanguageType
+from gp_algorithm.interpreter.language_types.base_type import LanguageType
 
 
 class ProgramInput:

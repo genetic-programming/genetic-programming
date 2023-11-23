@@ -3,19 +3,19 @@ from antlr4.tree.Tree import ErrorNodeImpl, TerminalNodeImpl
 
 from antlr.LanguageParser import LanguageParser
 from antlr.LanguageVisitor import LanguageVisitor
-from interpreter.exceptions import (
+from gp_algorithm.interpreter.exceptions import (
     ConditionTypeError,
     LanguageSyntaxError,
     VariableAssignedTypeError,
     VariableUnassignedError,
     VariableValueUnassignableError,
 )
-from interpreter.language_types.base_type import LanguageType
-from interpreter.language_types.boolean import BooleanType, CONST_TRUE
-from interpreter.language_types.float import FloatType
-from interpreter.language_types.integer import IntegerType
-from interpreter.program_io import ProgramInput, ProgramOutput
-from interpreter.variable_stack import VariableStack
+from gp_algorithm.interpreter.language_types.base_type import LanguageType
+from gp_algorithm.interpreter.language_types.boolean import BooleanType, CONST_TRUE
+from gp_algorithm.interpreter.language_types.float import FloatType
+from gp_algorithm.interpreter.language_types.integer import IntegerType
+from gp_algorithm.interpreter.program_io import ProgramInput, ProgramOutput
+from gp_algorithm.interpreter.variable_stack import VariableStack
 
 
 class ExpressionsVisitor(LanguageVisitor):

@@ -3,12 +3,12 @@ from typing import Callable
 import pytest
 
 from antlr.LanguageParser import LanguageParser
-from interpreter.exceptions import IncompatibleTypesError, LanguageZeroDivisionError
-from interpreter.language_types.base_type import LanguageType
-from interpreter.language_types.boolean import CONST_FALSE, CONST_TRUE
-from interpreter.language_types.float import FloatType
-from interpreter.language_types.integer import IntegerType
-from interpreter.visitor import Visitor
+from gp_algorithm.interpreter.exceptions import IncompatibleTypesError, LanguageZeroDivisionError
+from gp_algorithm.interpreter.language_types.base_type import LanguageType
+from gp_algorithm.interpreter.language_types.boolean import CONST_FALSE, CONST_TRUE
+from gp_algorithm.interpreter.language_types.float import FloatType
+from gp_algorithm.interpreter.language_types.integer import IntegerType
+from gp_algorithm.interpreter.visitor import Visitor
 
 
 @pytest.mark.parametrize(

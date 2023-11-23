@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING
 
-from interpreter.exceptions import IncompatibleTypesError
+from gp_algorithm.interpreter.exceptions import IncompatibleTypesError
 
 if TYPE_CHECKING:
     from typing import Any

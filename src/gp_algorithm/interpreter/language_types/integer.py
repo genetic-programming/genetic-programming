@@ -1,9 +1,9 @@
 from typing import TYPE_CHECKING
 
-from interpreter.exceptions import IncompatibleTypesError, LanguageValueError, LanguageZeroDivisionError
-from interpreter.language_types.base_type import LanguageType
-from interpreter.language_types.boolean import BooleanType
-from interpreter.language_types.float import FloatType
+from gp_algorithm.interpreter.exceptions import IncompatibleTypesError, LanguageValueError, LanguageZeroDivisionError
+from gp_algorithm.interpreter.language_types.base_type import LanguageType
+from gp_algorithm.interpreter.language_types.boolean import BooleanType
+from gp_algorithm.interpreter.language_types.float import FloatType
 
 if TYPE_CHECKING:
     from typing import Any

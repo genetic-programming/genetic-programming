@@ -1,30 +1,34 @@
 .PHONY: Makefile
 
+python_path := PYTHONPATH=./src
+dirs_to_lint := src tests
+dirs_to_test := tests
+
 all: check test  ### Run all checks and tests (lints, mypy, tests...)
 
 all_ff: check_ff test  ### Run all checks and tests, but fail on first that returns error (lints, mypy, tests...)
 
 # Separate command versions for github actions
 ci/test:
-	PYTHONPATH=./src pytest src/ --durations=10 --junit-xml=test-results.xml
+	${python_path} pytest ${dirs_to_test} --durations=10 --junit-xml=test-results.xml
 
 ci/check/lint/black ci/lint/black:
-	black src/ --diff --check --quiet
+	black ${dirs_to_lint} --diff --check --quiet
 
 ci/check/lint/deps ci/lint/deps:
 	fawltydeps
 
 ci/check/lint/flake8 ci/lint/flake8:
-	flake8 src/
+	flake8 ${dirs_to_lint}
 
 ci/check/lint/isort ci/lint/isort:
-	isort src/ --diff --check --quiet
+	isort ${dirs_to_lint} --diff --check --quiet
 
 ci/check/mypy ci/lint/mypy:
-	PYTHONPATH=./src mypy src/ --show-error-codes --show-traceback --implicit-reexport --junit-xml=mypy-results.xml
+	${python_path} mypy ${dirs_to_lint} --show-error-codes --show-traceback --implicit-reexport --junit-xml=mypy-results.xml
 
 check/lint/black lint/black black-check:  ### Run black lint check (code formatting)
-	-black src/ --diff --check --color
+	-black ${dirs_to_lint} --diff --check --color
 
 check/lint/deps:
 	-fawltydeps
@@ -33,22 +37,22 @@ check_ff/lint/deps:
 	fawltydeps
 
 check_ff/lint/black lint_ff/black:
-	black src/ --diff --check --color
+	black ${dirs_to_lint} --diff --check --color
 
 check/lint/flake8 lint/flake8 flake8-check:  ### Run flake8 lint check (pep8 etc.)
-	-flake8 src/
+	-flake8 ${dirs_to_lint}
 
 check_ff/lint/flake8 lint_ff/flake8:
-	flake8 src/
+	flake8 ${dirs_to_lint}
 
 check/lint/isort lint/isort isort-check:  ### Run isort lint check (import sorting)
-	-isort src/ --diff --check --color
+	-isort ${dirs_to_lint} --diff --check --color
 
 check_ff/lint/isort lint_ff/isort:
-	isort src/ --diff --check --color
+	isort ${dirs_to_lint} --diff --check --color
 
 check/mypy check_ff/mypy lint/mypy lint_ff/mypy mypy:  ### Run mypy check (type checking)
-	PYTHONPATH=./src mypy src/ --show-error-codes --show-traceback --implicit-reexport
+	${python_path} mypy ${dirs_to_lint} --show-error-codes --show-traceback --implicit-reexport
 
 check/lint lint: check/lint/black check/lint/deps check/lint/flake8 check/lint/isort  ### Run all lightweight lint checks (no mypy)
 
@@ -59,11 +63,11 @@ check lint_full full_lint: check/lint check/mypy  ### Run all lint checks and my
 check_ff lint_full_ff full_lint_ff: check_ff/lint check_ff/mypy  ### Run all lint checks and mypy, but fail on first that returns error
 
 lint_fix lint/fix:  ### Automatically fix lint problems (only reported by black and isort)
-	black .
-	isort .
+	black ${dirs_to_lint}
+	isort ${dirs_to_lint}
 
 test:  ### Run all tests
-	PYTHONPATH=./src pytest src/ --durations=10
+	${python_path} pytest tests --durations=10
 
 ### Help
 help: ## Show this help

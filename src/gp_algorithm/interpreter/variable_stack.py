@@ -1,5 +1,9 @@
-from interpreter.exceptions import LanguageFrameStackEmptyError, VariableRedeclarationError, VariableUndeclaredError
-from interpreter.language_types.base_type import LanguageType
+from gp_algorithm.interpreter.exceptions import (
+    LanguageFrameStackEmptyError,
+    VariableRedeclarationError,
+    VariableUndeclaredError,
+)
+from gp_algorithm.interpreter.language_types.base_type import LanguageType
 
 
 class VariableStack:

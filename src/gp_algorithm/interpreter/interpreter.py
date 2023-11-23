@@ -1,8 +1,8 @@
 from antlr.LanguageParser import LanguageParser
-from interpreter.exceptions import LanguageException
-from interpreter.language_types.base_type import LanguageType
-from interpreter.parser import Parser
-from interpreter.visitor import Visitor
+from gp_algorithm.interpreter.exceptions import LanguageException
+from gp_algorithm.interpreter.language_types.base_type import LanguageType
+from gp_algorithm.interpreter.parser import Parser
+from gp_algorithm.interpreter.visitor import Visitor
 
 
 class Interpreter:

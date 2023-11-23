@@ -1,7 +1,7 @@
 from argparse import ArgumentParser
 from pathlib import Path
 
-from interpreter.interpreter import Interpreter
+from gp_algorithm.interpreter.interpreter import Interpreter
 
 
 def main() -> None:
@@ -18,7 +18,7 @@ def main() -> None:
         metavar="source file name",
         type=str,
         nargs="?",
-        default="./example_programs/example_1",
+        default="../example_programs/example_1",
     )
     parser.add_argument(
         "--print-stacktraces",

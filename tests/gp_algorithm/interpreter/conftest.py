@@ -5,9 +5,9 @@ from unittest.mock import create_autospec
 import pytest
 
 from antlr.LanguageParser import LanguageParser
-from interpreter.parser import Parser
-from interpreter.variable_stack import VariableStack
-from interpreter.visitor import Visitor
+from gp_algorithm.interpreter.parser import Parser
+from gp_algorithm.interpreter.variable_stack import VariableStack
+from gp_algorithm.interpreter.visitor import Visitor
 
 
 @pytest.fixture()
