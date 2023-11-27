@@ -1,6 +1,6 @@
 from antlr.LanguageParser import LanguageParser
 from gp_algorithm.interpreter.exceptions import LanguageException
-from gp_algorithm.interpreter.language_types.base_type import LanguageType
+from gp_algorithm.interpreter.expression import Expression
 from gp_algorithm.interpreter.parser import Parser
 from gp_algorithm.interpreter.visitor import Visitor
 
@@ -16,20 +16,20 @@ class Interpreter:
         self._visitor = visitor or Visitor()
         self._print_stacktraces = print_stacktraces
 
-    def interpret_inputs(self, input_strings: list[list[str]]) -> list[list[LanguageType]]:
+    def interpret_inputs(self, input_strings: list[list[str]]) -> list[list[Expression]]:
         return [self.interpret_input(input_string) for input_string in input_strings]
 
-    def interpret_input(self, input_strings: list[str]) -> list[LanguageType]:
+    def interpret_input(self, input_strings: list[str]) -> list[Expression]:
         literal_contexts = self._parser.parse_literals(input_strings)
         return [self._visitor.visitLiteral(literal_ctx) for literal_ctx in literal_contexts]
 
-    def interpret_file(self, file_path: str, program_input: list[LanguageType]) -> list[str]:
+    def interpret_file(self, file_path: str, program_input: list[Expression]) -> list[str]:
         with open(file_path, "r") as file:
             data = file.read()
 
         return self.interpret_str(data=data, program_input=program_input)
 
-    def interpret_str(self, data: str, program_input: list[LanguageType]) -> list[str]:
+    def interpret_str(self, data: str, program_input: list[Expression]) -> list[str]:
         tree = self.parse_str(data=data)
         return self.interpret_tree(tree=tree, program_input=program_input)
 
@@ -48,6 +48,6 @@ class Interpreter:
     def interpret_tree(
         self,
         tree: LanguageParser.StatementsContext,
-        program_input: list[LanguageType],
+        program_input: list[Expression],
     ) -> list[str]:
         return self._visitor.visit_tree(tree=tree, program_input=program_input)

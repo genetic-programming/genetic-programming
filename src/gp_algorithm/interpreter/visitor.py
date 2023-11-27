@@ -3,15 +3,8 @@ from antlr4.tree.Tree import ErrorNodeImpl
 
 from antlr.LanguageParser import LanguageParser
 from antlr.LanguageVisitor import LanguageVisitor
-from gp_algorithm.interpreter.exceptions import (
-    ConditionTypeError,
-    LanguageSyntaxError,
-    TooManyStatements,
-    VariableValueUnassignableError,
-)
-from gp_algorithm.interpreter.language_types.base_type import LanguageType
-from gp_algorithm.interpreter.language_types.boolean import BooleanType, CONST_TRUE
-from gp_algorithm.interpreter.language_types.integer import IntegerType
+from gp_algorithm.interpreter.exceptions import LanguageSyntaxError, TooManyStatements
+from gp_algorithm.interpreter.expression import CONST_TRUE, Expression
 from gp_algorithm.interpreter.program_io import ProgramInput, ProgramOutput
 from gp_algorithm.interpreter.variable_stack import VariableStack
 
@@ -31,7 +24,7 @@ class Visitor(LanguageVisitor):
     def visit_tree(
         self,
         tree: LanguageParser.StatementsContext,
-        program_input: list[LanguageType],
+        program_input: list[Expression],
         statements_left: int = 100,
     ) -> list[str]:
         self._statement_left = statements_left
@@ -54,12 +47,7 @@ class Visitor(LanguageVisitor):
         return super().visitStatement(ctx)
 
     def visitAssignment(self, ctx: LanguageParser.AssignmentContext) -> None:
-        expr: LanguageType = self.visitExpression(ctx.expression())
-        if expr is None:
-            exc = VariableValueUnassignableError(expr=ctx.expression().getText())
-            exc.inject_context_to_exc(ctx)
-            raise exc
-
+        expr: Expression = self.visitExpression(ctx.expression())
         var_name = ctx.VARIABLE_NAME().symbol.text
         self._variable_stack.set_var(var_name=var_name, expr=expr)
 
@@ -81,11 +69,7 @@ class Visitor(LanguageVisitor):
             self.visitCompoundStatement(body_ctx)
 
     def check_condition(self, condition_ctx: LanguageParser.ExpressionContext) -> bool:
-        condition_value: LanguageType = self.visitExpression(condition_ctx)
-        if not isinstance(condition_value, BooleanType):
-            exc = ConditionTypeError(type=condition_value.type_name)
-            exc.inject_context_to_exc(condition_ctx)
-            raise exc
+        condition_value: Expression = self.visitExpression(condition_ctx)
         return condition_value == CONST_TRUE
 
     def visitCompoundStatement(self, ctx: LanguageParser.CompoundStatementContext) -> None:
@@ -94,11 +78,11 @@ class Visitor(LanguageVisitor):
         self._variable_stack.pop_frame()
 
     def visitPrintStatement(self, ctx: LanguageParser.PrintStatementContext) -> None:
-        language_type = self.visitExpression(ctx.expression())
-        self._program_output.append(str(language_type.value))
+        expr = self.visitExpression(ctx.expression())
+        self._program_output.append(str(expr))
 
     # EXPRESSIONS
-    def visitExpression(self, ctx: LanguageParser.ExpressionContext) -> LanguageType:
+    def visitExpression(self, ctx: LanguageParser.ExpressionContext) -> Expression:
         match ctx.children:
             case [_] if var_terminal := ctx.VARIABLE_NAME():
                 name = var_terminal.symbol.text
@@ -118,29 +102,31 @@ class Visitor(LanguageVisitor):
 
         raise NotImplementedError(f"Unknown expression type. {ctx.getText()}")
 
-    def visitNestedExpression(self, ctx: LanguageParser.NestedExpressionContext) -> LanguageType:
+    def visitNestedExpression(self, ctx: LanguageParser.NestedExpressionContext) -> Expression:
         return self.visitExpression(ctx.expression())
 
-    def visitLiteral(self, ctx: LanguageParser.LiteralContext) -> LanguageType:
+    def visitLiteral(self, ctx: LanguageParser.LiteralContext) -> Expression:
         value = ctx.children[0].symbol.text
         if ctx.BOOLEAN_VAL():
-            return BooleanType(value)
+            if value == "true":
+                return Expression(bool_value=True)
+            if value == "false":
+                return Expression(bool_value=False)
+            raise NotImplementedError("Unknown boolean value")
         if ctx.INT_VAL():
-            return IntegerType(value)
+            return Expression(int_value=int(value))
         raise NotImplementedError("Unknown literal type")
 
     def handle_unary_operator(
         self,
         operator_ctx: LanguageParser.BooleanUnaryOperatorContext,
         expr_ctx: LanguageParser.ExpressionContext,
-    ) -> LanguageType:
+    ) -> Expression:
         expression = self.visitExpression(expr_ctx)
         operator = self.visit(operator_ctx)
         match operator:
             case "not":
                 return ~expression
-            case "+":
-                return +expression
             case "-":
                 return -expression
         raise NotImplementedError(f"Unknown unary operator: {operator}")
@@ -150,7 +136,7 @@ class Visitor(LanguageVisitor):
         left_ctx: LanguageParser.ExpressionContext,
         operator_ctx: ParserRuleContext,
         right_ctx: LanguageParser.ExpressionContext,
-    ) -> LanguageType:
+    ) -> Expression:
         left = self.visitExpression(left_ctx)
         right = self.visitExpression(right_ctx)
         operator = self.visit(operator_ctx)
@@ -170,9 +156,9 @@ class Visitor(LanguageVisitor):
             case "!=":
                 return ~left.is_equal(right)
             case "and":
-                return left and right
+                return left.and_(right)
             case "or":
-                return left or right
+                return left.or_(right)
         raise NotImplementedError(f"Unknown operator: {operator}")
 
     def visitBooleanUnaryOperator(self, ctx: LanguageParser.BooleanUnaryOperatorContext) -> str:

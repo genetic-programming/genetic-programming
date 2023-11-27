@@ -1,14 +1,14 @@
-from gp_algorithm.interpreter.language_types.base_type import LanguageType
+from gp_algorithm.interpreter.expression import Expression
 
 
 class ProgramInput:
-    def __init__(self, *args: LanguageType) -> None:
-        self._literals: list[LanguageType] = list(args)
+    def __init__(self, *args: Expression) -> None:
+        self._literals: list[Expression] = list(args)
 
-    def set_inputs(self, inputs: list[LanguageType]) -> None:
+    def set_inputs(self, inputs: list[Expression]) -> None:
         self._literals = inputs
 
-    def pop(self) -> LanguageType:
+    def pop(self) -> Expression:
         try:
             return self._literals.pop()
         except IndexError:

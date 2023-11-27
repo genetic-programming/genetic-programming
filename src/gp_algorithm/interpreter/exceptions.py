@@ -76,45 +76,15 @@ class LanguageSyntaxError(LanguageException):
     attrs = {"extra_info": "not specified"}
 
 
-# LISTENER AND VISITOR EXCEPTIONS
-class LanguageValueError(LanguageException):
-    message_schema = "Invalid value for {type_name}: {value}."
-    attrs = {"type_name": "not specified", "value": "not specified"}
-
-
-class VariableRedeclarationError(LanguageException):
-    message_schema = "Redeclaration of variable: {var_name}."
-    attrs = {"var_name": "not specified"}
-
-
+# VISITOR EXCEPTIONS
 class VariableUndeclaredError(LanguageException):
     message_schema = "Undeclared variable: {name}."
     attrs = {"name": "not specified"}
 
 
-class VariableUnassignedError(LanguageException):
-    message_schema = "Usage of unassigned variable: {name}."
-    attrs = {"name": "not specified"}
-
-
-class VariableValueUnassignableError(LanguageException):
-    message_schema = "Expression '{expr}' does not return value, thus cannot be assigned."
-    attrs = {"expr": "not specified"}
-
-
-class IncompatibleTypesError(LanguageException):
-    message_schema = "Unsupported operand {operand} for {type_1} and {type_2}."
-    attrs = {"operand": "not specified", "type_1": "not specified", "type_2": "not specified"}
-
-
 class LanguageZeroDivisionError(LanguageException):
     message_schema = "Division by zero."
     attrs = {}
-
-
-class ConditionTypeError(LanguageException):
-    message_schema = "Condition must be of type boolean, got '{type}'."
-    attrs = {"type": "not specified"}
 
 
 class LanguageFrameStackEmptyError(LanguageException):
