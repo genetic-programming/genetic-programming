@@ -22,11 +22,11 @@ class LanguageException(Exception):
         line_info = self.line_info()
         column_info = self.column_info()
         if not line_info:
-            return f"\033[91mWarning!!!\n\t{self.message}\033[0m"
+            return f"\033[91mError!!!\n\t{self.message}\033[0m"
         elif not column_info:
-            return f"\033[91mWarning {line_info}!!!\n\t{self.message}\033[0m"
+            return f"\033[91mError {line_info}!!!\n\t{self.message}\033[0m"
         else:
-            return f"\033[91mWarning {line_info}, {column_info}!!!\n\t{self.message}\033[0m"
+            return f"\033[91mError {line_info}, {column_info}!!!\n\t{self.message}\033[0m"
 
     def line_info(self) -> str:
         if self.start_line is None or self.stop_line is None:

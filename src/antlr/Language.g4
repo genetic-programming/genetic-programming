@@ -64,6 +64,7 @@ nestedExpression
 literal
     : BOOLEAN_VAL
     | INT_VAL
+    | STRING_VAL
     ;
 
 booleanUnaryOperator
@@ -128,7 +129,10 @@ INT_VAL
     | [1-9][0-9]*
     ;
 
-VARIABLE_NAME
-    : 'v' [0-9]*
+STRING_VAL
+    : '"' .*? '"'
     ;
 
+VARIABLE_NAME
+    : 'v' INT_VAL
+    ;
