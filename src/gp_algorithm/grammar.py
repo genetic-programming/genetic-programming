@@ -73,7 +73,7 @@ GRAMMAR = {
     NodeType.COMPOUND_STATEMENT: NodeData(
         growable=True,
         successors=[[NodeType.STATEMENT]],
-        representation="{{0}}",
+        representation="{}",
     ),
     NodeType.EXPRESSION: NodeData(
         successors=[[NodeType.ATOM]],

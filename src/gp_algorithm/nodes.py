@@ -91,4 +91,4 @@ class LanguageNode(Node):
         else:
             result = self.node_data.representation
 
-        return result.format([child.cast_to_str() for child in self.children])
+        return result.format(*[child.cast_to_str() for child in self.children])
