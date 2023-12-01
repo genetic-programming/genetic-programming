@@ -109,12 +109,14 @@ class Visitor(LanguageVisitor):
         value = ctx.children[0].symbol.text
         if ctx.BOOLEAN_VAL():
             if value == "true":
-                return Expression(bool_value=True)
+                return Expression(True)
             if value == "false":
-                return Expression(bool_value=False)
+                return Expression(False)
             raise NotImplementedError("Unknown boolean value")
         if ctx.INT_VAL():
-            return Expression(int_value=int(value))
+            return Expression(int(value))
+        if ctx.STRING_VAL():
+            return Expression(value[1:-1])
         raise NotImplementedError("Unknown literal type")
 
     def handle_unary_operator(

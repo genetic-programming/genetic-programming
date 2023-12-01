@@ -15,7 +15,7 @@ def serializedATN():
     return [
         4,
         1,
-        29,
+        30,
         136,
         2,
         0,
@@ -324,7 +324,7 @@ def serializedATN():
         1,
         0,
         27,
-        28,
+        29,
         1,
         0,
         8,
@@ -601,7 +601,7 @@ def serializedATN():
         55,
         56,
         5,
-        29,
+        30,
         0,
         0,
         56,
@@ -787,7 +787,7 @@ def serializedATN():
         85,
         89,
         5,
-        29,
+        30,
         0,
         0,
         86,
@@ -1224,6 +1224,7 @@ class LanguageParser(Parser):
         "Read",
         "BOOLEAN_VAL",
         "INT_VAL",
+        "STRING_VAL",
         "VARIABLE_NAME",
     ]
 
@@ -1296,7 +1297,8 @@ class LanguageParser(Parser):
     Read = 26
     BOOLEAN_VAL = 27
     INT_VAL = 28
-    VARIABLE_NAME = 29
+    STRING_VAL = 29
+    VARIABLE_NAME = 30
 
     def __init__(self, input: TokenStream, output: TextIO = sys.stdout):
         super().__init__(input, output)
@@ -1343,7 +1345,7 @@ class LanguageParser(Parser):
             self.state = 39
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            while ((_la) & ~0x3F) == 0 and ((1 << _la) & 1047003304) != 0:
+            while ((_la) & ~0x3F) == 0 and ((1 << _la) & 2120745128) != 0:
                 self.state = 36
                 self.statement()
                 self.state = 41
@@ -1401,7 +1403,7 @@ class LanguageParser(Parser):
             self.state = 48
             self._errHandler.sync(self)
             token = self._input.LA(1)
-            if token in [5, 7, 22, 25, 26, 27, 28, 29]:
+            if token in [5, 7, 22, 25, 26, 27, 28, 29, 30]:
                 self.enterOuterAlt(localctx, 1)
                 self.state = 42
                 self.line()
@@ -1853,11 +1855,11 @@ class LanguageParser(Parser):
                 self.state = 84
                 self.nestedExpression()
                 pass
-            elif token in [29]:
+            elif token in [30]:
                 self.state = 85
                 self.match(LanguageParser.VARIABLE_NAME)
                 pass
-            elif token in [27, 28]:
+            elif token in [27, 28, 29]:
                 self.state = 86
                 self.literal()
                 pass
@@ -2021,6 +2023,9 @@ class LanguageParser(Parser):
         def INT_VAL(self):
             return self.getToken(LanguageParser.INT_VAL, 0)
 
+        def STRING_VAL(self):
+            return self.getToken(LanguageParser.STRING_VAL, 0)
+
         def getRuleIndex(self):
             return LanguageParser.RULE_literal
 
@@ -2046,7 +2051,7 @@ class LanguageParser(Parser):
             self.enterOuterAlt(localctx, 1)
             self.state = 119
             _la = self._input.LA(1)
-            if not (_la == 27 or _la == 28):
+            if not ((((_la) & ~0x3F) == 0 and ((1 << _la) & 939524096) != 0)):
                 self._errHandler.recoverInline(self)
             else:
                 self._errHandler.reportMatch(self)

@@ -11,6 +11,7 @@ from gp_algorithm.interpreter.interpreter import Interpreter
         ("test_1", [], []),
         ("test_2", ["1", "1"], ["8", "6"]),
         ("test_3", [], ["0", "1"]),
+        ("test_4", [], ["hello world", "12", "11"]),
     ],
 )
 def test_interpret_file(
