@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from enum import auto, StrEnum
-from string import ascii_lowercase
+from string import ascii_letters, digits
 
 from pydantic import BaseModel
 
@@ -21,7 +21,6 @@ class NodeType(StrEnum):
     PRINT_STATEMENT = auto()
     READ_STATEMENT = auto()
 
-    VAR_TYPE = auto()
     VAR_NAME = auto()
     LITERAL = auto()
     ATOM = auto()
@@ -30,7 +29,7 @@ class NodeType(StrEnum):
 class NodeData(BaseModel):
     growable: bool = False
     successors: list[list[NodeType]] = []
-    possible_values: list[str] = []
+    possible_types: list[str] = []
     allowed_swaps: set[NodeType] = set()
     representation: str = "{0}"
 
@@ -45,13 +44,13 @@ GRAMMAR = {
             [NodeType.LINE],
             [NodeType.CONDITIONAL_STATEMENT],
             [NodeType.LOOP_STATEMENT],
-            [NodeType.COMPOUND_STATEMENT],
+            # [NodeType.COMPOUND_STATEMENT],
         ],
     ),
     NodeType.LINE: NodeData(
         successors=[
             [NodeType.EXPRESSION],
-            [NodeType.DECLARATION],
+            # [NodeType.DECLARATION],
             [NodeType.ASSIGNMENT],
             [NodeType.PRINT_STATEMENT],
             [NodeType.READ_STATEMENT],
@@ -84,7 +83,7 @@ GRAMMAR = {
     ),
     NodeType.READ_STATEMENT: NodeData(
         successors=[[NodeType.VAR_NAME]],
-        representation="read {0}",
+        representation="{0} = read",
     ),
     NodeType.ATOM: NodeData(
         successors=[
@@ -93,10 +92,9 @@ GRAMMAR = {
         ],
     ),
     NodeType.DECLARATION: NodeData(
-        successors=[[NodeType.VAR_TYPE, NodeType.VAR_NAME]],
-        representation="{0} {1}",
+        successors=[[NodeType.VAR_NAME]],
+        representation="{0}",
     ),
-    NodeType.VAR_TYPE: NodeData(possible_values=["int", "bool", "float"]),
     NodeType.ASSIGNMENT: NodeData(
         successors=[
             [NodeType.DECLARATION, NodeType.VAR_NAME],
@@ -104,6 +102,6 @@ GRAMMAR = {
         ],
         representation="{0} = {1}",
     ),
-    NodeType.VAR_NAME: NodeData(possible_values=list(ascii_lowercase)),
-    NodeType.LITERAL: NodeData(possible_values=["true", "false", "1", "2", "3", ".5", ".1", "1.5"]),
+    NodeType.VAR_NAME: NodeData(possible_types=["variable name"]),
+    NodeType.LITERAL: NodeData(possible_types=["boolean", "integer", "string"]),
 }

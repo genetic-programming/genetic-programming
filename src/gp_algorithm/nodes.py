@@ -7,10 +7,23 @@ from anytree import Node, PreOrderIter
 
 from gp_algorithm.grammar import GRAMMAR, NodeType
 
+from string import ascii_letters
 
-def random_value(node_type: NodeType) -> str:
-    possible_values = GRAMMAR[node_type].possible_values
-    return random.choice(possible_values) if possible_values else None  # noqa: S311
+
+def random_value(node_type: NodeType) -> str | None:
+    possible_types = GRAMMAR[node_type].possible_types
+    if possible_types:
+        match random.choice(possible_types):
+            case "variable name":
+                return random.choice([f"v{i}" for i in range(100)])
+            case "integer":
+                return str(random.randint(-1000, 1000))
+            case "boolean":
+                return random.choice(["true", "false"])
+            case "string":
+                return "\"" + "".join([random.choice(ascii_letters) for _ in range(15)]) + "\""
+    else:
+        return None
 
 
 def create_node_random(node_type: NodeType) -> LanguageNode:
@@ -42,12 +55,12 @@ def swap_parents(node_1: LanguageNode, node_2: LanguageNode) -> None:
 
 class LanguageNode(Node):
     def __init__(
-        self,
-        node_type: NodeType,
-        value: str | None = None,
-        parent: LanguageNode | None = None,
-        children: list[LanguageNode] | None = None,
-        **kwargs: Any,
+            self,
+            node_type: NodeType,
+            value: str | None = None,
+            parent: LanguageNode | None = None,
+            children: list[LanguageNode] | None = None,
+            **kwargs: Any,
     ) -> None:
         self.node_type = node_type
         self.node_data = GRAMMAR[node_type]
@@ -82,13 +95,20 @@ class LanguageNode(Node):
             if not new_node.node_data.growable:
                 new_node.random_init()
 
-    def cast_to_str(self) -> str:
+    def cast_to_str(self, depth: int = 0) -> str:
         if self.value:
             return self.value
 
         if self.node_data.growable:
-            result = " ".join(["{}" for _ in range(len(self.children))])
+            indent = "  " * depth
+            result = f"\n{indent}".join(["{}" for _ in range(len(self.children))])
+            depth += 1
+            result = result.format(*[child.cast_to_str(depth) for child in self.children])
+            if self.node_type == NodeType.COMPOUND_STATEMENT:
+                result = "{\n" + indent + result
+                indent = "  " * (depth - 2)
+                result = result + "\n" + indent + "}"
         else:
             result = self.node_data.representation
-
-        return result.format(*[child.cast_to_str() for child in self.children])
+            result = result.format(*[child.cast_to_str(depth) for child in self.children])
+        return result
