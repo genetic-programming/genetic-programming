@@ -16,7 +16,7 @@ class Individual(LanguageNode):
 
     def mutate(self) -> None:
         mutate_candidates = PreOrderIter(self, filter_=lambda node: node.value is not None)
-        node_to_mutate: LanguageNode = random.choice(list(mutate_candidates))  # noqa: S311
+        node_to_mutate: LanguageNode = random.choice(list(mutate_candidates))
         node_to_mutate.value = random_value(node_to_mutate.node_type)
 
 
@@ -24,7 +24,7 @@ def random_crossover(
     individual_1: Individual,
     individual_2: Individual,
 ) -> None:
-    random_node: LanguageNode = random.choice(list(individual_1.descendants))  # noqa: S311
+    random_node: LanguageNode = random.choice(list(individual_1.descendants))
     allowed_swaps = GRAMMAR[random_node.node_type].allowed_swaps
     allowed_swaps.add(random_node.node_type)
 
@@ -32,7 +32,7 @@ def random_crossover(
     if not swap_candidates:
         return
 
-    node_to_swap: LanguageNode = random.choice(list(swap_candidates))  # noqa: S311
+    node_to_swap: LanguageNode = random.choice(list(swap_candidates))
     swap_parents(random_node, node_to_swap)
 
 

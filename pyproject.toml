@@ -87,8 +87,9 @@ profile = "black"
 
 [tool.flake8]
 # S101 == Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.
+# S311 == Standard pseudo-random generators are not suitable for security/cryptographic purposes.
 # W503 == line break before binary operator. Conflicts with W504 - line break after binary operator.
-ignore = ['S101', 'W503']
+ignore = ['S101', 'S311', 'W503']
 max-line-length = 120
 exclude = ["src/antlr", "src/presentation"]
 extend-ignore = 'E203'

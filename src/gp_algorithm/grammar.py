@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from enum import auto, StrEnum
-from string import ascii_letters, digits
 
 from pydantic import BaseModel
 

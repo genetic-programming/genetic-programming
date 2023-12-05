@@ -54,7 +54,7 @@ from gp_algorithm.nodes import LanguageNode
                     LanguageNode(node_type=NodeType.COMPOUND_STATEMENT),
                 ],
             ),
-            "while 1 ",  # TODO: incorrect, fix this
+            "while 1 {\n\n}",
             id="while 1 {}",
         ),
     ],
