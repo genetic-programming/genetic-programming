@@ -1,5 +1,4 @@
 from antlr.LanguageParser import LanguageParser
-from gp_algorithm.interpreter.exceptions import LanguageException
 from gp_algorithm.interpreter.expression import Expression
 from gp_algorithm.interpreter.parser import Parser
 from gp_algorithm.interpreter.visitor import Visitor
@@ -10,11 +9,12 @@ class Interpreter:
         self,
         parser: Parser | None = None,
         visitor: Visitor | None = None,
-        print_stacktraces: bool = False,
     ) -> None:
         self._parser = parser or Parser()
         self._visitor = visitor or Visitor()
-        self._print_stacktraces = print_stacktraces
+
+    def parse_str(self, data: str) -> Parser.StatementsContext:
+        return self._parser.parse_str(data=data)
 
     def interpret_inputs(self, input_strings: list[list[str]]) -> list[list[Expression]]:
         return [self.interpret_input(input_string) for input_string in input_strings]
@@ -30,20 +30,8 @@ class Interpreter:
         return self.interpret_str(data=data, program_input=program_input)
 
     def interpret_str(self, data: str, program_input: list[Expression]) -> list[str]:
-        tree = self.parse_str(data=data)
+        tree = self._parser.parse_str(data=data)
         return self.interpret_tree(tree=tree, program_input=program_input)
-
-    def parse_str(self, data: str) -> Parser.StatementsContext:
-        tree = self._parser.parse_program(data=data)
-        errors = self._parser.get_errors()
-        for error in errors:
-            self._handle_exception(error)
-        return tree
-
-    def _handle_exception(self, exc: LanguageException) -> None:
-        if self._print_stacktraces:
-            raise exc
-        print(exc)  # noqa: T201
 
     def interpret_tree(
         self,

@@ -76,6 +76,15 @@ class Parser(LanguageParser, RecognizerWithCustomListener):
         self.set_token_stream(data=literal)
         return self.literal()
 
+    def parse_str(self, data: str) -> LanguageParser.StatementsContext:
+        tree = self.parse_program(data=data)
+        errors = self.get_errors()
+        for error in errors:
+            print(error)  # noqa: T201
+        if errors:
+            raise errors[-1]
+        return tree
+
     def parse_program(self, data: str) -> LanguageParser.StatementsContext:
         self.set_token_stream(data=data)
         return self.statements()

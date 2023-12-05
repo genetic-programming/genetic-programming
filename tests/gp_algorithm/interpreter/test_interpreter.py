@@ -8,10 +8,10 @@ from gp_algorithm.interpreter.interpreter import Interpreter
 @pytest.mark.parametrize(
     ("file_name", "inputs", "expected_outputs"),
     [
-        ("test_1", [], []),
-        ("test_2", ["1", "1"], ["8", "6"]),
-        ("test_3", [], ["0", "1"]),
-        ("test_4", [], ["hello world", "12", "11"]),
+        ("test_interpreter_1", [], []),
+        ("test_interpreter_2", ["1", "1"], ["8", "6"]),
+        ("test_interpreter_3", [], ["0", "1"]),
+        ("test_interpreter_4", [], ["hello world", "12", "11"]),
     ],
 )
 def test_interpret_file(
@@ -20,7 +20,7 @@ def test_interpret_file(
     get_input_path: Callable[[str], str],
     expected_outputs: list[str],
 ) -> None:
-    interpreter = Interpreter(print_stacktraces=True)
+    interpreter = Interpreter()
     input_path = get_input_path(file_name)
     program_input = interpreter.interpret_input(input_strings=inputs)
     outputs = interpreter.interpret_file(

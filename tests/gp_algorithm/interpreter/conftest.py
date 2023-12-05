@@ -1,4 +1,3 @@
-from pathlib import Path
 from typing import Callable
 
 import pytest
@@ -13,14 +12,6 @@ def visitor() -> Visitor:
     visitor = Visitor()
     visitor._variable_stack.add_frame()
     return visitor
-
-
-@pytest.fixture()
-def get_input_path() -> Callable[[str], str]:
-    def _(source_file_name: str = "test") -> str:
-        return str(Path(__file__).parent / "inputs" / source_file_name)
-
-    return _
 
 
 @pytest.fixture()

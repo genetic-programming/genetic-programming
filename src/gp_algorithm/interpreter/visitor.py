@@ -65,10 +65,12 @@ class Visitor(LanguageVisitor):
     def visitLoopStatement(self, ctx: LanguageParser.LoopStatementContext) -> None:
         expression_ctx = ctx.expression()
         body_ctx = ctx.compoundStatement()
+        self._statement_left += 1
         while self.check_condition(expression_ctx):
             self.visitCompoundStatement(body_ctx)
 
     def check_condition(self, condition_ctx: LanguageParser.ExpressionContext) -> bool:
+        self._statement_left -= 1
         condition_value: Expression = self.visitExpression(condition_ctx)
         return condition_value == CONST_TRUE
 
