@@ -100,16 +100,16 @@ class LanguageNode(Node):
         if self.value:
             return self.value
 
-        if self.node_data.growable:
-            indent = "  " * depth
-            result = f"\n{indent}".join(["{}" for _ in range(len(self.children))])
-            depth += 1
-            result = result.format(*[child.cast_to_str(depth) for child in self.children])
-            if self.node_type == NodeType.COMPOUND_STATEMENT:
-                result = "{\n" + indent + result
-                indent = "  " * (depth - 2)
-                result = result + "\n" + indent + "}"
-        else:
+        if not self.node_data.growable:
             result = self.node_data.representation
-            result = result.format(*[child.cast_to_str(depth) for child in self.children])
+            return result.format(*[child.cast_to_str(depth) for child in self.children])
+
+        indent = "  " * depth
+        result = f"\n{indent}".join(["{}" for _ in range(len(self.children))])
+        depth += 1
+        result = result.format(*[child.cast_to_str(depth) for child in self.children])
+        if self.node_type == NodeType.COMPOUND_STATEMENT:
+            result = "{\n" + indent + result
+            indent = "  " * (depth - 2)
+            result = result + "\n" + indent + "}"
         return result
