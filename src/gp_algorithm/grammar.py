@@ -96,7 +96,7 @@ GRAMMAR = {
         ],
         representation="{0} = {1}",
     ),
-    NodeType.DECLARATION: NodeData(possible_types=["variable declaration"],),
+    NodeType.DECLARATION: NodeData(possible_types=["variable declaration"]),
     NodeType.VAR_NAME: NodeData(possible_types=["variable name"]),
     NodeType.LITERAL: NodeData(possible_types=["boolean", "integer", "string"]),
 }

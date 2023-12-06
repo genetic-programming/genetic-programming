@@ -8,17 +8,17 @@ from gp_algorithm.nodes import LanguageNode, random_value
 
 class Individual(LanguageNode):
     def __init__(
-            self,
-            size: int = 0,
-            parent: LanguageNode | None = None,
-            children: list[LanguageNode] | None = None,
+        self,
+        size: int = 0,
+        parent: LanguageNode | None = None,
+        children: list[LanguageNode] | None = None,
     ) -> None:
         super().__init__(
             node_type=NodeType.PROGRAM,
             parent=parent,
             children=children,
             free_variables=[f"v{i}" for i in range(100)],
-            declared_variables=[]
+            declared_variables=[],
         )
         for _ in range(size):
             self.grow()

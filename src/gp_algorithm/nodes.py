@@ -10,9 +10,9 @@ from gp_algorithm.grammar import GRAMMAR, NodeType
 
 
 def random_value(
-        node_type: NodeType,
-        free_variables: list[str],
-        declared_variables: list[str]
+    node_type: NodeType,
+    free_variables: list[str],
+    declared_variables: list[str]
 ) -> str | None:
     possible_types = GRAMMAR[node_type].possible_types
     if not possible_types:
@@ -67,14 +67,14 @@ def swap_parents(node_1: LanguageNode, node_2: LanguageNode) -> None:
 
 class LanguageNode(Node):
     def __init__(
-            self,
-            node_type: NodeType,
-            free_variables: list[str] | None = None,
-            declared_variables: list[str] | None = None,
-            value: str | None = None,
-            parent: LanguageNode | None = None,
-            children: list[LanguageNode] | None = None,
-            **kwargs: Any,
+        self,
+        node_type: NodeType,
+        free_variables: list[str] | None = None,
+        declared_variables: list[str] | None = None,
+        value: str | None = None,
+        parent: LanguageNode | None = None,
+        children: list[LanguageNode] | None = None,
+        **kwargs: Any,
     ) -> None:
         self.node_type = node_type
         self.node_data = GRAMMAR[node_type]
@@ -146,9 +146,8 @@ class LanguageNode(Node):
 
     def draw_new_nodes_types(self, successors: list[list[NodeType]]) -> list[NodeType]:
         new_nodes_types = random.choice(successors)
-        while (
-                (NodeType.VAR_NAME in new_nodes_types and not self.declared_variables) or
-                (NodeType.ASSIGNMENT in new_nodes_types and not self.free_variables)
+        while (NodeType.VAR_NAME in new_nodes_types and not self.declared_variables) or (
+            NodeType.ASSIGNMENT in new_nodes_types and not self.free_variables
         ):
             new_nodes_types = random.choice(successors)
         return new_nodes_types
