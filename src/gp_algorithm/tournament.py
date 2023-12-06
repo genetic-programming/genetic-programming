@@ -1,6 +1,8 @@
 from typing import Callable, Generator
 
 from gp_algorithm.individual import Individual
+from gp_algorithm.interpreter.interpreter import Interpreter
+from gp_algorithm.utils import calculate_fitness
 
 
 class Tournament:
@@ -30,7 +32,10 @@ class Tournament:
         best_individual = None
 
         for individual in chunk:
-            value = self.fitness_function(individual)
+            try:
+                value = calculate_fitness(interpreter=Interpreter(),individual=individual,fitness_function=self.fitness_function, input_strings=["1"]*100)
+            except Exception:
+                continue
             if value <= max_value:
                 continue
             max_value = value

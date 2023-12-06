@@ -85,8 +85,10 @@ class IndividualBuilder(LanguageVisitor):
         self._current_node = new_expression
         if ctx.VARIABLE_NAME():
             self.add_var_name(ctx.VARIABLE_NAME().getText())
+            return
         if ctx.Read():
             self.add_read()
+            return
         super().visitExpression(ctx)
         self._current_node = self._current_node.parent
 

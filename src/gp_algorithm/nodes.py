@@ -22,7 +22,7 @@ def random_value(node_type: NodeType, free_variables: list[str], declared_variab
         case "variable name":
             return random.choice(declared_variables)
         case "integer":
-            return str(random.randint(-1000, 1000))
+            return str(random.randint(0, 1000))
         case "boolean":
             return random.choice(["true", "false"])
         case "string":
