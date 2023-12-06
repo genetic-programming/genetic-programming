@@ -9,11 +9,7 @@ from anytree import Node, PreOrderIter
 from gp_algorithm.grammar import GRAMMAR, NodeType
 
 
-def random_value(
-    node_type: NodeType,
-    free_variables: list[str],
-    declared_variables: list[str]
-) -> str | None:
+def random_value(node_type: NodeType, free_variables: list[str], declared_variables: list[str]) -> str | None:
     possible_types = GRAMMAR[node_type].possible_types
     if not possible_types:
         return None
