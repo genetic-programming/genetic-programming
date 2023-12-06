@@ -11,8 +11,8 @@ from gp_algorithm.nodes import LanguageNode, swap_parents
 
 
 def random_crossover(
-    individual_1: Individual,
-    individual_2: Individual,
+        individual_1: Individual,
+        individual_2: Individual,
 ) -> None:
     random_node: LanguageNode = random.choice(list(individual_1.descendants))
     allowed_swaps = GRAMMAR[random_node.node_type].allowed_swaps
@@ -27,10 +27,10 @@ def random_crossover(
 
 
 def calculate_fitness(
-    interpreter: Interpreter,
-    individual: Individual,
-    fitness_function: Callable[[list[list[str]]], float],
-    input_strings: list[list[str]],
+        interpreter: Interpreter,
+        individual: Individual,
+        fitness_function: Callable[[list[list[str]]], float],
+        input_strings: list[list[str]],
 ) -> float:
     individual_as_str = individual.cast_to_str()
     parsed_individual = interpreter.parse_str(data=individual_as_str)
@@ -52,3 +52,8 @@ def build_individual_from_file(file_path: str) -> Individual:
         data = file.read()
 
     return individual_builder.build_from_parser_str(data=data)
+
+
+def save_individual_to_file(individual: Individual, file_path: str) -> None:
+    with open(file_path, "w") as file:
+        file.write(individual.cast_to_str())

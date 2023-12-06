@@ -49,7 +49,6 @@ GRAMMAR = {
     NodeType.LINE: NodeData(
         successors=[
             [NodeType.EXPRESSION],
-            # [NodeType.DECLARATION],
             [NodeType.ASSIGNMENT],
             [NodeType.PRINT_STATEMENT],
             [NodeType.READ_STATEMENT],
@@ -81,7 +80,7 @@ GRAMMAR = {
         representation="print {0}",
     ),
     NodeType.READ_STATEMENT: NodeData(
-        successors=[[NodeType.VAR_NAME]],
+        successors=[[NodeType.DECLARATION]],
         representation="{0} = read",
     ),
     NodeType.ATOM: NodeData(
@@ -90,10 +89,6 @@ GRAMMAR = {
             [NodeType.LITERAL],
         ],
     ),
-    NodeType.DECLARATION: NodeData(
-        successors=[[NodeType.VAR_NAME]],
-        representation="{0}",
-    ),
     NodeType.ASSIGNMENT: NodeData(
         successors=[
             [NodeType.DECLARATION, NodeType.VAR_NAME],
@@ -101,6 +96,7 @@ GRAMMAR = {
         ],
         representation="{0} = {1}",
     ),
+    NodeType.DECLARATION: NodeData(possible_types=["variable declaration"],),
     NodeType.VAR_NAME: NodeData(possible_types=["variable name"]),
     NodeType.LITERAL: NodeData(possible_types=["boolean", "integer", "string"]),
 }
