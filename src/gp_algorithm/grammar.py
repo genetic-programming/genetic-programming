@@ -18,7 +18,7 @@ class NodeType(StrEnum):
     DECLARATION = auto()
     ASSIGNMENT = auto()
     PRINT_STATEMENT = auto()
-    READ_STATEMENT = auto()
+    READ = auto()
 
     VAR_NAME = auto()
     LITERAL = auto()
@@ -51,7 +51,6 @@ GRAMMAR = {
             [NodeType.EXPRESSION],
             [NodeType.ASSIGNMENT],
             [NodeType.PRINT_STATEMENT],
-            [NodeType.READ_STATEMENT],
         ],
         representation="{0};",
     ),
@@ -73,13 +72,13 @@ GRAMMAR = {
         representation="{}",
     ),
     NodeType.EXPRESSION: NodeData(
-        successors=[[NodeType.ATOM]],
+        successors=[[NodeType.ATOM], [NodeType.READ]],
     ),
     NodeType.PRINT_STATEMENT: NodeData(
         successors=[[NodeType.EXPRESSION]],
         representation="print {0}",
     ),
-    NodeType.READ_STATEMENT: NodeData(representation="read"),
+    NodeType.READ: NodeData(representation="read"),
     NodeType.ATOM: NodeData(
         successors=[
             [NodeType.VAR_NAME],

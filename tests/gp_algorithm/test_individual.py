@@ -164,7 +164,7 @@ from gp_algorithm.utils import build_individual_from_file
                             LanguageNode(
                                 node_type=NodeType.LINE,
                                 children=[
-                                    LanguageNode(node_type=NodeType.READ_STATEMENT),
+                                    LanguageNode(node_type=NodeType.READ),
                                 ],
                             ),
                         ],

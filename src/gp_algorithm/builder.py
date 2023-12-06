@@ -138,7 +138,7 @@ class IndividualBuilder(LanguageVisitor):
         new_var_name.parent = self._current_node
 
     def add_read(self) -> None:
-        new_var_name = LanguageNode(node_type=NodeType.READ_STATEMENT)
+        new_var_name = LanguageNode(node_type=NodeType.READ)
         new_var_name.parent = self._current_node
 
 
