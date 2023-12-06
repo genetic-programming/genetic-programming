@@ -79,10 +79,7 @@ GRAMMAR = {
         successors=[[NodeType.EXPRESSION]],
         representation="print {0}",
     ),
-    NodeType.READ_STATEMENT: NodeData(
-        successors=[[NodeType.DECLARATION]],
-        representation="{0} = read",
-    ),
+    NodeType.READ_STATEMENT: NodeData(representation="read"),
     NodeType.ATOM: NodeData(
         successors=[
             [NodeType.VAR_NAME],

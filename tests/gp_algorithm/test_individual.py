@@ -154,6 +154,25 @@ from gp_algorithm.utils import build_individual_from_file
             ),
             id="print v0;",
         ),
+        pytest.param(
+            "test_5",
+            Individual(
+                children=[
+                    LanguageNode(
+                        node_type=NodeType.STATEMENT,
+                        children=[
+                            LanguageNode(
+                                node_type=NodeType.LINE,
+                                children=[
+                                    LanguageNode(node_type=NodeType.READ_STATEMENT),
+                                ],
+                            ),
+                        ],
+                    ),
+                ],
+            ),
+            id="read;",
+        ),
     ],
 )
 def test_build_individual_from_file(
