@@ -1,4 +1,3 @@
-from gp_algorithm.interpreter.exceptions import LanguageFrameStackEmptyError, VariableUndeclaredError
 from gp_algorithm.interpreter.expression import Expression
 
 
@@ -14,14 +13,9 @@ class VariableStack:
         self.frames_stacks.append({})
 
     def pop_frame(self) -> None:
-        if len(self.frames_stacks) == 0:
-            raise LanguageFrameStackEmptyError(failed_event="pop subframe")
         self.frames_stacks.pop()
 
     def set_var(self, var_name: str, expr: Expression) -> None:
-        if len(self.frames_stacks) == 0:
-            raise LanguageFrameStackEmptyError(failed_event="declare variable")
-
         for frame in self.frames_stacks:
             var = frame.get(var_name)
             if var is not None:
@@ -29,13 +23,10 @@ class VariableStack:
 
         self.current_frame[var_name] = expr
 
-    def get_var(self, var_name: str) -> Expression:
-        if len(self.frames_stacks) == 0:
-            raise LanguageFrameStackEmptyError(failed_event="get variable value")
-
+    def get_var(self, var_name: str) -> Expression | None:
         for frame in reversed(self.frames_stacks):
             var = frame.get(var_name)
             if var is not None:
                 return var
 
-        raise VariableUndeclaredError(name=var_name)
+        return None

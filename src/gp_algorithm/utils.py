@@ -7,22 +7,39 @@ from gp_algorithm.builder import individual_builder
 from gp_algorithm.grammar import GRAMMAR
 from gp_algorithm.individual import Individual
 from gp_algorithm.interpreter.interpreter import Interpreter
-from gp_algorithm.nodes import LanguageNode, swap_parents
+from gp_algorithm.node import LanguageNode
 
 
-def random_crossover(
-    individual_1: Individual,
-    individual_2: Individual,
-) -> None:
-    random_node: LanguageNode = random.choice(list(individual_1.descendants))
+def swap_parents(node_1: LanguageNode, node_2: LanguageNode) -> None:
+    parent_1 = node_1.parent
+    parent_2 = node_2.parent
+    children_1 = parent_1.children
+    children_2 = parent_2.children
+
+    children_1 = list(children_1)
+    index_1 = children_1.index(node_1)
+    children_1[index_1] = node_2
+    children_1 = tuple(children_1)
+
+    children_2 = list(children_2)
+    index_2 = children_2.index(node_2)
+    children_2[index_2] = node_1
+    children_2 = tuple(children_2)
+
+    parent_1.children = children_1
+    parent_2.children = children_2
+
+
+def random_crossover(individual_1: Individual, individual_2: Individual) -> None:
+    random_node: LanguageNode = random.choice(list(individual_1.descendants)[1:])
     allowed_swaps = GRAMMAR[random_node.node_type].allowed_swaps
-    allowed_swaps.add(random_node.node_type)
 
-    swap_candidates = PreOrderIter(individual_2, filter_=lambda node: node.node_type in allowed_swaps)
+    swap_candidates_generator = PreOrderIter(individual_2, filter_=lambda node: node.node_type in allowed_swaps)
+    swap_candidates = list(swap_candidates_generator)
     if not swap_candidates:
         return
 
-    node_to_swap: LanguageNode = random.choice(list(swap_candidates))
+    node_to_swap: LanguageNode = random.choice(swap_candidates)
     swap_parents(random_node, node_to_swap)
 
 
@@ -32,7 +49,7 @@ def calculate_fitness(
     fitness_function: Callable[[list[list[str]]], float],
     input_strings: list[list[str]],
 ) -> float:
-    individual_as_str = individual.cast_to_str()
+    individual_as_str = individual.build_str()
     parsed_individual = interpreter.parse_str(data=individual_as_str)
     program_inputs = interpreter.interpret_inputs(input_strings=input_strings)
 
@@ -55,5 +72,5 @@ def build_individual_from_file(file_path: str) -> Individual:
 
 
 def save_individual_to_file(individual: Individual, file_path: str) -> None:
-    with open(file_path, "w") as file:
-        file.write(individual.cast_to_str())
+    with open(file_path, "w+") as file:
+        file.write(str(individual))

@@ -6,7 +6,7 @@ from gp_algorithm.grammar import NodeType
 from gp_algorithm.individual import Individual
 from gp_algorithm.interpreter.exceptions import LanguageSyntaxError
 from gp_algorithm.interpreter.parser import Parser
-from gp_algorithm.nodes import LanguageNode
+from gp_algorithm.node import LanguageNode
 
 
 class IndividualBuilder(LanguageVisitor):
@@ -22,123 +22,158 @@ class IndividualBuilder(LanguageVisitor):
     def build_from_parser_str(self, data: str) -> Individual:
         self._individual = Individual()
         self._current_node = self._individual
+
         tree = self._parser.parse_str(data=data)
+
+        self._current_node.value = " ".join([f"{{{i}}}" for i in range(tree.getChildCount())])
+
         self.visit(tree)
+
         return self._individual
 
     # PRIMARY EXPRESSION
-    def visitStatement(self, ctx: LanguageParser.StatementContext) -> None:
-        new_statement = LanguageNode(node_type=NodeType.STATEMENT)
-        new_statement.parent = self._current_node
-        self._current_node = new_statement
-        super().visitStatement(ctx)
-        self._current_node = self._current_node.parent
-
-    def visitLine(self, ctx: LanguageParser.LineContext) -> None:
-        new_line = LanguageNode(node_type=NodeType.LINE)
-        new_line.parent = self._current_node
-        self._current_node = new_line
-        super().visitLine(ctx)
-        self._current_node = self._current_node.parent
-
-    def visitAssignment(self, ctx: LanguageParser.AssignmentContext) -> None:
-        new_assignment = LanguageNode(node_type=NodeType.ASSIGNMENT)
-        new_assignment.parent = self._current_node
-        self._current_node = new_assignment
-        self.add_var_name(ctx.VARIABLE_NAME().getText())
-        super().visitAssignment(ctx)
-        self._current_node = self._current_node.parent
-
-    # STATEMENTS
     def visitConditionalStatement(self, ctx: LanguageParser.ConditionalStatementContext) -> None:
-        new_conditional_statement = LanguageNode(node_type=NodeType.CONDITIONAL_STATEMENT)
+        new_conditional_statement = LanguageNode(
+            node_type=NodeType.STATEMENT,
+            value="if {0} {{{1}}} else {{{2}}}",
+        )
         new_conditional_statement.parent = self._current_node
+
         self._current_node = new_conditional_statement
-        super().visitConditionalStatement(ctx)
+        self.visitExpression(ctx.expression())
+        self.visitCompoundStatement(ctx.compoundStatement(0))
+        self.visitCompoundStatement(ctx.compoundStatement(1))
         self._current_node = self._current_node.parent
 
     def visitLoopStatement(self, ctx: LanguageParser.LoopStatementContext) -> None:
-        new_loop_statement = LanguageNode(node_type=NodeType.LOOP_STATEMENT)
+        new_loop_statement = LanguageNode(
+            node_type=NodeType.STATEMENT,
+            value="while {0} {{{1}}}",
+        )
         new_loop_statement.parent = self._current_node
+
         self._current_node = new_loop_statement
-        super().visitLoopStatement(ctx)
+        self.visitExpression(ctx.expression())
+        self.visitCompoundStatement(ctx.compoundStatement())
         self._current_node = self._current_node.parent
 
     def visitCompoundStatement(self, ctx: LanguageParser.CompoundStatementContext) -> None:
-        new_compound_statement = LanguageNode(node_type=NodeType.COMPOUND_STATEMENT)
+        children_number = len(
+            list(ctx.statements().getChildren(lambda child: isinstance(child, LanguageParser.StatementContext))),
+        )
+        new_compound_statement = LanguageNode(
+            node_type=NodeType.STATEMENTS,
+            value=" ".join([f"{{{i}}}" for i in range(children_number)]),
+        )
         new_compound_statement.parent = self._current_node
+
         self._current_node = new_compound_statement
-        super().visitCompoundStatement(ctx)
+        self.visitStatements(ctx.statements())
+        self._current_node = self._current_node.parent
+
+    def visitAssignment(self, ctx: LanguageParser.AssignmentContext) -> None:
+        new_assignment = LanguageNode(
+            node_type=NodeType.STATEMENT,
+            value="{0} = {1};",
+        )
+        new_assignment.parent = self._current_node
+
+        self._current_node = new_assignment
+        self.add_var_name(ctx.VARIABLE_NAME().getText())
+        self.visitExpression(ctx.expression())
         self._current_node = self._current_node.parent
 
     def visitPrintStatement(self, ctx: LanguageParser.PrintStatementContext) -> None:
-        new_print_statement = LanguageNode(node_type=NodeType.PRINT_STATEMENT)
+        new_print_statement = LanguageNode(
+            node_type=NodeType.STATEMENT,
+            value="print {0};",
+        )
         new_print_statement.parent = self._current_node
+
         self._current_node = new_print_statement
-        super().visitPrintStatement(ctx)
+        self.visitExpression(ctx.expression())
         self._current_node = self._current_node.parent
 
     # EXPRESSIONS
     def visitExpression(self, ctx: LanguageParser.ExpressionContext) -> None:
-        new_expression = LanguageNode(node_type=NodeType.EXPRESSION)
-        new_expression.parent = self._current_node
-        self._current_node = new_expression
         if ctx.VARIABLE_NAME():
             self.add_var_name(ctx.VARIABLE_NAME().getText())
-        if ctx.Read():
-            self.add_read()
+            return
+
+        if not ctx.nestedExpression() and ctx.getChildCount() == 1:
+            super().visitExpression(ctx)
+            return
+
+        new_expression = LanguageNode(node_type=NodeType.EXPRESSION)
+        new_expression.parent = self._current_node
+
+        self._current_node = new_expression
         super().visitExpression(ctx)
         self._current_node = self._current_node.parent
 
+    def visitBooleanUnaryOperator(self, ctx: LanguageParser.BooleanUnaryOperatorContext) -> None:
+        self._current_node.value = "{0} {1}"
+        new = LanguageNode(node_type=NodeType.UNARY_OPERATOR, value=ctx.getText())
+        new.parent = self._current_node
+
+    def visitNumericUnaryOperator(self, ctx: LanguageParser.NumericUnaryOperatorContext) -> None:
+        self._current_node.value = "{0}{1}"
+        new = LanguageNode(node_type=NodeType.UNARY_OPERATOR, value=ctx.getText())
+        new.parent = self._current_node
+
+    def visitMultiplicationOperator(self, ctx: LanguageParser.MultiplicationOperatorContext) -> None:
+        self._current_node.value = "{0} {1} {2}"
+        new = LanguageNode(node_type=NodeType.BINARY_OPERATOR, value=ctx.getText())
+        new.parent = self._current_node
+
+    def visitAdditionOperator(self, ctx: LanguageParser.AdditionOperatorContext) -> None:
+        self._current_node.value = "{0} {1} {2}"
+        new = LanguageNode(node_type=NodeType.BINARY_OPERATOR, value=ctx.getText())
+        new.parent = self._current_node
+
+    def visitComparisonOperator(self, ctx: LanguageParser.ComparisonOperatorContext) -> None:
+        self._current_node.value = "{0} {1} {2}"
+        new = LanguageNode(node_type=NodeType.BINARY_OPERATOR, value=ctx.getText())
+        new.parent = self._current_node
+
+    def visitAndOperator(self, ctx: LanguageParser.AndOperatorContext) -> None:
+        self._current_node.value = "{0} {1} {2}"
+        new = LanguageNode(node_type=NodeType.BINARY_OPERATOR, value=ctx.getText())
+        new.parent = self._current_node
+
+    def visitOrOperator(self, ctx: LanguageParser.OrOperatorContext) -> None:
+        self._current_node.value = "{0} {1} {2}"
+        new = LanguageNode(node_type=NodeType.BINARY_OPERATOR, value=ctx.getText())
+        new.parent = self._current_node
+
+    def visitNestedExpression(self, ctx: LanguageParser.NestedExpressionContext) -> None:
+        self._current_node.value = "({0})"
+        self.visitExpression(ctx.expression())
+
     def visitLiteral(self, ctx: LanguageParser.LiteralContext) -> None:
         if ctx.BOOLEAN_VAL():
-            new_literal = LanguageNode(node_type=NodeType.LITERAL, value=ctx.BOOLEAN_VAL().getText())
+            new_literal = LanguageNode(node_type=NodeType.LITERAL_BOOL, value=ctx.BOOLEAN_VAL().getText())
             new_literal.parent = self._current_node
             return
 
         if ctx.INT_VAL():
-            new_literal = LanguageNode(node_type=NodeType.LITERAL, value=ctx.INT_VAL().getText())
+            new_literal = LanguageNode(node_type=NodeType.LITERAL_INT, value=ctx.INT_VAL().getText())
             new_literal.parent = self._current_node
             return
 
         if ctx.STRING_VAL():
-            new_literal = LanguageNode(node_type=NodeType.LITERAL, value=ctx.STRING_VAL().getText())
+            new_literal = LanguageNode(node_type=NodeType.LITERAL_STR, value=ctx.STRING_VAL().getText())
             new_literal.parent = self._current_node
             return
 
         raise NotImplementedError("Unknown literal type")
-
-    def visitBooleanUnaryOperator(self, ctx: LanguageParser.BooleanUnaryOperatorContext) -> str:
-        return ctx.children[0].symbol.text
-
-    def visitNumericUnaryOperator(self, ctx: LanguageParser.NumericUnaryOperatorContext) -> str:
-        return ctx.children[0].symbol.text
-
-    def visitMultiplicationOperator(self, ctx: LanguageParser.MultiplicationOperatorContext) -> str:
-        return ctx.children[0].symbol.text
-
-    def visitAdditionOperator(self, ctx: LanguageParser.AdditionOperatorContext) -> str:
-        return ctx.children[0].symbol.text
-
-    def visitComparisonOperator(self, ctx: LanguageParser.ComparisonOperatorContext) -> str:
-        return ctx.children[0].symbol.text
-
-    def visitAndOperator(self, ctx: LanguageParser.AndOperatorContext) -> str:
-        return ctx.children[0].symbol.text
-
-    def visitOrOperator(self, ctx: LanguageParser.OrOperatorContext) -> str:
-        return ctx.children[0].symbol.text
 
     def visitErrorNode(self, error_node: ErrorNodeImpl) -> None:
         exc = LanguageSyntaxError(extra_info=str(error_node))
         exc.inject_context_to_exc(error_node.parentCtx)
 
     def add_var_name(self, var_name: str) -> None:
-        new_var_name = LanguageNode(node_type=NodeType.VAR_NAME, value=var_name)
-        new_var_name.parent = self._current_node
-
-    def add_read(self) -> None:
-        new_var_name = LanguageNode(node_type=NodeType.READ)
+        new_var_name = LanguageNode(node_type=NodeType.VARIABLE_NAME, value=var_name)
         new_var_name.parent = self._current_node
 
 

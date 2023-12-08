@@ -54,7 +54,6 @@ expression
     | nestedExpression
     | VARIABLE_NAME
     | literal
-    | Read
     ;
 
 nestedExpression
@@ -117,7 +116,6 @@ And: 'and';
 Or: 'or';
 
 Print: 'print';
-Read: 'read';
 
 BOOLEAN_VAL
     : 'true'

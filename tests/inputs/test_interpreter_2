@@ -12,8 +12,8 @@ while v0 > 0 {
 }
 
 print v1;
-v0 = read;
-v0 = read;
+v2;
+v3;
 
-if v0 == 5 { print 5; }
+if v3 == 5 { print 5; }
 else { print 6; }

@@ -6,93 +6,135 @@ from pydantic import BaseModel
 
 
 class NodeType(StrEnum):
-    PROGRAM = auto()
+    STATEMENTS = auto()
     STATEMENT = auto()
-
-    LINE = auto()
-    CONDITIONAL_STATEMENT = auto()
-    LOOP_STATEMENT = auto()
-    COMPOUND_STATEMENT = auto()
-
     EXPRESSION = auto()
-    DECLARATION = auto()
-    ASSIGNMENT = auto()
-    PRINT_STATEMENT = auto()
-    READ = auto()
+    UNARY_OPERATOR = auto()
+    BINARY_OPERATOR = auto()
+    VARIABLE_NAME = auto()
+    LITERAL_BOOL = auto()
+    LITERAL_INT = auto()
+    LITERAL_STR = auto()
 
-    VAR_NAME = auto()
-    LITERAL = auto()
-    ATOM = auto()
+
+class NodeSuccessor(BaseModel):
+    weight: int = 1
+    template: str = "{0}"
+    children: list[NodeType]
 
 
 class NodeData(BaseModel):
     growable: bool = False
-    successors: list[list[NodeType]] = []
-    possible_types: list[str] = []
     allowed_swaps: set[NodeType] = set()
-    representation: str = "{0}"
+    successors: list[NodeSuccessor] = []
 
 
 GRAMMAR = {
-    NodeType.PROGRAM: NodeData(
+    NodeType.STATEMENTS: NodeData(
         growable=True,
-        successors=[[NodeType.STATEMENT]],
+        successors=[
+            NodeSuccessor(children=[NodeType.STATEMENT]),
+        ],
     ),
     NodeType.STATEMENT: NodeData(
+        allowed_swaps={NodeType.STATEMENT},
         successors=[
-            [NodeType.LINE],
-            [NodeType.CONDITIONAL_STATEMENT],
-            [NodeType.LOOP_STATEMENT],
-            # [NodeType.COMPOUND_STATEMENT],
+            NodeSuccessor(
+                weight=2,
+                template="{0} = {1};",
+                children=[NodeType.VARIABLE_NAME, NodeType.EXPRESSION],
+            ),
+            NodeSuccessor(
+                weight=2,
+                template="print {0};",
+                children=[NodeType.EXPRESSION],
+            ),
+            NodeSuccessor(
+                weight=2,
+                template="if {0} {{{1}}} else {{{2}}}",
+                children=[NodeType.EXPRESSION, NodeType.STATEMENTS, NodeType.STATEMENTS],
+            ),
+            NodeSuccessor(
+                weight=2,
+                template="while {0} {{{1}}}",
+                children=[NodeType.EXPRESSION, NodeType.STATEMENTS],
+            ),
+            NodeSuccessor(
+                weight=0,
+                template="{{{0}}}",
+                children=[NodeType.STATEMENTS],
+            ),
         ],
-    ),
-    NodeType.LINE: NodeData(
-        successors=[
-            [NodeType.EXPRESSION],
-            [NodeType.ASSIGNMENT],
-            [NodeType.PRINT_STATEMENT],
-        ],
-        representation="{0};",
-    ),
-    NodeType.CONDITIONAL_STATEMENT: NodeData(
-        successors=[
-            [NodeType.EXPRESSION, NodeType.COMPOUND_STATEMENT],
-            # [NodeType.EXPRESSION, NodeType.COMPOUND_STATEMENT, NodeType.COMPOUND_STATEMENT],
-        ],
-        representation="if {0} {1}",
-        # representation="if {0} {1} else {2}",
-    ),
-    NodeType.LOOP_STATEMENT: NodeData(
-        successors=[[NodeType.EXPRESSION, NodeType.COMPOUND_STATEMENT]],
-        representation="while {0} {1}",
-    ),
-    NodeType.COMPOUND_STATEMENT: NodeData(
-        growable=True,
-        successors=[[NodeType.STATEMENT]],
-        representation="{}",
     ),
     NodeType.EXPRESSION: NodeData(
-        successors=[[NodeType.ATOM], [NodeType.READ]],
-    ),
-    NodeType.PRINT_STATEMENT: NodeData(
-        successors=[[NodeType.EXPRESSION]],
-        representation="print {0}",
-    ),
-    NodeType.READ: NodeData(representation="read"),
-    NodeType.ATOM: NodeData(
+        allowed_swaps={
+            NodeType.EXPRESSION,
+            NodeType.LITERAL_BOOL,
+            NodeType.LITERAL_INT,
+            NodeType.LITERAL_STR,
+        },
         successors=[
-            [NodeType.VAR_NAME],
-            [NodeType.LITERAL],
+            NodeSuccessor(
+                weight=1,
+                template="{0} {1}",
+                children=[NodeType.UNARY_OPERATOR, NodeType.EXPRESSION],
+            ),
+            NodeSuccessor(
+                weight=2,
+                template="{0} {1} {2}",
+                children=[NodeType.EXPRESSION, NodeType.BINARY_OPERATOR, NodeType.EXPRESSION],
+            ),
+            NodeSuccessor(
+                weight=2,
+                template="({0})",
+                children=[NodeType.EXPRESSION],
+            ),
+            NodeSuccessor(
+                weight=4,
+                children=[NodeType.VARIABLE_NAME],
+            ),
+            NodeSuccessor(
+                weight=2,
+                children=[NodeType.LITERAL_BOOL],
+            ),
+            NodeSuccessor(
+                weight=2,
+                children=[NodeType.LITERAL_INT],
+            ),
+            NodeSuccessor(
+                weight=0,
+                children=[NodeType.LITERAL_STR],
+            ),
         ],
     ),
-    NodeType.ASSIGNMENT: NodeData(
-        successors=[
-            [NodeType.DECLARATION, NodeType.VAR_NAME],
-            [NodeType.DECLARATION, NodeType.EXPRESSION],
-        ],
-        representation="{0} = {1}",
+    NodeType.UNARY_OPERATOR: NodeData(
+        allowed_swaps={NodeType.UNARY_OPERATOR},
     ),
-    NodeType.DECLARATION: NodeData(possible_types=["variable declaration"]),
-    NodeType.VAR_NAME: NodeData(possible_types=["variable name"]),
-    NodeType.LITERAL: NodeData(possible_types=["boolean", "integer", "string"]),
+    NodeType.BINARY_OPERATOR: NodeData(
+        allowed_swaps={NodeType.BINARY_OPERATOR},
+    ),
+    NodeType.VARIABLE_NAME: NodeData(
+        allowed_swaps={NodeType.VARIABLE_NAME},
+    ),
+    NodeType.LITERAL_BOOL: NodeData(
+        allowed_swaps={
+            NodeType.LITERAL_INT,
+            NodeType.LITERAL_BOOL,
+            NodeType.LITERAL_STR,
+        },
+    ),
+    NodeType.LITERAL_INT: NodeData(
+        allowed_swaps={
+            NodeType.LITERAL_INT,
+            NodeType.LITERAL_BOOL,
+            NodeType.LITERAL_STR,
+        },
+    ),
+    NodeType.LITERAL_STR: NodeData(
+        allowed_swaps={
+            NodeType.LITERAL_INT,
+            NodeType.LITERAL_BOOL,
+            NodeType.LITERAL_STR,
+        },
+    ),
 }
