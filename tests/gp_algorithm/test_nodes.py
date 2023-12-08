@@ -1,7 +1,7 @@
 import pytest
 
-from gp_algorithm.grammar import NodeType
 from gp_algorithm.node import LanguageNode
+from gp_algorithm.tree_config import NodeType
 
 
 @pytest.mark.parametrize(

@@ -3,8 +3,8 @@ from typing import Any
 
 from anytree import PreOrderIter
 
-from gp_algorithm.grammar import NodeType
 from gp_algorithm.node import LanguageNode
+from gp_algorithm.tree_config import NodeType
 
 
 class Individual(LanguageNode):

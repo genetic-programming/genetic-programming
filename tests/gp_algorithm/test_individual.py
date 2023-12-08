@@ -2,9 +2,9 @@ from typing import Callable
 
 import pytest
 
-from gp_algorithm.grammar import NodeType
 from gp_algorithm.individual import Individual
 from gp_algorithm.node import LanguageNode
+from gp_algorithm.tree_config import NodeType
 from gp_algorithm.utils import build_individual_from_file
 
 

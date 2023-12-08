@@ -2,11 +2,11 @@ from antlr4.tree.Tree import ErrorNodeImpl
 
 from antlr.LanguageParser import LanguageParser
 from antlr.LanguageVisitor import LanguageVisitor
-from gp_algorithm.grammar import NodeType
 from gp_algorithm.individual import Individual
 from gp_algorithm.interpreter.exceptions import LanguageSyntaxError
 from gp_algorithm.interpreter.parser import Parser
 from gp_algorithm.node import LanguageNode
+from gp_algorithm.tree_config import NodeType
 
 
 class IndividualBuilder(LanguageVisitor):

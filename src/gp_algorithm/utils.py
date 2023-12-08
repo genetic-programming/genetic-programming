@@ -4,10 +4,11 @@ from typing import Callable
 from anytree import PreOrderIter
 
 from gp_algorithm.builder import individual_builder
-from gp_algorithm.grammar import GRAMMAR
 from gp_algorithm.individual import Individual
+from gp_algorithm.interpreter.exceptions import LanguageException
 from gp_algorithm.interpreter.interpreter import Interpreter
 from gp_algorithm.node import LanguageNode
+from gp_algorithm.tree_config import TREE_CONFIG
 
 
 def swap_parents(node_1: LanguageNode, node_2: LanguageNode) -> None:
@@ -32,7 +33,7 @@ def swap_parents(node_1: LanguageNode, node_2: LanguageNode) -> None:
 
 def random_crossover(individual_1: Individual, individual_2: Individual) -> None:
     random_node: LanguageNode = random.choice(list(individual_1.descendants)[1:])
-    allowed_swaps = GRAMMAR[random_node.node_type].allowed_swaps
+    allowed_swaps = TREE_CONFIG[random_node.node_type].allowed_swaps
 
     swap_candidates_generator = PreOrderIter(individual_2, filter_=lambda node: node.node_type in allowed_swaps)
     swap_candidates = list(swap_candidates_generator)
@@ -55,10 +56,13 @@ def calculate_fitness(
 
     outputs = []
     for program_input in program_inputs:
-        output = interpreter.interpret_tree(
-            tree=parsed_individual,
-            program_input=program_input,
-        )
+        try:
+            output = interpreter.interpret_tree(
+                tree=parsed_individual,
+                program_input=program_input,
+            )
+        except LanguageException:
+            return float("inf")
         outputs.append(output)
 
     return fitness_function(outputs)
