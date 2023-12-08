@@ -40,10 +40,7 @@ class Visitor(LanguageVisitor):
 
     def visitStatement(self, ctx: LanguageParser.StatementContext) -> None:
         self._statement_left -= 1
-        if self._statement_left < 0:
-            exc = TooManyStatements()
-            exc.inject_context_to_exc(ctx)
-            raise exc
+        self.check_statement_count(ctx)
         return super().visitStatement(ctx)
 
     def visitAssignment(self, ctx: LanguageParser.AssignmentContext) -> None:
@@ -71,6 +68,7 @@ class Visitor(LanguageVisitor):
 
     def check_condition(self, condition_ctx: LanguageParser.ExpressionContext) -> bool:
         self._statement_left -= 1
+        self.check_statement_count(condition_ctx)
         condition_value: Expression = self.visitExpression(condition_ctx)
         return condition_value == CONST_TRUE
 
@@ -189,3 +187,11 @@ class Visitor(LanguageVisitor):
     def visitErrorNode(self, error_node: ErrorNodeImpl) -> None:
         exc = LanguageSyntaxError(extra_info=str(error_node))
         exc.inject_context_to_exc(error_node.parentCtx)
+
+    def check_statement_count(self, ctx: ParserRuleContext) -> None:
+        if self._statement_left > 0:
+            return
+
+        exc = TooManyStatements()
+        exc.inject_context_to_exc(ctx)
+        raise exc

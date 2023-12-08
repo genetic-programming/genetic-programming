@@ -29,7 +29,7 @@ class NodeData(BaseModel):
     successors: list[NodeSuccessor] = []
 
 
-GRAMMAR = {
+TREE_CONFIG = {
     NodeType.STATEMENTS: NodeData(
         growable=True,
         successors=[

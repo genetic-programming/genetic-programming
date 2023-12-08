@@ -6,7 +6,7 @@ from typing import Any
 
 from anytree import Node, PreOrderIter
 
-from gp_algorithm.grammar import GRAMMAR, NodeType
+from gp_algorithm.tree_config import NodeType, TREE_CONFIG
 
 
 class LanguageNode(Node):
@@ -20,7 +20,7 @@ class LanguageNode(Node):
         **kwargs: Any,
     ) -> None:
         self.node_type = node_type
-        self.node_data = GRAMMAR[node_type]
+        self.node_data = TREE_CONFIG[node_type]
         self.value = value
         self.variables_count = variables_count
         super().__init__(
