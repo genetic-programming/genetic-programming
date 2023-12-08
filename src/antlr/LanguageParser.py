@@ -15,8 +15,8 @@ def serializedATN():
     return [
         4,
         1,
-        30,
-        136,
+        29,
+        135,
         2,
         0,
         7,
@@ -196,11 +196,9 @@ def serializedATN():
         8,
         1,
         8,
-        1,
-        8,
         3,
         8,
-        89,
+        88,
         8,
         8,
         1,
@@ -245,14 +243,14 @@ def serializedATN():
         8,
         5,
         8,
-        111,
+        110,
         8,
         8,
         10,
         8,
         12,
         8,
-        114,
+        113,
         9,
         8,
         1,
@@ -323,8 +321,8 @@ def serializedATN():
         4,
         1,
         0,
-        27,
-        29,
+        26,
+        28,
         1,
         0,
         8,
@@ -339,7 +337,7 @@ def serializedATN():
         0,
         11,
         13,
-        134,
+        132,
         0,
         39,
         1,
@@ -389,61 +387,61 @@ def serializedATN():
         0,
         0,
         16,
-        88,
+        87,
         1,
         0,
         0,
         0,
         18,
-        115,
+        114,
         1,
         0,
         0,
         0,
         20,
-        119,
+        118,
         1,
         0,
         0,
         0,
         22,
-        121,
+        120,
         1,
         0,
         0,
         0,
         24,
-        123,
+        122,
         1,
         0,
         0,
         0,
         26,
-        125,
+        124,
         1,
         0,
         0,
         0,
         28,
-        127,
+        126,
         1,
         0,
         0,
         0,
         30,
-        129,
+        128,
         1,
         0,
         0,
         0,
         32,
-        131,
+        130,
         1,
         0,
         0,
         0,
         34,
-        133,
+        132,
         1,
         0,
         0,
@@ -601,7 +599,7 @@ def serializedATN():
         55,
         56,
         5,
-        30,
+        29,
         0,
         0,
         56,
@@ -753,9 +751,9 @@ def serializedATN():
         3,
         16,
         8,
-        11,
+        10,
         80,
-        89,
+        88,
         1,
         0,
         0,
@@ -771,374 +769,362 @@ def serializedATN():
         3,
         16,
         8,
-        10,
+        9,
         83,
-        89,
+        88,
         1,
         0,
         0,
         0,
         84,
-        89,
+        88,
         3,
         18,
         9,
         0,
         85,
-        89,
+        88,
         5,
-        30,
+        29,
         0,
         0,
         86,
-        89,
+        88,
         3,
         20,
         10,
         0,
         87,
-        89,
-        5,
-        26,
-        0,
-        0,
-        88,
         77,
         1,
         0,
         0,
         0,
-        88,
+        87,
         81,
         1,
         0,
         0,
         0,
-        88,
+        87,
         84,
         1,
         0,
         0,
         0,
-        88,
+        87,
         85,
         1,
         0,
         0,
         0,
-        88,
+        87,
         86,
         1,
         0,
         0,
         0,
         88,
-        87,
+        111,
         1,
         0,
         0,
         0,
         89,
-        112,
-        1,
-        0,
+        90,
+        10,
+        8,
         0,
         0,
         90,
         91,
-        10,
-        9,
-        0,
-        0,
-        91,
-        92,
         3,
         26,
         13,
         0,
+        91,
         92,
-        93,
-        3,
-        16,
-        8,
-        10,
-        93,
-        111,
-        1,
-        0,
-        0,
-        0,
-        94,
-        95,
-        10,
-        8,
-        0,
-        0,
-        95,
-        96,
-        3,
-        28,
-        14,
-        0,
-        96,
-        97,
         3,
         16,
         8,
         9,
-        97,
-        111,
+        92,
+        110,
         1,
         0,
         0,
         0,
-        98,
-        99,
+        93,
+        94,
         10,
         7,
         0,
         0,
+        94,
+        95,
+        3,
+        28,
+        14,
+        0,
+        95,
+        96,
+        3,
+        16,
+        8,
+        8,
+        96,
+        110,
+        1,
+        0,
+        0,
+        0,
+        97,
+        98,
+        10,
+        6,
+        0,
+        0,
+        98,
         99,
-        100,
         3,
         30,
         15,
         0,
+        99,
         100,
-        101,
-        3,
-        16,
-        8,
-        8,
-        101,
-        111,
-        1,
-        0,
-        0,
-        0,
-        102,
-        103,
-        10,
-        6,
-        0,
-        0,
-        103,
-        104,
-        3,
-        32,
-        16,
-        0,
-        104,
-        105,
         3,
         16,
         8,
         7,
-        105,
-        111,
+        100,
+        110,
         1,
         0,
         0,
         0,
-        106,
-        107,
+        101,
+        102,
         10,
         5,
         0,
         0,
+        102,
+        103,
+        3,
+        32,
+        16,
+        0,
+        103,
+        104,
+        3,
+        16,
+        8,
+        6,
+        104,
+        110,
+        1,
+        0,
+        0,
+        0,
+        105,
+        106,
+        10,
+        4,
+        0,
+        0,
+        106,
         107,
-        108,
         3,
         34,
         17,
         0,
+        107,
         108,
-        109,
         3,
         16,
         8,
-        6,
+        5,
+        108,
+        110,
+        1,
+        0,
+        0,
+        0,
         109,
-        111,
+        89,
+        1,
+        0,
+        0,
+        0,
+        109,
+        93,
+        1,
+        0,
+        0,
+        0,
+        109,
+        97,
+        1,
+        0,
+        0,
+        0,
+        109,
+        101,
+        1,
+        0,
+        0,
+        0,
+        109,
+        105,
         1,
         0,
         0,
         0,
         110,
-        90,
-        1,
-        0,
-        0,
-        0,
-        110,
-        94,
-        1,
-        0,
-        0,
-        0,
-        110,
-        98,
-        1,
-        0,
-        0,
-        0,
-        110,
-        102,
-        1,
-        0,
-        0,
-        0,
-        110,
-        106,
-        1,
-        0,
-        0,
-        0,
-        111,
-        114,
-        1,
-        0,
-        0,
-        0,
-        112,
-        110,
-        1,
-        0,
-        0,
-        0,
-        112,
         113,
         1,
         0,
         0,
         0,
-        113,
+        111,
+        109,
+        1,
+        0,
+        0,
+        0,
+        111,
+        112,
+        1,
+        0,
+        0,
+        0,
+        112,
         17,
         1,
         0,
         0,
         0,
-        114,
-        112,
+        113,
+        111,
         1,
         0,
         0,
         0,
+        114,
+        115,
+        5,
+        5,
+        0,
+        0,
         115,
         116,
-        5,
-        5,
-        0,
-        0,
-        116,
-        117,
         3,
         16,
         8,
         0,
+        116,
         117,
-        118,
         5,
         6,
         0,
         0,
-        118,
+        117,
         19,
         1,
         0,
         0,
         0,
+        118,
         119,
-        120,
         7,
         0,
         0,
         0,
-        120,
+        119,
         21,
         1,
         0,
         0,
         0,
+        120,
         121,
-        122,
         5,
         22,
         0,
         0,
-        122,
+        121,
         23,
         1,
         0,
         0,
         0,
+        122,
         123,
-        124,
         5,
         7,
         0,
         0,
-        124,
+        123,
         25,
         1,
         0,
         0,
         0,
+        124,
         125,
-        126,
         7,
         1,
         0,
         0,
-        126,
+        125,
         27,
         1,
         0,
         0,
         0,
+        126,
         127,
-        128,
         7,
         2,
         0,
         0,
-        128,
+        127,
         29,
         1,
         0,
         0,
         0,
+        128,
         129,
-        130,
         7,
         3,
         0,
         0,
-        130,
+        129,
         31,
         1,
         0,
         0,
         0,
+        130,
         131,
-        132,
         5,
         23,
         0,
         0,
-        132,
+        131,
         33,
         1,
         0,
         0,
         0,
+        132,
         133,
-        134,
         5,
         24,
         0,
         0,
-        134,
+        133,
         35,
         1,
         0,
@@ -1149,9 +1135,9 @@ def serializedATN():
         48,
         53,
         64,
-        88,
-        110,
-        112,
+        87,
+        109,
+        111,
     ]
 
 
@@ -1191,7 +1177,6 @@ class LanguageParser(Parser):
         "'and'",
         "'or'",
         "'print'",
-        "'read'",
     ]
 
     symbolicNames = [
@@ -1221,7 +1206,6 @@ class LanguageParser(Parser):
         "And",
         "Or",
         "Print",
-        "Read",
         "BOOLEAN_VAL",
         "INT_VAL",
         "STRING_VAL",
@@ -1294,11 +1278,10 @@ class LanguageParser(Parser):
     And = 23
     Or = 24
     Print = 25
-    Read = 26
-    BOOLEAN_VAL = 27
-    INT_VAL = 28
-    STRING_VAL = 29
-    VARIABLE_NAME = 30
+    BOOLEAN_VAL = 26
+    INT_VAL = 27
+    STRING_VAL = 28
+    VARIABLE_NAME = 29
 
     def __init__(self, input: TokenStream, output: TextIO = sys.stdout):
         super().__init__(input, output)
@@ -1345,7 +1328,7 @@ class LanguageParser(Parser):
             self.state = 39
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            while ((_la) & ~0x3F) == 0 and ((1 << _la) & 2120745128) != 0:
+            while ((_la) & ~0x3F) == 0 and ((1 << _la) & 1047003304) != 0:
                 self.state = 36
                 self.statement()
                 self.state = 41
@@ -1403,7 +1386,7 @@ class LanguageParser(Parser):
             self.state = 48
             self._errHandler.sync(self)
             token = self._input.LA(1)
-            if token in [5, 7, 22, 25, 26, 27, 28, 29, 30]:
+            if token in [5, 7, 22, 25, 26, 27, 28, 29]:
                 self.enterOuterAlt(localctx, 1)
                 self.state = 42
                 self.line()
@@ -1792,9 +1775,6 @@ class LanguageParser(Parser):
         def literal(self):
             return self.getTypedRuleContext(LanguageParser.LiteralContext, 0)
 
-        def Read(self):
-            return self.getToken(LanguageParser.Read, 0)
-
         def multiplicationOperator(self):
             return self.getTypedRuleContext(LanguageParser.MultiplicationOperatorContext, 0)
 
@@ -1836,42 +1816,38 @@ class LanguageParser(Parser):
         self.enterRecursionRule(localctx, 16, self.RULE_expression, _p)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 88
+            self.state = 87
             self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [22]:
                 self.state = 78
                 self.booleanUnaryOperator()
                 self.state = 79
-                self.expression(11)
+                self.expression(10)
                 pass
             elif token in [7]:
                 self.state = 81
                 self.numericUnaryOperator()
                 self.state = 82
-                self.expression(10)
+                self.expression(9)
                 pass
             elif token in [5]:
                 self.state = 84
                 self.nestedExpression()
                 pass
-            elif token in [30]:
+            elif token in [29]:
                 self.state = 85
                 self.match(LanguageParser.VARIABLE_NAME)
                 pass
-            elif token in [27, 28, 29]:
+            elif token in [26, 27, 28]:
                 self.state = 86
                 self.literal()
-                pass
-            elif token in [26]:
-                self.state = 87
-                self.match(LanguageParser.Read)
                 pass
             else:
                 raise NoViableAltException(self)
 
             self._ctx.stop = self._input.LT(-1)
-            self.state = 112
+            self.state = 111
             self._errHandler.sync(self)
             _alt = self._interp.adaptivePredict(self._input, 6, self._ctx)
             while _alt != 2 and _alt != ATN.INVALID_ALT_NUMBER:
@@ -1879,80 +1855,80 @@ class LanguageParser(Parser):
                     if self._parseListeners is not None:
                         self.triggerExitRuleEvent()
                     _prevctx = localctx
-                    self.state = 110
+                    self.state = 109
                     self._errHandler.sync(self)
                     la_ = self._interp.adaptivePredict(self._input, 5, self._ctx)
                     if la_ == 1:
                         localctx = LanguageParser.ExpressionContext(self, _parentctx, _parentState)
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expression)
-                        self.state = 90
-                        if not self.precpred(self._ctx, 9):
+                        self.state = 89
+                        if not self.precpred(self._ctx, 8):
                             from antlr4.error.Errors import FailedPredicateException
 
-                            raise FailedPredicateException(self, "self.precpred(self._ctx, 9)")
-                        self.state = 91
+                            raise FailedPredicateException(self, "self.precpred(self._ctx, 8)")
+                        self.state = 90
                         self.multiplicationOperator()
-                        self.state = 92
-                        self.expression(10)
+                        self.state = 91
+                        self.expression(9)
                         pass
 
                     elif la_ == 2:
                         localctx = LanguageParser.ExpressionContext(self, _parentctx, _parentState)
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expression)
-                        self.state = 94
-                        if not self.precpred(self._ctx, 8):
+                        self.state = 93
+                        if not self.precpred(self._ctx, 7):
                             from antlr4.error.Errors import FailedPredicateException
 
-                            raise FailedPredicateException(self, "self.precpred(self._ctx, 8)")
-                        self.state = 95
+                            raise FailedPredicateException(self, "self.precpred(self._ctx, 7)")
+                        self.state = 94
                         self.additionOperator()
-                        self.state = 96
-                        self.expression(9)
+                        self.state = 95
+                        self.expression(8)
                         pass
 
                     elif la_ == 3:
                         localctx = LanguageParser.ExpressionContext(self, _parentctx, _parentState)
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expression)
-                        self.state = 98
-                        if not self.precpred(self._ctx, 7):
+                        self.state = 97
+                        if not self.precpred(self._ctx, 6):
                             from antlr4.error.Errors import FailedPredicateException
 
-                            raise FailedPredicateException(self, "self.precpred(self._ctx, 7)")
-                        self.state = 99
+                            raise FailedPredicateException(self, "self.precpred(self._ctx, 6)")
+                        self.state = 98
                         self.comparisonOperator()
-                        self.state = 100
-                        self.expression(8)
+                        self.state = 99
+                        self.expression(7)
                         pass
 
                     elif la_ == 4:
                         localctx = LanguageParser.ExpressionContext(self, _parentctx, _parentState)
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expression)
-                        self.state = 102
-                        if not self.precpred(self._ctx, 6):
+                        self.state = 101
+                        if not self.precpred(self._ctx, 5):
                             from antlr4.error.Errors import FailedPredicateException
 
-                            raise FailedPredicateException(self, "self.precpred(self._ctx, 6)")
-                        self.state = 103
+                            raise FailedPredicateException(self, "self.precpred(self._ctx, 5)")
+                        self.state = 102
                         self.andOperator()
-                        self.state = 104
-                        self.expression(7)
+                        self.state = 103
+                        self.expression(6)
                         pass
 
                     elif la_ == 5:
                         localctx = LanguageParser.ExpressionContext(self, _parentctx, _parentState)
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expression)
-                        self.state = 106
-                        if not self.precpred(self._ctx, 5):
+                        self.state = 105
+                        if not self.precpred(self._ctx, 4):
                             from antlr4.error.Errors import FailedPredicateException
 
-                            raise FailedPredicateException(self, "self.precpred(self._ctx, 5)")
-                        self.state = 107
+                            raise FailedPredicateException(self, "self.precpred(self._ctx, 4)")
+                        self.state = 106
                         self.orOperator()
-                        self.state = 108
-                        self.expression(6)
+                        self.state = 107
+                        self.expression(5)
                         pass
 
-                self.state = 114
+                self.state = 113
                 self._errHandler.sync(self)
                 _alt = self._interp.adaptivePredict(self._input, 6, self._ctx)
 
@@ -1996,11 +1972,11 @@ class LanguageParser(Parser):
         self.enterRule(localctx, 18, self.RULE_nestedExpression)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 115
+            self.state = 114
             self.match(LanguageParser.T__4)
-            self.state = 116
+            self.state = 115
             self.expression(0)
-            self.state = 117
+            self.state = 116
             self.match(LanguageParser.T__5)
         except RecognitionException as re:
             localctx.exception = re
@@ -2049,9 +2025,9 @@ class LanguageParser(Parser):
         self._la = 0  # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 119
+            self.state = 118
             _la = self._input.LA(1)
-            if not ((((_la) & ~0x3F) == 0 and ((1 << _la) & 939524096) != 0)):
+            if not ((((_la) & ~0x3F) == 0 and ((1 << _la) & 469762048) != 0)):
                 self._errHandler.recoverInline(self)
             else:
                 self._errHandler.reportMatch(self)
@@ -2096,7 +2072,7 @@ class LanguageParser(Parser):
         self.enterRule(localctx, 22, self.RULE_booleanUnaryOperator)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 121
+            self.state = 120
             self.match(LanguageParser.Not)
         except RecognitionException as re:
             localctx.exception = re
@@ -2135,7 +2111,7 @@ class LanguageParser(Parser):
         self.enterRule(localctx, 24, self.RULE_numericUnaryOperator)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 123
+            self.state = 122
             self.match(LanguageParser.T__6)
         except RecognitionException as re:
             localctx.exception = re
@@ -2175,7 +2151,7 @@ class LanguageParser(Parser):
         self._la = 0  # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 125
+            self.state = 124
             _la = self._input.LA(1)
             if not (_la == 8 or _la == 9):
                 self._errHandler.recoverInline(self)
@@ -2220,7 +2196,7 @@ class LanguageParser(Parser):
         self._la = 0  # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 127
+            self.state = 126
             _la = self._input.LA(1)
             if not (_la == 7 or _la == 10):
                 self._errHandler.recoverInline(self)
@@ -2265,7 +2241,7 @@ class LanguageParser(Parser):
         self._la = 0  # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 129
+            self.state = 128
             _la = self._input.LA(1)
             if not ((((_la) & ~0x3F) == 0 and ((1 << _la) & 14336) != 0)):
                 self._errHandler.recoverInline(self)
@@ -2312,7 +2288,7 @@ class LanguageParser(Parser):
         self.enterRule(localctx, 32, self.RULE_andOperator)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 131
+            self.state = 130
             self.match(LanguageParser.And)
         except RecognitionException as re:
             localctx.exception = re
@@ -2354,7 +2330,7 @@ class LanguageParser(Parser):
         self.enterRule(localctx, 34, self.RULE_orOperator)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 133
+            self.state = 132
             self.match(LanguageParser.Or)
         except RecognitionException as re:
             localctx.exception = re
@@ -2376,16 +2352,16 @@ class LanguageParser(Parser):
 
     def expression_sempred(self, localctx: ExpressionContext, predIndex: int):
         if predIndex == 0:
-            return self.precpred(self._ctx, 9)
-
-        if predIndex == 1:
             return self.precpred(self._ctx, 8)
 
-        if predIndex == 2:
+        if predIndex == 1:
             return self.precpred(self._ctx, 7)
 
-        if predIndex == 3:
+        if predIndex == 2:
             return self.precpred(self._ctx, 6)
 
-        if predIndex == 4:
+        if predIndex == 3:
             return self.precpred(self._ctx, 5)
+
+        if predIndex == 4:
+            return self.precpred(self._ctx, 4)

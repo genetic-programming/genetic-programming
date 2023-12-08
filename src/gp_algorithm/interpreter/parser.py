@@ -82,7 +82,7 @@ class Parser(LanguageParser, RecognizerWithCustomListener):
         for error in errors:
             print(error)  # noqa: T201
         if errors:
-            raise errors[-1]
+            raise errors[0]
         return tree
 
     def parse_program(self, data: str) -> LanguageParser.StatementsContext:

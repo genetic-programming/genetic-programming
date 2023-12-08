@@ -88,11 +88,11 @@ class Visitor(LanguageVisitor):
         match ctx.children:
             case [_] if var_terminal := ctx.VARIABLE_NAME():
                 name = var_terminal.symbol.text
-                return self._variable_stack.get_var(name)
-
-            case [_] if ctx.Read():
-                return self._program_input.pop()
-
+                var_value = self._variable_stack.get_var(var_name=name)
+                if var_value is None:
+                    var_value = self._program_input.pop()
+                    self._variable_stack.set_var(var_name=name, expr=var_value)
+                return var_value
             case [node]:
                 return self.visit(node)
 

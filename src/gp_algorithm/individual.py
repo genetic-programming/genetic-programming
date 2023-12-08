@@ -1,9 +1,10 @@
 import random
+from typing import Any
 
 from anytree import PreOrderIter
 
 from gp_algorithm.grammar import NodeType
-from gp_algorithm.nodes import LanguageNode, random_value
+from gp_algorithm.node import LanguageNode
 
 
 class Individual(LanguageNode):
@@ -12,18 +13,24 @@ class Individual(LanguageNode):
         size: int = 0,
         parent: LanguageNode | None = None,
         children: list[LanguageNode] | None = None,
+        **kwargs: Any,
     ) -> None:
         super().__init__(
-            node_type=NodeType.PROGRAM,
+            node_type=NodeType.STATEMENTS,
             parent=parent,
             children=children,
-            free_variables=[f"v{i}" for i in range(100)],
-            declared_variables=[],
+            variables_count=0,
+            **kwargs,
         )
         for _ in range(size):
             self.grow()
 
+    def __str__(self) -> str:
+        return self.pretty_str()
+
     def mutate(self) -> None:
-        mutate_candidates = PreOrderIter(self, filter_=lambda node: node.value is not None)
-        node_to_mutate: LanguageNode = random.choice(list(mutate_candidates))
-        node_to_mutate.value = random_value(node_to_mutate.node_type, self.free_variables, self.declared_variables)
+        mutate_candidates = list(PreOrderIter(self, filter_=lambda node: not node.node_data.successors))
+        if not mutate_candidates:
+            return
+        node_to_mutate: LanguageNode = random.choice(mutate_candidates)
+        node_to_mutate.set_random_value()

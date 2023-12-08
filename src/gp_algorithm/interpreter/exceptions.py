@@ -77,19 +77,9 @@ class LanguageSyntaxError(LanguageException):
 
 
 # VISITOR EXCEPTIONS
-class VariableUndeclaredError(LanguageException):
-    message_schema = "Undeclared variable: {name}."
-    attrs = {"name": "not specified"}
-
-
 class LanguageZeroDivisionError(LanguageException):
     message_schema = "Division by zero."
     attrs = {}
-
-
-class LanguageFrameStackEmptyError(LanguageException):
-    message_schema = "Could not {failed_event}! Frame stack is empty."
-    attrs = {"failed_event": "not specified"}
 
 
 class TooManyStatements(LanguageException):
