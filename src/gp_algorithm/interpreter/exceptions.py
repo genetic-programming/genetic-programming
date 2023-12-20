@@ -85,3 +85,13 @@ class LanguageZeroDivisionError(LanguageException):
 class TooManyStatements(LanguageException):
     message_schema = "Too many statements."
     attrs = {}
+
+
+class EmptyInputException(LanguageException):
+    message_schema = "Program input is empty."
+    attrs = {}
+
+
+class OutputOverflow(LanguageException):
+    message_schema = "Program output is too long."
+    attrs = {}

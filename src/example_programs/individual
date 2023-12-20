@@ -1,3 +1,4 @@
 
-v0 = false;
-if false {} else {}
+while v0 == v0 {
+  print (false or false or v0);
+}

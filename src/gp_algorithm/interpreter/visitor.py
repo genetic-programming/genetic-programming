@@ -15,19 +15,20 @@ class Visitor(LanguageVisitor):
         variable_stack: VariableStack | None = None,
         program_input: ProgramInput | None = None,
         program_output: ProgramOutput | None = None,
+        statements_limit: int = 100,
     ) -> None:
         self._variable_stack: VariableStack = variable_stack or VariableStack()
         self._program_input: ProgramInput = program_input or ProgramInput()
         self._program_output: ProgramOutput = program_output or ProgramOutput()
-        self._statement_left: int = 100
+        self._statements_limit: int = statements_limit
+        self._statement_counter: int = 0
 
     def visit_tree(
         self,
         tree: LanguageParser.StatementsContext,
         program_input: list[Expression],
-        statements_left: int = 100,
     ) -> list[str]:
-        self._statement_left = statements_left
+        self._statement_counter = 0
         self._program_input.set_inputs(program_input)
         self.visitStatements(tree)
         return self._program_output.return_outputs()
@@ -39,7 +40,7 @@ class Visitor(LanguageVisitor):
         self._variable_stack.pop_frame()
 
     def visitStatement(self, ctx: LanguageParser.StatementContext) -> None:
-        self._statement_left -= 1
+        self._statement_counter += 1
         self.check_statement_count(ctx)
         return super().visitStatement(ctx)
 
@@ -62,12 +63,12 @@ class Visitor(LanguageVisitor):
     def visitLoopStatement(self, ctx: LanguageParser.LoopStatementContext) -> None:
         expression_ctx = ctx.expression()
         body_ctx = ctx.compoundStatement()
-        self._statement_left += 1
+        self._statement_counter -= 1
         while self.check_condition(expression_ctx):
             self.visitCompoundStatement(body_ctx)
 
     def check_condition(self, condition_ctx: LanguageParser.ExpressionContext) -> bool:
-        self._statement_left -= 1
+        self._statement_counter += 1
         self.check_statement_count(condition_ctx)
         condition_value: Expression = self.visitExpression(condition_ctx)
         return condition_value == CONST_TRUE
@@ -189,7 +190,7 @@ class Visitor(LanguageVisitor):
         exc.inject_context_to_exc(error_node.parentCtx)
 
     def check_statement_count(self, ctx: ParserRuleContext) -> None:
-        if self._statement_left > 0:
+        if self._statement_counter < self._statements_limit:
             return
 
         exc = TooManyStatements()
