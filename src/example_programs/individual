@@ -1,4 +1,4 @@
 
-while v0 == v0 {
-  print (false or false or v0);
+if 75 {} else {
+  print ((v0) and v0);
 }

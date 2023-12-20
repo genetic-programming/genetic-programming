@@ -152,10 +152,6 @@ def test_visit_loop_instruction(
         ("true and false or true", CONST_TRUE),
         ("true or false and false", CONST_TRUE),
         ("(true or false) and true", CONST_TRUE),
-        ('"siema"', Expression("siema")),
-        ('"!(@*^@!(Y(*@*Y($(!*#@"', Expression("!(@*^@!(Y(*@*Y($(!*#@")),
-        ('""""', Expression("")),
-        ('("siema")', Expression("siema")),
     ],
 )
 def test_visit_expression(

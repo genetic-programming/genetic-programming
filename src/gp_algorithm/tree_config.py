@@ -51,6 +51,11 @@ TREE_CONFIG = {
             ),
             NodeSuccessor(
                 weight=2,
+                template="read {0};",
+                children=[NodeType.VARIABLE_NAME],
+            ),
+            NodeSuccessor(
+                weight=2,
                 template="if {0} {{{1}}} else {{{2}}}",
                 children=[NodeType.EXPRESSION, NodeType.STATEMENTS, NodeType.STATEMENTS],
             ),

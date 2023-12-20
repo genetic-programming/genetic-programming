@@ -54,27 +54,26 @@ def calculate_fitness(
     parsed_individual = interpreter.parse_str(data=individual_as_str)
     program_inputs = interpreter.interpret_inputs(input_strings=input_strings)
 
-    outputs = []
     if not program_inputs:
         try:
             output = interpreter.interpret_tree(
                 tree=parsed_individual,
                 program_input=[],
             )
+            return fitness_function([output])
+        except LanguageException:
+            return float("inf")
+
+    outputs = []
+    for program_input in program_inputs:
+        try:
+            output = interpreter.interpret_tree(
+                tree=parsed_individual,
+                program_input=program_input,
+            )
         except LanguageException:
             return float("inf")
         outputs.append(output)
-
-    else:
-        for program_input in program_inputs:
-            try:
-                output = interpreter.interpret_tree(
-                    tree=parsed_individual,
-                    program_input=program_input,
-                )
-            except LanguageException:
-                return float("inf")
-            outputs.append(output)
 
     return fitness_function(outputs)
 

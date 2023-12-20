@@ -82,6 +82,11 @@ class Visitor(LanguageVisitor):
         expr = self.visitExpression(ctx.expression())
         self._program_output.append(str(expr))
 
+    def visitReadStatement(self, ctx: LanguageParser.ReadStatementContext) -> None:
+        var_name = ctx.VARIABLE_NAME().symbol.text
+        var_value = self._program_input.pop()
+        self._variable_stack.set_var(var_name=var_name, expr=var_value)
+
     # EXPRESSIONS
     def visitExpression(self, ctx: LanguageParser.ExpressionContext) -> Expression:
         match ctx.children:
@@ -116,8 +121,6 @@ class Visitor(LanguageVisitor):
             raise NotImplementedError("Unknown boolean value")
         if ctx.INT_VAL():
             return Expression(int(value))
-        if ctx.STRING_VAL():
-            return Expression(value[1:-1])
         raise NotImplementedError("Unknown literal type")
 
     def handle_unary_operator(

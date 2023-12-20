@@ -1,4 +1,7 @@
-v0 = 10;
-print v0;
-v1 = v0 * 6;
+v0;
+v1 = 1;
+while v0 > 0 {
+    v1 = v1 * v0;
+    v0 = v0 - 1;
+}
 print v1;

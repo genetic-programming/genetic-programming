@@ -17,6 +17,7 @@ line
     : expression
 	| assignment
 	| printStatement
+	| readStatement
     ;
 
 assignment
@@ -41,6 +42,10 @@ printStatement
     : Print expression
     ;
 
+readStatement
+    : Read VARIABLE_NAME
+    ;
+
 
 // EXPRESSIONS
 expression
@@ -63,7 +68,6 @@ nestedExpression
 literal
     : BOOLEAN_VAL
     | INT_VAL
-    | STRING_VAL
     ;
 
 booleanUnaryOperator
@@ -116,6 +120,7 @@ And: 'and';
 Or: 'or';
 
 Print: 'print';
+Read: 'read';
 
 BOOLEAN_VAL
     : 'true'
@@ -125,10 +130,6 @@ BOOLEAN_VAL
 INT_VAL
     : '0'
     | [1-9][0-9]*
-    ;
-
-STRING_VAL
-    : '"' .*? '"'
     ;
 
 VARIABLE_NAME
