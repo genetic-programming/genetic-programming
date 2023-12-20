@@ -23,9 +23,9 @@ Not=22
 And=23
 Or=24
 Print=25
-BOOLEAN_VAL=26
-INT_VAL=27
-STRING_VAL=28
+Read=26
+BOOLEAN_VAL=27
+INT_VAL=28
 VARIABLE_NAME=29
 ';'=1
 '='=2
@@ -48,3 +48,4 @@ VARIABLE_NAME=29
 'and'=23
 'or'=24
 'print'=25
+'read'=26

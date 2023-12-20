@@ -18,7 +18,7 @@ def main() -> None:
         metavar="source file name",
         type=str,
         nargs="?",
-        default="../example_programs/example_1",
+        default="example_programs/example_1",
     )
     parser.add_argument(
         "--print-stacktraces",
@@ -32,7 +32,7 @@ def main() -> None:
     source_file_path = str(Path(__file__).parent / args.source)
 
     interpreter = Interpreter()
-    program_input = interpreter.interpret_input(input_strings=["1", "1"])
+    program_input = interpreter.interpret_input(input_strings=["6"])
     result = interpreter.interpret_file(
         file_path=source_file_path,
         program_input=program_input,

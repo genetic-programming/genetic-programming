@@ -1,4 +1,4 @@
-# Generated from /Users/spoton/Studia/pg/genetic-programming/src/antlr/Language.g4 by ANTLR 4.13.1
+# Generated from D:/Studia/semestr_5/pg/genetic-programming/src/antlr/Language.g4 by ANTLR 4.13.1
 from antlr4 import *
 
 if "." in __name__:
@@ -40,6 +40,10 @@ class LanguageVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by LanguageParser#printStatement.
     def visitPrintStatement(self, ctx: LanguageParser.PrintStatementContext):
+        return self.visitChildren(ctx)
+
+    # Visit a parse tree produced by LanguageParser#readStatement.
+    def visitReadStatement(self, ctx: LanguageParser.ReadStatementContext):
         return self.visitChildren(ctx)
 
     # Visit a parse tree produced by LanguageParser#expression.

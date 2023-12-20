@@ -6,14 +6,14 @@ from gp_algorithm.interpreter.exceptions import LanguageZeroDivisionError
 class Expression:
     def __init__(
         self,
-        literal_value: bool | int | str,
+        literal_value: bool | int,
     ) -> None:
         self._value = literal_value
 
     def __bool__(self) -> bool:
         if isinstance(self._value, bool):
             return self._value
-        if isinstance(self._value, (int, str)):
+        if isinstance(self._value, int):
             return bool(self._value)
         raise NotImplementedError("Unknown expression type")
 
@@ -22,8 +22,6 @@ class Expression:
             return self._value
         if isinstance(self._value, bool):
             return int(self._value)
-        if isinstance(self._value, str):
-            return len(self._value)
         raise NotImplementedError("Unknown expression type")
 
     def __str__(self) -> str:
@@ -31,8 +29,6 @@ class Expression:
             return str(self._value).lower()
         if isinstance(self._value, int):
             return str(self._value)
-        if isinstance(self._value, str):
-            return self._value
         raise NotImplementedError("Unknown expression type")
 
     def __repr__(self) -> str:
@@ -40,8 +36,6 @@ class Expression:
             return f"bool: {str(self._value).lower()}"
         if isinstance(self._value, int):
             return f"int: {str(self._value)}"
-        if isinstance(self._value, str):
-            return f"str: {self._value}"
         raise NotImplementedError("Unknown expression type")
 
     def __eq__(self, other: object) -> bool:

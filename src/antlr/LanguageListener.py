@@ -1,4 +1,4 @@
-# Generated from /Users/spoton/Studia/pg/genetic-programming/src/antlr/Language.g4 by ANTLR 4.13.1
+# Generated from D:/Studia/semestr_5/pg/genetic-programming/src/antlr/Language.g4 by ANTLR 4.13.1
 from antlr4 import *
 
 if "." in __name__:
@@ -71,6 +71,14 @@ class LanguageListener(ParseTreeListener):
 
     # Exit a parse tree produced by LanguageParser#printStatement.
     def exitPrintStatement(self, ctx: LanguageParser.PrintStatementContext):
+        pass
+
+    # Enter a parse tree produced by LanguageParser#readStatement.
+    def enterReadStatement(self, ctx: LanguageParser.ReadStatementContext):
+        pass
+
+    # Exit a parse tree produced by LanguageParser#readStatement.
+    def exitReadStatement(self, ctx: LanguageParser.ReadStatementContext):
         pass
 
     # Enter a parse tree produced by LanguageParser#expression.

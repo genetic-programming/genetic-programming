@@ -94,6 +94,17 @@ class IndividualBuilder(LanguageVisitor):
         self.visitExpression(ctx.expression())
         self._current_node = self._current_node.parent
 
+    def visitReadStatement(self, ctx: LanguageParser.ReadStatementContext) -> None:
+        new_read_statement = LanguageNode(
+            node_type=NodeType.STATEMENT,
+            value="read {0};",
+        )
+        new_read_statement.parent = self._current_node
+
+        self._current_node = new_read_statement
+        self.add_var_name(ctx.VARIABLE_NAME().getText())
+        self._current_node = self._current_node.parent
+
     # EXPRESSIONS
     def visitExpression(self, ctx: LanguageParser.ExpressionContext) -> None:
         if ctx.VARIABLE_NAME():
@@ -158,11 +169,6 @@ class IndividualBuilder(LanguageVisitor):
 
         if ctx.INT_VAL():
             new_literal = LanguageNode(node_type=NodeType.LITERAL_INT, value=ctx.INT_VAL().getText())
-            new_literal.parent = self._current_node
-            return
-
-        if ctx.STRING_VAL():
-            new_literal = LanguageNode(node_type=NodeType.LITERAL_STR, value=ctx.STRING_VAL().getText())
             new_literal.parent = self._current_node
             return
 

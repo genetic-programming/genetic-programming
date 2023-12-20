@@ -1,3 +1,4 @@
+from gp_algorithm.interpreter.exceptions import EmptyInputException, OutputOverflow
 from gp_algorithm.interpreter.expression import Expression
 
 
@@ -12,7 +13,7 @@ class ProgramInput:
         try:
             return self._literals.pop()
         except IndexError:
-            raise RuntimeError("Program input is empty.")
+            raise EmptyInputException()
 
 
 class ProgramOutput:
@@ -22,7 +23,7 @@ class ProgramOutput:
 
     def append(self, output: str) -> None:
         if len(self._data) >= self._max_length:
-            raise RuntimeError("Program output is too long.")
+            raise OutputOverflow()
         self._data.append(output)
 
     def return_outputs(self) -> list[str]:
