@@ -1,7 +1,11 @@
-v0;
-v1 = 1;
-while v0 > 0 {
-    v1 = v1 * v0;
-    v0 = v0 - 1;
+print 1;
+print 38 != ((v0)) or (not -11 > true + -84) * (v0);
+print 39;
+print v0;
+print false != v0 / v0;
+v0 = not v0;
+v0 = v0;
+while v0 {
+  v0 = not 44;
 }
-print v1;
+while (false) {}

@@ -1,4 +1,3 @@
 
-if 75 {} else {
-  print ((v0) and v0);
-}
+print v0;
+print 47;
