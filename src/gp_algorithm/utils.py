@@ -1,11 +1,13 @@
 import random
+from copy import deepcopy
 from typing import Callable
 
 from anytree import PreOrderIter
 
 from gp_algorithm.builder import individual_builder
 from gp_algorithm.individual import Individual
-from gp_algorithm.interpreter.exceptions import LanguageException
+from gp_algorithm.interpreter.exceptions import IncorrectIndividualException, LanguageException
+from gp_algorithm.interpreter.expression import Expression
 from gp_algorithm.interpreter.interpreter import Interpreter
 from gp_algorithm.node import LanguageNode
 from gp_algorithm.tree_config import TREE_CONFIG
@@ -31,48 +33,54 @@ def swap_parents(node_1: LanguageNode, node_2: LanguageNode) -> None:
     parent_2.children = children_2
 
 
-def random_crossover(individual_1: Individual, individual_2: Individual) -> None:
-    random_node: LanguageNode = random.choice(list(individual_1.descendants)[1:])
+def mutate(individual: Individual) -> Individual:
+    individual_copy = deepcopy(individual)
+    individual_copy.mutate()
+    return individual_copy
+
+
+def random_crossover(individual_1: Individual, individual_2: Individual) -> tuple[Individual, Individual]:
+    individual_1_copy = deepcopy(individual_1)
+    individual_2_copy = deepcopy(individual_2)
+
+    random_node: LanguageNode = random.choice(list(individual_1_copy.descendants)[1:])
     allowed_swaps = TREE_CONFIG[random_node.node_type].allowed_swaps
 
-    swap_candidates_generator = PreOrderIter(individual_2, filter_=lambda node: node.node_type in allowed_swaps)
+    swap_candidates_generator = PreOrderIter(individual_2_copy, filter_=lambda node: node.node_type in allowed_swaps)
     swap_candidates = list(swap_candidates_generator)
     if not swap_candidates:
-        return
+        return individual_1_copy, individual_2_copy
 
     node_to_swap: LanguageNode = random.choice(swap_candidates)
     swap_parents(random_node, node_to_swap)
+    return individual_1_copy, individual_2_copy
 
 
 def calculate_fitness(
-    interpreter: Interpreter,
     individual: Individual,
+    interpreter: Interpreter,
     fitness_function: Callable[[list[list[str]]], float],
-    input_strings: list[list[str]],
+    program_inputs: list[list[Expression]],
 ) -> float:
     individual_as_str = individual.build_str()
-    parsed_individual = interpreter.parse_str(data=individual_as_str)
-    program_inputs = interpreter.interpret_inputs(input_strings=input_strings)
+    try:
+        parsed_individual = interpreter.parse_str(data=individual_as_str)
+    except LanguageException:
+        raise IncorrectIndividualException(individual=individual)
 
     if not program_inputs:
-        try:
-            output = interpreter.interpret_tree(
-                tree=parsed_individual,
-                program_input=[],
-            )
-            return fitness_function([output])
-        except LanguageException:
-            return float("inf")
+        output = interpreter.interpret_tree(
+            tree=parsed_individual,
+            program_input=[],
+        )
+        return fitness_function([output])
 
     outputs = []
     for program_input in program_inputs:
-        try:
-            output = interpreter.interpret_tree(
-                tree=parsed_individual,
-                program_input=program_input,
-            )
-        except LanguageException:
-            return float("inf")
+        output = interpreter.interpret_tree(
+            tree=parsed_individual,
+            program_input=program_input,
+        )
         outputs.append(output)
 
     return fitness_function(outputs)

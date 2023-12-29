@@ -95,3 +95,8 @@ class EmptyInputException(LanguageException):
 class OutputOverflow(LanguageException):
     message_schema = "Program output is too long."
     attrs = {}
+
+
+class IncorrectIndividualException(LanguageException):
+    message_schema = "Incorrect individual. {individual}"
+    attrs = {}

@@ -5,6 +5,9 @@ class VariableStack:
     def __init__(self) -> None:
         self.frames_stacks: list[dict[str, Expression]] = []
 
+    def clear(self) -> None:
+        self.frames_stacks = []
+
     @property
     def current_frame(self) -> dict[str, Expression]:
         return self.frames_stacks[-1]

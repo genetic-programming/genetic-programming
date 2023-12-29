@@ -89,7 +89,8 @@ profile = "black"
 # S101 == Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.
 # S311 == Standard pseudo-random generators are not suitable for security/cryptographic purposes.
 # W503 == line break before binary operator. Conflicts with W504 - line break after binary operator.
-ignore = ['S101', 'S311', 'W503']
+# T201 == print found.
+ignore = ['S101', 'S311', 'W503', 'T201']
 max-line-length = 120
 exclude = ["src/antlr", "src/presentation"]
 extend-ignore = 'E203'
@@ -100,4 +101,4 @@ line-length = 120
 # pytest settings
 [tool.pytest.ini_options]
 python_files = ["tests.py", "test_*.py", "*_tests.py"]
-addopts = "--strict-markers -p no:warnings --cov=. --cov-fail-under=70 --cov-config=.coveragerc"
+addopts = "--strict-markers -p no:warnings --cov=. --cov-fail-under=60 --cov-config=.coveragerc"

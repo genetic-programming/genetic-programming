@@ -3,7 +3,7 @@ from antlr4.tree.Tree import ErrorNodeImpl
 
 from antlr.LanguageParser import LanguageParser
 from antlr.LanguageVisitor import LanguageVisitor
-from gp_algorithm.interpreter.exceptions import LanguageSyntaxError, TooManyStatements
+from gp_algorithm.interpreter.exceptions import LanguageException, LanguageSyntaxError, TooManyStatements
 from gp_algorithm.interpreter.expression import CONST_TRUE, Expression
 from gp_algorithm.interpreter.program_io import ProgramInput, ProgramOutput
 from gp_algorithm.interpreter.variable_stack import VariableStack
@@ -30,7 +30,12 @@ class Visitor(LanguageVisitor):
     ) -> list[str]:
         self._statement_counter = 0
         self._program_input.set_inputs(program_input)
-        self.visitStatements(tree)
+        try:
+            self.visitStatements(tree)
+        except LanguageException:
+            pass
+
+        self._variable_stack.clear()
         return self._program_output.return_outputs()
 
     # PRIMARY EXPRESSION

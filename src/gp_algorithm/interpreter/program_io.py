@@ -11,7 +11,7 @@ class ProgramInput:
 
     def pop(self) -> Expression:
         try:
-            return self._literals.pop()
+            return self._literals.pop(0)
         except IndexError:
             raise EmptyInputException()
 
@@ -27,4 +27,6 @@ class ProgramOutput:
         self._data.append(output)
 
     def return_outputs(self) -> list[str]:
-        return self._data
+        data = self._data
+        self._data = []
+        return data

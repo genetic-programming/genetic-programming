@@ -1,4 +1,5 @@
 import random
+from dataclasses import dataclass
 from typing import Any
 
 from gp_algorithm.node import LanguageNode
@@ -31,4 +32,11 @@ class Individual(LanguageNode):
         if not mutate_candidates:
             return
         node_to_mutate: LanguageNode = random.choice(mutate_candidates)
+        node_to_mutate.children = []
         node_to_mutate.random_init()
+
+
+@dataclass()
+class IndividualWithFitness:
+    individual: Individual
+    fitness: float
