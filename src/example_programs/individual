@@ -1,4 +1,4 @@
 
-if - v0 / false {} else {
-  v0 = v0;
+if -81 {} else {
+  read v0;
 }

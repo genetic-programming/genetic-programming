@@ -26,7 +26,7 @@ class GeneticAlgorithm:
         self.interpreter = interpreter or Interpreter()
         self.population: list[IndividualWithFitness] = []
 
-    def run(self, inputs: list[list[str]] | None = None) -> IndividualWithFitness:
+    def run(self, inputs: list[list[str]] | None = None, verbose: bool = True, file_name: str = None) -> IndividualWithFitness:
         if inputs:
             program_inputs = self.interpreter.interpret_inputs(input_strings=inputs)
         else:
@@ -38,17 +38,22 @@ class GeneticAlgorithm:
         for generation_number in range(self.max_generations):
             best_individual = self.find_best_individual()
             print(f"Generation: {generation_number}, best fitness: {best_individual.fitness}")
-            print(f"Best individual: {best_individual.individual.build_str()}\n")
+            if verbose:
+                print("=" * 25)
+                print(f"Best individual: {best_individual.individual.build_str()}\n")
+                print("=" * 25)
 
             if best_individual.fitness < self.error_threshold:
                 print("PROBLEM SOLVED")
                 self.print_results(best_individual)
+                self.save_results(best_individual, generation_number, file_name)
                 return best_individual
 
             self.evolve(program_inputs=program_inputs)
 
         print("PROBLEM NOT SOLVED")
         self.print_results(best_individual)
+        self.save_results(best_individual, self.max_generations, file_name)
         return best_individual
 
     def generate_population(
@@ -127,3 +132,11 @@ class GeneticAlgorithm:
         print("=" * 25)
         print(f"Best fitness: {best_individual.fitness}")
         print(f"Best individual:\n{best_individual.individual}")
+
+    @staticmethod
+    def save_results(best_individual: IndividualWithFitness, generation: int, file_name: str = None) -> None:
+        if file_name:
+            with open(file_name, "w") as f:
+                f.write(f"Generation: {generation}\n")
+                f.write(f"Best fitness: {best_individual.fitness}\n")
+                f.write(f"Best individual:\n{best_individual.individual}")

@@ -1,3 +1,7 @@
+Generation: 29
+Best fitness: 0.0
+Best individual:
+
 print - -96 - -79 + 93 - -79 + 95 - -79 + 95 - -79 + 94;
 print v0 - -13;
 if -13 {
