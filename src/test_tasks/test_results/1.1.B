@@ -1,4 +1,4 @@
-Generation: 12
+Generation: 8
 Best fitness: 0.0
 Best individual:
 

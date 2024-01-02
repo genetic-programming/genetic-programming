@@ -2,5 +2,5 @@ Generation: 66
 Best fitness: 0.0
 Best individual:
 
-print (((9980 + ((true + ((910 + (((5084 + 9980) + (9980 + -4455 + true)))) / -2387 / true)))) + (5084 + 9980)) + 6380);
-print ((9980 + (9980 + ((false)))) + true);
+print not false - (- 5789) + true + not not (- true) + not -9978 + not not (- true) + true + not not (- true) + 7828 + not not -9978 + not not (- true) + true + true + not not (- true) + true + not not (- true) + not not (- true) + true + true + not not (- true) + true + not not (- true) + 7828 + 9951;
+if (5789) {} else {}
