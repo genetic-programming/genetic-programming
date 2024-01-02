@@ -18,6 +18,8 @@ class GeneticAlgorithm:
         max_generations: int = 100,
         initial_individual_size: int = 1,
         int_max_value: int = 100,
+        mutation_rate: float = 0.2,
+        crossover_rate: float = 0.5,
         interpreter: Interpreter | None = None,
     ) -> None:
         self.fitness_function = fitness_function
@@ -27,6 +29,8 @@ class GeneticAlgorithm:
         self.initial_individual_size = initial_individual_size
         self.interpreter = interpreter or Interpreter()
         self.int_max_value = int_max_value
+        self.mutation_rate = mutation_rate
+        self.crossover_rate = crossover_rate
         self.population: dict[int, IndividualWithFitness] = {}
         self.program_inputs: list[list[Expression]] = []
 
@@ -105,11 +109,9 @@ class GeneticAlgorithm:
             parent_1_index, parent_1 = parents[0]
             parent_2_index, parent_2 = parents[1]
 
-            if random.random() < 0.5:
+            if random.random() < self.crossover_rate:
                 child_1 = deepcopy(parent_1.individual)
-                # child_1.mutate()
                 child_2 = deepcopy(parent_2.individual)
-                # child_2.mutate()
                 for child, index in [(child_1, worst_1_index), (child_2, worst_2_index)]:
                     self.replace_individual(
                         new_individual=child,
@@ -130,7 +132,7 @@ class GeneticAlgorithm:
         self.mutate(best_ids=[index for index, _ in best_individuals])
 
     def mutate(self, best_ids: list[int]) -> None:
-        mutant_count = int(self.population_size * 0.2)
+        mutant_count = int(self.population_size * self.mutation_rate)
         potential_mutant_ids = set(self.population.keys()) - set(best_ids)
         mutant_ids = random.choices(list(potential_mutant_ids), k=mutant_count)
         for mutant_id in mutant_ids:
