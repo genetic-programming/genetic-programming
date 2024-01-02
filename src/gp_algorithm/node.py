@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import random
-from string import ascii_letters
 from typing import Any
 
 from anytree import Node, PreOrderIter
@@ -17,12 +16,14 @@ class LanguageNode(Node):
         variables_count: int = 0,
         parent: LanguageNode | None = None,
         children: list[LanguageNode] | None = None,
+        int_max_value: int = 100,
         **kwargs: Any,
     ) -> None:
         self.node_type = node_type
         self.node_data = TREE_CONFIG[node_type]
         self.value = value
         self.variables_count = variables_count
+        self.int_max_value = int_max_value
         super().__init__(
             name=self.get_name(),
             parent=parent,
@@ -53,6 +54,7 @@ class LanguageNode(Node):
             new_node = LanguageNode(
                 node_type=child_type,
                 variables=self.variables_count,
+                int_max_value=self.int_max_value,
                 parent=self,
             )
             new_node.parent = self
@@ -65,27 +67,28 @@ class LanguageNode(Node):
                 self.value = random.choice(["-", "not"])
 
             case NodeType.BINARY_OPERATOR:
-                self.value = random.choice(["+", "-", "*", "/", "and", "or", "==", "!=", ">"])
+                self.value = random.choices(
+                    ["+", "-", "*", "/", "and", "or", "==", "!=", ">"],
+                    weights=[2, 2, 2, 2, 1, 1, 1, 1, 1],
+                )[0]
 
             case NodeType.VARIABLE_NAME:
-                var_number = random.randint(0, self.variables_count)
+                blocks = filter(
+                    lambda node: node.node_type == NodeType.STATEMENTS,
+                    self.ancestors,
+                )
+                current_block = next(blocks)
+                variables_count = current_block.variables_count
+                var_number = random.randint(0, variables_count + 1)
                 self.value = f"v{var_number}"
-                if var_number == self.variables_count:
-                    statements = filter(
-                        lambda node: node.node_type == NodeType.STATEMENTS,
-                        self.ancestors,
-                    )
-                    current_statement = next(statements)
-                    current_statement.variables_count += 1
+                if var_number == variables_count + 1:
+                    current_block.variables_count += 1
 
             case NodeType.LITERAL_BOOL:
                 self.value = random.choice(["true", "false"])
 
             case NodeType.LITERAL_INT:
-                self.value = str(random.randint(-100, 100))
-
-            case NodeType.LITERAL_STR:
-                self.value = '"' + "".join([random.choice(ascii_letters) for _ in range(random.randint(0, 15))]) + '"'
+                self.value = str(random.randint(-self.int_max_value, self.int_max_value))
 
             case _:
                 raise ValueError(f"Cannot set random value to node of type: {self.node_type}")

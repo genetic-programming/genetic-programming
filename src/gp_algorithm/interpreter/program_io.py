@@ -7,7 +7,7 @@ class ProgramInput:
         self._literals: list[Expression] = list(args)
 
     def set_inputs(self, inputs: list[Expression]) -> None:
-        self._literals = inputs
+        self._literals = inputs.copy()
 
     def pop(self) -> Expression:
         try:

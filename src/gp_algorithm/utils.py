@@ -96,4 +96,3 @@ def build_individual_from_file(file_path: str) -> Individual:
 def save_individual_to_file(individual: Individual, file_path: str) -> None:
     with open(file_path, "w+") as file:
         file.write(str(individual))
-

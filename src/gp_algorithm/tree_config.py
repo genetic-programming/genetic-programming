@@ -14,7 +14,6 @@ class NodeType(StrEnum):
     VARIABLE_NAME = auto()
     LITERAL_BOOL = auto()
     LITERAL_INT = auto()
-    LITERAL_STR = auto()
 
 
 class NodeSuccessor(BaseModel):
@@ -40,17 +39,17 @@ TREE_CONFIG = {
         allowed_swaps={NodeType.STATEMENT},
         successors=[
             NodeSuccessor(
-                weight=2,
+                weight=1,
                 template="{0} = {1};",
                 children=[NodeType.VARIABLE_NAME, NodeType.EXPRESSION],
             ),
             NodeSuccessor(
-                weight=2,
+                weight=4,
                 template="print {0};",
                 children=[NodeType.EXPRESSION],
             ),
             NodeSuccessor(
-                weight=2,
+                weight=3,
                 template="read {0};",
                 children=[NodeType.VARIABLE_NAME],
             ),
@@ -60,7 +59,7 @@ TREE_CONFIG = {
                 children=[NodeType.EXPRESSION, NodeType.STATEMENTS, NodeType.STATEMENTS],
             ),
             NodeSuccessor(
-                weight=2,
+                weight=1,
                 template="while {0} {{{1}}}",
                 children=[NodeType.EXPRESSION, NodeType.STATEMENTS],
             ),
@@ -76,7 +75,6 @@ TREE_CONFIG = {
             NodeType.EXPRESSION,
             NodeType.LITERAL_BOOL,
             NodeType.LITERAL_INT,
-            NodeType.LITERAL_STR,
         },
         successors=[
             NodeSuccessor(
@@ -106,10 +104,6 @@ TREE_CONFIG = {
                 weight=2,
                 children=[NodeType.LITERAL_INT],
             ),
-            NodeSuccessor(
-                weight=0,
-                children=[NodeType.LITERAL_STR],
-            ),
         ],
     ),
     NodeType.UNARY_OPERATOR: NodeData(
@@ -125,21 +119,12 @@ TREE_CONFIG = {
         allowed_swaps={
             NodeType.LITERAL_INT,
             NodeType.LITERAL_BOOL,
-            NodeType.LITERAL_STR,
         },
     ),
     NodeType.LITERAL_INT: NodeData(
         allowed_swaps={
             NodeType.LITERAL_INT,
             NodeType.LITERAL_BOOL,
-            NodeType.LITERAL_STR,
-        },
-    ),
-    NodeType.LITERAL_STR: NodeData(
-        allowed_swaps={
-            NodeType.LITERAL_INT,
-            NodeType.LITERAL_BOOL,
-            NodeType.LITERAL_STR,
         },
     ),
 }

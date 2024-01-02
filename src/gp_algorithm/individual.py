@@ -12,6 +12,7 @@ class Individual(LanguageNode):
         size: int = 0,
         parent: LanguageNode | None = None,
         children: list[LanguageNode] | None = None,
+        int_max_value: int = 100,
         **kwargs: Any,
     ) -> None:
         super().__init__(
@@ -19,6 +20,7 @@ class Individual(LanguageNode):
             parent=parent,
             children=children,
             variables_count=0,
+            int_max_value=int_max_value,
             **kwargs,
         )
         for _ in range(size):
