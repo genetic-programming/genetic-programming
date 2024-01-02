@@ -20,8 +20,8 @@ class Interpreter:
         return [self.interpret_input(input_string) for input_string in input_strings]
 
     def interpret_input(self, input_strings: list[str]) -> list[Expression]:
-        literal_contexts = self._parser.parse_literals(input_strings)
-        return [self._visitor.visitLiteral(literal_ctx) for literal_ctx in literal_contexts]
+        expression_contexts = self._parser.parse_expressions(input_strings)
+        return [self._visitor.visitExpression(expression_ctx) for expression_ctx in expression_contexts]
 
     def interpret_file(self, file_path: str, program_input: list[Expression]) -> list[str]:
         with open(file_path, "r") as file:

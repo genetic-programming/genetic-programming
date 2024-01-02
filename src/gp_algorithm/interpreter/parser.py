@@ -69,12 +69,12 @@ class Parser(LanguageParser, RecognizerWithCustomListener):
         super().__init__(TokenStream())
         self._lexer = lexer or Lexer()
 
-    def parse_literals(self, data: list[str]) -> list[LanguageParser.LiteralContext]:
-        return [self.parse_literal(literal) for literal in data]
+    def parse_expressions(self, data: list[str]) -> list[LanguageParser.ExpressionContext]:
+        return [self.parse_expression(literal) for literal in data]
 
-    def parse_literal(self, literal: str) -> LanguageParser.LiteralContext:
+    def parse_expression(self, literal: str) -> LanguageParser.ExpressionContext:
         self.set_token_stream(data=literal)
-        return self.literal()
+        return self.expression()
 
     def parse_str(self, data: str) -> LanguageParser.StatementsContext:
         tree = self.parse_program(data=data)
