@@ -1,0 +1,15 @@
+Generation: 116
+Best fitness: 0
+Best individual:
+
+print -69 / (-13);
+print 13;
+print 24;
+print ((38));
+print (((55)));
+print (true) + v2;
+print ((38));
+read v2;
+if 41 {} else {
+  read v0;
+}

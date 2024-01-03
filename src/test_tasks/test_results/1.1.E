@@ -1,5 +1,5 @@
-Generation: 9
-Best fitness: 1
+Generation: 53
+Best fitness: 0.0
 Best individual:
 
-print (790);
+print 789;

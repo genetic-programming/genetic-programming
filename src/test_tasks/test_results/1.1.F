@@ -2,4 +2,4 @@ Generation: 0
 Best fitness: 0
 Best individual:
 
-print true - false;
+print not -46 + true;

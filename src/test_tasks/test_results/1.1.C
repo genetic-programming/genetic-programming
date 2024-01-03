@@ -1,6 +1,6 @@
-Generation: 66
+Generation: 70
 Best fitness: 0.0
 Best individual:
 
-print not false - (- 5789) + true + not not (- true) + not -9978 + not not (- true) + true + not not (- true) + 7828 + not not -9978 + not not (- true) + true + true + not not (- true) + true + not not (- true) + not not (- true) + true + true + not not (- true) + true + not not (- true) + 7828 + 9951;
-if (5789) {} else {}
+print (((-100) * 83));
+print ((((3) * (-100) * (-100)) - (-100)) - -91) - ((-68) * (18));

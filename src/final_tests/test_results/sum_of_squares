@@ -1,0 +1,16 @@
+Generation: 2
+Best fitness: 0
+Best individual:
+
+print true * true;
+read v1;
+v0 = v0 == false - (48);
+read v0;
+v2 = v1;
+v3 = -51 / 59;
+if v3 {} else {
+  while v4 {}
+}
+if v3 and false {} else {
+  while ((v1)) {}
+}
