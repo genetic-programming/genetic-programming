@@ -1,5 +1,6 @@
-from gp_algorithm.genetic_algorithm import GeneticAlgorithm
 import random
+
+from gp_algorithm.genetic_algorithm import GeneticAlgorithm
 
 
 def generate_inputs(number: int) -> list[list[str]]:
@@ -9,21 +10,17 @@ def generate_inputs(number: int) -> list[list[str]]:
     return inputs_list
 
 
-inputs = [["5", "20", "3"],
-          ["2", "50", "7"],
-          ["12", "28", "4"],
-          ["4", "12", "3"],
-          ["1", "8", "2"]]
+inputs = [["5", "20", "3"], ["2", "50", "7"], ["12", "28", "4"], ["4", "12", "3"], ["1", "8", "2"]]
 
 
 # inputs = generate_inputs(100)
 
 expected_outputs = []
 
-for input in inputs:
-    start = int(input[0])
-    end = int(input[1])
-    step = int(input[2])
+for input_ in inputs:
+    start = int(input_[0])
+    end = int(input_[1])
+    step = int(input_[2])
     output = []
     n = 0
     for i in range(start, end, step):
@@ -50,7 +47,7 @@ def fitness(outputs: list[list[str]]) -> float:
 
 gp = GeneticAlgorithm(
     fitness_function=fitness,
-    error_threshold=.1,
+    error_threshold=0.1,
     max_generations=1000,
     initial_individual_size=10,
 ).run(

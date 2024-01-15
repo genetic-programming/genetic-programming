@@ -18,25 +18,25 @@ expected_outputs = []
 
 for row in inputs:
     capitalized_row = [b.capitalize() for b in row]
-    result = eval(bool_function.format(*capitalized_row))
+    result = eval(bool_function.format(*capitalized_row))  # noqa: S307
     expected_outputs.append([str(result).lower()])
 
 
 def fitness(outputs: list[list[str]]) -> float:
-    total_error = 0.
+    total_error = 0.0
     for output, expected_output in zip(outputs, expected_outputs):
         if output == expected_output:
             continue
         if len(output) != len(expected_output):
-            total_error += 10.
-        total_error += 1.
+            total_error += 10.0
+        total_error += 1.0
 
     return total_error
 
 
 genetic_algorithm = GeneticAlgorithm(
     fitness_function=fitness,
-    error_threshold=.1,
+    error_threshold=0.1,
     initial_individual_size=1,
 )
 best = genetic_algorithm.run(

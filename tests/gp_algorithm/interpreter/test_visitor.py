@@ -4,7 +4,6 @@ from unittest.mock import Mock
 import pytest
 
 from antlr.LanguageParser import LanguageParser
-from gp_algorithm.interpreter.exceptions import LanguageZeroDivisionError
 from gp_algorithm.interpreter.expression import CONST_FALSE, CONST_TRUE, Expression
 from gp_algorithm.interpreter.visitor import Visitor
 
@@ -105,6 +104,7 @@ def test_visit_loop_instruction(
         ("2 * 5 - 7", Expression(3)),
         ("0 * 190", Expression(0)),
         ("100 / 30", Expression(3)),
+        ("100 / 0", Expression(100)),
         ("100 > 10 and true", CONST_TRUE),
         ("1 > 2", CONST_FALSE),
         ("2 > 2", CONST_FALSE),
@@ -165,23 +165,3 @@ def test_visit_expression(
 
     result = visitor.visit(expression_ctx)
     assert result == expected_result
-
-
-@pytest.mark.parametrize(
-    "input_string",
-    [
-        "1 / 0",
-        "1/0",
-        "4 / 0",
-    ],
-)
-def test_visit_expression_divide_by_zero(
-    input_string: str,
-    get_parser_from_input: Callable[[str], LanguageParser],
-    visitor: Visitor,
-) -> None:
-    parser = get_parser_from_input(input_string)
-    expression_ctx = parser.expression()
-
-    with pytest.raises(LanguageZeroDivisionError):
-        visitor.visit(expression_ctx)

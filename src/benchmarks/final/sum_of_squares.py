@@ -1,5 +1,6 @@
-from gp_algorithm.genetic_algorithm import GeneticAlgorithm
 import random
+
+from gp_algorithm.genetic_algorithm import GeneticAlgorithm
 
 
 def generate_inputs(number: int) -> list[list[str]]:
@@ -38,7 +39,7 @@ def fitness(outputs: list[list[str]]) -> float:
 
 gp = GeneticAlgorithm(
     fitness_function=fitness,
-    error_threshold=.1,
+    error_threshold=0.1,
     max_generations=1000,
     initial_individual_size=10,
     crossover_rate=0.7,

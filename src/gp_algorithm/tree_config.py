@@ -50,8 +50,8 @@ TREE_CONFIG = {
             ),
             NodeSuccessor(
                 weight=3,
-                template="read {0};",
-                children=[NodeType.VARIABLE_NAME],
+                template="read {0} {1};",
+                children=[NodeType.VARIABLE_NAME, NodeType.EXPRESSION],
             ),
             NodeSuccessor(
                 weight=2,
