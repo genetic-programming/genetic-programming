@@ -1,0 +1,14 @@
+Generation: 100
+Best fitness: 13.0
+Best individual:
+
+print (7);
+if (v5) {
+  read v4 v3;
+} else {}
+if -44 {
+  print v0 / v3 / false;
+} else {
+  if (v1) {} else {}
+}
+v2 = v0;

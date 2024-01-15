@@ -1,18 +1,17 @@
 import random
 from copy import deepcopy
-from typing import Callable
 
 from gp_algorithm.individual import Individual, IndividualWithFitness
 from gp_algorithm.interpreter.expression import Expression
 from gp_algorithm.interpreter.interpreter import Interpreter
+from gp_algorithm.interpreter.visitor import Visitor
 from gp_algorithm.tournament import NegativeTournament, Tournament
-from gp_algorithm.utils import calculate_fitness, random_crossover
+from gp_algorithm.utils import calculate_fitness, FitnessFunction, random_crossover
 
 
 class GeneticAlgorithm:
     def __init__(
         self,
-        fitness_function: Callable[[list[list[str]]], float],
         error_threshold: float,
         population_size: int = 1000,
         max_generations: int = 100,
@@ -20,24 +19,32 @@ class GeneticAlgorithm:
         int_max_value: int = 100,
         mutation_rate: float = 0.2,
         crossover_rate: float = 0.5,
+        fitness_functions: dict[float, FitnessFunction] | None = None,
+        fitness_function: FitnessFunction | None = None,
         interpreter: Interpreter | None = None,
+        verbose: bool = False,
     ) -> None:
+        if fitness_function and fitness_functions:
+            raise ValueError("Cannot specify both fitness_function and fitness_functions")
+        if not fitness_function and not fitness_functions:
+            raise ValueError("Must specify either fitness_function or fitness_functions")
+
         self.fitness_function = fitness_function
         self.error_threshold = error_threshold
         self.population_size = population_size
         self.max_generations = max_generations
         self.initial_individual_size = initial_individual_size
-        self.interpreter = interpreter or Interpreter()
+        self.interpreter = interpreter or Interpreter(visitor=Visitor(verbose=verbose))
         self.int_max_value = int_max_value
         self.mutation_rate = mutation_rate
         self.crossover_rate = crossover_rate
         self.population: dict[int, IndividualWithFitness] = {}
         self.program_inputs: list[list[Expression]] = []
+        self.verbose = verbose
 
     def run(
         self,
         inputs: list[list[str]] | None = None,
-        verbose: bool = False,
         file_name: str = None,
     ) -> IndividualWithFitness:
         if inputs:
@@ -56,7 +63,7 @@ class GeneticAlgorithm:
                 f"best fitness: {best_individual.fitness}, "
                 f"avg fitness: {average_fitness}",
             )
-            if verbose:
+            if self.verbose:
                 print("=" * 25)
                 print(f"Best individual: {best_individual.individual.build_str()}\n")
                 print("=" * 25)

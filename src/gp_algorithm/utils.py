@@ -1,6 +1,6 @@
 import random
 from copy import deepcopy
-from typing import Callable
+from typing import Callable, TypeAlias
 
 from anytree import PreOrderIter
 
@@ -11,6 +11,8 @@ from gp_algorithm.interpreter.expression import Expression
 from gp_algorithm.interpreter.interpreter import Interpreter
 from gp_algorithm.node import LanguageNode
 from gp_algorithm.tree_config import TREE_CONFIG
+
+FitnessFunction: TypeAlias = Callable[[list[list[str]]], float]
 
 
 def swap_parents(node_1: LanguageNode, node_2: LanguageNode) -> None:
@@ -59,7 +61,7 @@ def random_crossover(individual_1: Individual, individual_2: Individual) -> tupl
 def calculate_fitness(
     individual: Individual,
     interpreter: Interpreter,
-    fitness_function: Callable[[list[list[str]]], float],
+    fitness_function: FitnessFunction,
     program_inputs: list[list[Expression]],
 ) -> float:
     individual_as_str = individual.build_str()

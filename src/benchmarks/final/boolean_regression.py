@@ -41,5 +41,5 @@ genetic_algorithm = GeneticAlgorithm(
 )
 best = genetic_algorithm.run(
     inputs=inputs,
-    file_name="test_results/boolean_regression",
+    file_name="results/boolean_regression",
 )

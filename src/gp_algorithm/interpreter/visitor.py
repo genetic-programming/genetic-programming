@@ -16,12 +16,14 @@ class Visitor(LanguageVisitor):
         program_input: ProgramInput | None = None,
         program_output: ProgramOutput | None = None,
         statements_limit: int = 100,
+        verbose: bool = False,
     ) -> None:
         self._variable_stack: VariableStack = variable_stack or VariableStack()
         self._program_input: ProgramInput = program_input or ProgramInput()
         self._program_output: ProgramOutput = program_output or ProgramOutput()
         self._statements_limit: int = statements_limit
         self._statement_counter: int = 0
+        self.verbose = verbose
 
     def visit_tree(
         self,
@@ -32,8 +34,11 @@ class Visitor(LanguageVisitor):
         self._program_input.set_inputs(program_input)
         try:
             self.visitStatements(tree)
-        except LanguageException:
+        except TooManyStatements:
             pass
+        except LanguageException as e:
+            if self.verbose:
+                print("caught", e.__class__.__name__)
 
         self._variable_stack.clear()
         return self._program_output.return_outputs()

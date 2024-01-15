@@ -44,7 +44,8 @@ gp = GeneticAlgorithm(
     initial_individual_size=10,
     crossover_rate=0.7,
     mutation_rate=0.3,
-).run(
-    file_name="test_results/sum_of_squares",
     verbose=True,
+).run(
+    inputs=inputs,
+    file_name="results/sum_of_squares",
 )
