@@ -1,4 +1,4 @@
-# Generated from D:/Studia/semestr_5/pg/genetic-programming/src/antlr/Language.g4 by ANTLR 4.13.1
+# Generated from /Users/spoton/Studia/pg/genetic-programming/src/antlr/Language.g4 by ANTLR 4.13.1
 from antlr4 import *
 
 if "." in __name__:

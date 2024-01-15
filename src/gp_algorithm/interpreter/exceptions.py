@@ -77,18 +77,8 @@ class LanguageSyntaxError(LanguageException):
 
 
 # VISITOR EXCEPTIONS
-class LanguageZeroDivisionError(LanguageException):
-    message_schema = "Division by zero."
-    attrs = {}
-
-
 class TooManyStatements(LanguageException):
     message_schema = "Too many statements."
-    attrs = {}
-
-
-class EmptyInputException(LanguageException):
-    message_schema = "Program input is empty."
     attrs = {}
 
 

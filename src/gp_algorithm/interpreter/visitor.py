@@ -4,7 +4,7 @@ from antlr4.tree.Tree import ErrorNodeImpl
 from antlr.LanguageParser import LanguageParser
 from antlr.LanguageVisitor import LanguageVisitor
 from gp_algorithm.interpreter.exceptions import LanguageException, LanguageSyntaxError, TooManyStatements
-from gp_algorithm.interpreter.expression import CONST_TRUE, Expression
+from gp_algorithm.interpreter.expression import CONST_FALSE, CONST_TRUE, Expression
 from gp_algorithm.interpreter.program_io import ProgramInput, ProgramOutput
 from gp_algorithm.interpreter.variable_stack import VariableStack
 
@@ -90,6 +90,8 @@ class Visitor(LanguageVisitor):
     def visitReadStatement(self, ctx: LanguageParser.ReadStatementContext) -> None:
         var_name = ctx.VARIABLE_NAME().symbol.text
         var_value = self._program_input.pop()
+        if var_value is None:
+            var_value = self.visitExpression(ctx.expression())
         self._variable_stack.set_var(var_name=var_name, expr=var_value)
 
     # EXPRESSIONS
@@ -98,10 +100,16 @@ class Visitor(LanguageVisitor):
             case [_] if var_terminal := ctx.VARIABLE_NAME():
                 name = var_terminal.symbol.text
                 var_value = self._variable_stack.get_var(var_name=name)
+                if var_value is not None:
+                    return var_value
+
+                var_value = self._program_input.pop()
                 if var_value is None:
-                    var_value = self._program_input.pop()
-                    self._variable_stack.set_var(var_name=name, expr=var_value)
+                    var_value = CONST_FALSE
+
+                self._variable_stack.set_var(var_name=name, expr=var_value)
                 return var_value
+
             case [node]:
                 return self.visit(node)
 

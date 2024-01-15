@@ -43,7 +43,7 @@ printStatement
     ;
 
 readStatement
-    : Read VARIABLE_NAME
+    : Read VARIABLE_NAME expression
     ;
 
 

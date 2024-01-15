@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from gp_algorithm.interpreter.exceptions import LanguageZeroDivisionError
-
 
 class Expression:
     def __init__(
@@ -72,7 +70,7 @@ class Expression:
         try:
             return Expression(int(self) // int(other))
         except ZeroDivisionError:
-            raise LanguageZeroDivisionError()
+            return Expression(int(self))
 
     # comparison operators
     def is_greater_than(self, other: object) -> Expression:

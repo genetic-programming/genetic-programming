@@ -1,4 +1,4 @@
-from gp_algorithm.interpreter.exceptions import EmptyInputException, OutputOverflow
+from gp_algorithm.interpreter.exceptions import OutputOverflow
 from gp_algorithm.interpreter.expression import Expression
 
 
@@ -9,11 +9,11 @@ class ProgramInput:
     def set_inputs(self, inputs: list[Expression]) -> None:
         self._literals = inputs.copy()
 
-    def pop(self) -> Expression:
+    def pop(self) -> Expression | None:
         try:
             return self._literals.pop(0)
         except IndexError:
-            raise EmptyInputException()
+            return None
 
 
 class ProgramOutput:
