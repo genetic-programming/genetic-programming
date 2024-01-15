@@ -2,6 +2,7 @@ import random
 
 from gp_algorithm.genetic_algorithm import GeneticAlgorithm
 
+
 # 1.3.A Program powinien odczytać dwie pierwsze liczy z wejścia
 # i zwrócić na wyjściu (jedynie) większą z nich.
 # Na wejściu mogą być tylko całkowite liczby dodatnie w zakresie [0,9]
@@ -28,7 +29,29 @@ def fitness(outputs: list[list[str]]) -> float:
         if len(output) == 0:
             total_error += 100.0
             continue
+        
+        if len(output) != 1:
+            total_error += 1.0
 
+        try:
+            result = int(output[0])
+        except ValueError:
+            total_error += 10.0
+            continue
+
+        error = abs(result - expected)
+        total_error += error
+
+    return total_error
+
+
+def fitness(outputs: list[list[str]]) -> float:
+    total_error = 0.0
+    for expected, output in zip(expected_outputs, outputs):
+        if len(output) == 0:
+            total_error += 100.0
+            continue
+        
         if len(output) != 1:
             total_error += 1.0
 
