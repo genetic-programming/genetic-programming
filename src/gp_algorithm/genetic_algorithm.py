@@ -50,8 +50,12 @@ class GeneticAlgorithm:
         best_individual = self.population[0]
 
         for generation_number in range(self.max_generations):
-            best_individual = self.find_best_individual()
-            print(f"Generation: {generation_number}, best fitness: {best_individual.fitness}")
+            best_individual, average_fitness = self.get_best_and_avg_fitness()
+            print(
+                f"Generation: {generation_number}, "
+                f"best fitness: {best_individual.fitness}, "
+                f"avg fitness: {average_fitness}",
+            )
             if verbose:
                 print("=" * 25)
                 print(f"Best individual: {best_individual.individual.build_str()}\n")
@@ -84,12 +88,15 @@ class GeneticAlgorithm:
             )
         self.population = population
 
-    def find_best_individual(self) -> IndividualWithFitness:
+    def get_best_and_avg_fitness(self) -> tuple[IndividualWithFitness, float]:
         best_individual = self.population[0]
+        fitness_sum = 0
         for _, individual in self.population.items():
+            fitness_sum += individual.fitness
             if individual.fitness < best_individual.fitness:
                 best_individual = individual
-        return best_individual
+        average_fitness = fitness_sum / self.population_size
+        return best_individual, average_fitness
 
     def evolve(self) -> None:
         best_individuals = Tournament(

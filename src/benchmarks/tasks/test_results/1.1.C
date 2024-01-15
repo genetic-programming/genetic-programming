@@ -1,6 +1,6 @@
-Generation: 70
+Generation: 18
 Best fitness: 0.0
 Best individual:
 
-print (((-100) * 83));
-print ((((3) * (-100) * (-100)) - (-100)) - -91) - ((-68) * (18));
+print (((91)) + 86) * (((91) + 86)) + 86;
+print 86;
