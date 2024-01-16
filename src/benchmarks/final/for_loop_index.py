@@ -50,7 +50,8 @@ gp = GeneticAlgorithm(
     error_threshold=0.1,
     max_generations=1000,
     initial_individual_size=10,
-).run(
-    file_name="test_results/for_loop_index",
     verbose=True,
+).run(
+    inputs=inputs,
+    file_name="results/for_loop_index",
 )
