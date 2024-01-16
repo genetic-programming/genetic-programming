@@ -1,4 +1,4 @@
-from gp_algorithm.genetic_algorithm import GeneticAlgorithm
+from gp_algorithm.genetic_algorithm import GeneticAlgorithm, GeneticAlgorithmStep
 
 # 1.2.A Program powinien odczytać dwie pierwsze liczy z wejścia i zwrócić na wyjściu (jedynie) ich sumę.
 # Na wejściu mogą być tylko całkowite liczby dodatnie w zakresie [0,9]
@@ -27,10 +27,13 @@ def fitness(outputs: list[list[str]]) -> float:
 
 
 best = GeneticAlgorithm(
-    fitness_function=fitness,
-    error_threshold=0.1,
+    steps=[
+        GeneticAlgorithmStep(
+            fitness_function=fitness,
+            error_threshold=0.1,
+            inputs=inputs,
+            file_name="results/1.2.A",
+        ),
+    ],
     initial_individual_size=1,
-).run(
-    inputs=inputs,
-    file_name="results/1.2.A",
-)
+).run()

@@ -1,4 +1,4 @@
-from gp_algorithm.genetic_algorithm import GeneticAlgorithm
+from gp_algorithm.genetic_algorithm import GeneticAlgorithm, GeneticAlgorithmStep
 
 # 1.2.E Program powinien odczytać dwie pierwsze liczy z wejścia
 # i zwrócić na wyjściu (jedynie) ich iloczyn.
@@ -35,11 +35,14 @@ def fitness(outputs: list[list[str]]) -> float:
 
 
 genetic_algorithm = GeneticAlgorithm(
-    fitness_function=fitness,
-    error_threshold=0.1,
+    steps=[
+        GeneticAlgorithmStep(
+            fitness_function=fitness,
+            error_threshold=0.1,
+            inputs=inputs,
+            file_name="results/1.2.E",
+        ),
+    ],
     initial_individual_size=1,
 )
-best = genetic_algorithm.run(
-    inputs=inputs,
-    file_name="results/1.2.E",
-)
+best = genetic_algorithm.run()

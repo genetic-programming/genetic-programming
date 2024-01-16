@@ -1,4 +1,4 @@
-from gp_algorithm.genetic_algorithm import GeneticAlgorithm
+from gp_algorithm.genetic_algorithm import GeneticAlgorithm, GeneticAlgorithmStep
 
 # 1.1.C Program powinien wygenerować na wyjściu
 # (na dowolnej pozycji w danych wyjściowych) liczbę 31415.
@@ -21,8 +21,13 @@ def fitness(outputs: list[list[str]]) -> float:
 
 
 best = GeneticAlgorithm(
-    fitness_function=fitness,
-    error_threshold=0.1,
+    int_max_value=10000,
     initial_individual_size=2,
-    int_max_value=100,
-).run(file_name="results/1.1.C")
+    steps=[
+        GeneticAlgorithmStep(
+            fitness_function=fitness,
+            error_threshold=0.1,
+            file_name="results/1.1.C",
+        ),
+    ],
+).run()

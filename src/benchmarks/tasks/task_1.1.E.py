@@ -1,4 +1,4 @@
-from gp_algorithm.genetic_algorithm import GeneticAlgorithm
+from gp_algorithm.genetic_algorithm import GeneticAlgorithm, GeneticAlgorithmStep
 
 # 1.1.E Program powinien wygenerować na pierwszej pozycji na wyjściu liczbę 789.
 # Poza liczbą 789 może też zwrócić inne liczby.
@@ -20,7 +20,12 @@ def fitness(outputs: list[list[str]]) -> float:
 
 
 GeneticAlgorithm(
-    fitness_function=fitness,
-    error_threshold=0.1,
+    steps=[
+        GeneticAlgorithmStep(
+            fitness_function=fitness,
+            error_threshold=0.1,
+            file_name="results/1.1.E",
+        ),
+    ],
     int_max_value=1000,
-).run(file_name="results/1.1.E")
+).run()

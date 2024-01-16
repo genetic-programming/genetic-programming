@@ -1,5 +1,5 @@
-Generation: 0
+Generation: 100
 Best fitness: 0
 Best individual:
 
-print not -46 + true;
+print not v0 - v0;

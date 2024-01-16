@@ -1,6 +1,6 @@
 import random
 
-from gp_algorithm.genetic_algorithm import GeneticAlgorithm
+from gp_algorithm.genetic_algorithm import GeneticAlgorithm, GeneticAlgorithmStep
 
 # 1.3.B Program powinien odczytać dwie pierwsze liczy z wejścia
 # i zwrócić na wyjściu (jedynie) większą z nich.
@@ -36,14 +36,16 @@ def fitness(outputs: list[list[str]]) -> float:
     return total_error
 
 
-genetic_algorithm = GeneticAlgorithm(
-    fitness_function=fitness,
-    error_threshold=0.1,
+best = GeneticAlgorithm(
     initial_individual_size=5,
-    max_generations=1000,
     verbose=True,
-)
-best = genetic_algorithm.run(
-    inputs=inputs,
-    file_name="results/1.3.B",
-)
+    steps=[
+        GeneticAlgorithmStep(
+            fitness_function=fitness,
+            error_threshold=0.1,
+            max_generations=100,
+            inputs=inputs,
+            file_name="results/1.3.B",
+        ),
+    ],
+).run()
