@@ -1,4 +1,4 @@
-from gp_algorithm.genetic_algorithm import GeneticAlgorithm
+from gp_algorithm.genetic_algorithm import GeneticAlgorithm, GeneticAlgorithmStep
 
 # 1.1.D Program powinien wygenerować na pierwszej pozycji na wyjściu liczbę 1.
 # Poza liczbą 1 może też zwrócić inne liczby.
@@ -16,6 +16,7 @@ def fitness(outputs: list[list[str]]) -> float:
 
 
 GeneticAlgorithm(
-    fitness_function=fitness,
-    error_threshold=0.1,
-).run(file_name="results/1.1.D")
+    steps=[
+        GeneticAlgorithmStep(fitness_function=fitness, error_threshold=0.1, file_name="results/1.1.D"),
+    ],
+).run()

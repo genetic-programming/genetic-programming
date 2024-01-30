@@ -4,6 +4,7 @@ import random
 from typing import Any
 
 from anytree import Node, PreOrderIter
+from numpy.random import normal
 
 from gp_algorithm.tree_config import NodeType, TREE_CONFIG
 
@@ -69,7 +70,7 @@ class LanguageNode(Node):
             case NodeType.BINARY_OPERATOR:
                 self.value = random.choices(
                     ["+", "-", "*", "/", "and", "or", "==", "!=", ">"],
-                    weights=[2, 2, 2, 2, 1, 1, 1, 1, 1],
+                    weights=[2, 2, 2, 2, 0, 0, 2, 2, 2],
                 )[0]
 
             case NodeType.VARIABLE_NAME:
@@ -88,10 +89,17 @@ class LanguageNode(Node):
                 self.value = random.choice(["true", "false"])
 
             case NodeType.LITERAL_INT:
-                self.value = str(random.randint(-self.int_max_value, self.int_max_value))
+                self.value = str(self.random_gaussian_int())
 
             case _:
                 raise ValueError(f"Cannot set random value to node of type: {self.node_type}")
+
+    def random_gaussian_int(self) -> int:
+        min_val = -self.int_max_value
+        max_val = self.int_max_value
+        std_dev = self.int_max_value / 3
+        value = int(normal(0, std_dev))
+        return max(min_val, min(value, max_val))
 
     def build_str(self) -> str:
         if not self.value:

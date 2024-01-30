@@ -1,14 +1,6 @@
-Generation: 100
-Best fitness: 13.0
+Generation: 50
+Best fitness: 7.0
 Best individual:
 
-print (7);
-if (v5) {
-  read v4 v3;
-} else {}
-if -44 {
-  print v0 / v3 / false;
-} else {
-  if (v1) {} else {}
-}
-v2 = v0;
+read v4 50 == 41;
+print ((v4) + (v5) / v4);

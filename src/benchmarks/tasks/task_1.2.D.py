@@ -1,4 +1,4 @@
-from gp_algorithm.genetic_algorithm import GeneticAlgorithm
+from gp_algorithm.genetic_algorithm import GeneticAlgorithm, GeneticAlgorithmStep
 
 # 1.2.D Program powinien odczytać dwie pierwsze liczy z wejścia
 # i zwrócić na wyjściu (jedynie) ich różnicę.
@@ -35,10 +35,13 @@ def fitness(outputs: list[list[str]]) -> float:
 
 
 best = GeneticAlgorithm(
-    fitness_function=fitness,
-    error_threshold=0.1,
+    steps=[
+        GeneticAlgorithmStep(
+            fitness_function=fitness,
+            error_threshold=0.1,
+            inputs=inputs,
+            file_name="results/1.2.D",
+        ),
+    ],
     initial_individual_size=1,
-).run(
-    inputs=inputs,
-    file_name="results/1.2.D",
-)
+).run()

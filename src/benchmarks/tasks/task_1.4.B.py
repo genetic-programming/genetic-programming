@@ -1,6 +1,6 @@
 import random
 
-from gp_algorithm.genetic_algorithm import GeneticAlgorithm
+from gp_algorithm.genetic_algorithm import GeneticAlgorithm, GeneticAlgorithmStep
 
 # 1.4.A Program powinien odczytać dziesięć pierwszych liczy z wejścia
 # i zwrócić na wyjściu (jedynie) ich średnią arytmetyczną (zaokrągloną do pełnej liczby całkowitej).
@@ -36,12 +36,15 @@ def fitness(outputs: list[list[str]]) -> float:
 
 
 best = GeneticAlgorithm(
-    fitness_function=fitness,
-    error_threshold=0.1,
     initial_individual_size=10,
-    max_generations=1000,
     verbose=True,
-).run(
-    inputs=inputs,
-    file_name="results/1.4.B",
-)
+    steps=[
+        GeneticAlgorithmStep(
+            fitness_function=fitness,
+            error_threshold=0.1,
+            max_generations=100,
+            inputs=inputs,
+            file_name="results/1.4.B",
+        ),
+    ],
+).run()
