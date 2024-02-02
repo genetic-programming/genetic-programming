@@ -62,6 +62,15 @@ class LanguageNode(Node):
             if not new_node.node_data.growable:
                 new_node.random_init()
 
+        if chosen_successor.template in {"if {0} {{{1}}} else {{{2}}}", "while {0} {{{1}}}"}:
+            new_node = LanguageNode(
+                node_type=NodeType.STATEMENT,
+                variables=self.variables_count,
+                int_max_value=self.int_max_value,
+                parent=self,
+            )
+            new_node.parent = self
+
     def set_random_value(self) -> None:
         match self.node_type:
             case NodeType.UNARY_OPERATOR:

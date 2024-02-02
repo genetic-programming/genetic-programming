@@ -1,6 +1,8 @@
 import random
+from gp_algorithm.genetic_algorithm import GeneticAlgorithm, GeneticAlgorithmStep
 
-from gp_algorithm.genetic_algorithm import GeneticAlgorithm
+
+# Given integer n, return the sum of squaring each integer in the range [1, n].
 
 
 def generate_inputs(number: int) -> list[list[str]]:
@@ -38,14 +40,19 @@ def fitness(outputs: list[list[str]]) -> float:
 
 
 gp = GeneticAlgorithm(
-    fitness_function=fitness,
-    error_threshold=0.1,
-    max_generations=1000,
-    initial_individual_size=10,
-    crossover_rate=0.7,
-    mutation_rate=0.3,
+    initial_individual_size=2,
+    population_size=1000,
+    int_max_value=100,
     verbose=True,
-).run(
-    inputs=inputs,
-    file_name="results/sum_of_squares",
-)
+    steps=[
+        GeneticAlgorithmStep(
+            fitness_function=fitness,
+            error_threshold=0.1,
+            max_generations=150,
+            mutation_rate=0.2,
+            crossover_rate=0.5,
+            inputs=inputs,
+            file_name="results/sum_of_squares",
+        ),
+    ],
+).run()

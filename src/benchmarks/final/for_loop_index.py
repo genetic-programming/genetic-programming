@@ -1,6 +1,12 @@
 import random
+from gp_algorithm.genetic_algorithm import GeneticAlgorithm, GeneticAlgorithmStep
 
-from gp_algorithm.genetic_algorithm import GeneticAlgorithm
+
+# Given 3 integer inputs: start, end, and step, print the integers in the sequence
+#  n0 = start
+# ni = ni-1 + step
+#
+# for each ni < end, each on their own line.
 
 
 def generate_inputs(number: int) -> list[list[str]]:
@@ -46,12 +52,19 @@ def fitness(outputs: list[list[str]]) -> float:
 
 
 gp = GeneticAlgorithm(
-    fitness_function=fitness,
-    error_threshold=0.1,
-    max_generations=1000,
     initial_individual_size=10,
+    population_size=1000,
+    int_max_value=100,
     verbose=True,
-).run(
-    inputs=inputs,
-    file_name="results/for_loop_index",
-)
+    steps=[
+        GeneticAlgorithmStep(
+            fitness_function=fitness,
+            error_threshold=0.1,
+            max_generations=150,
+            mutation_rate=0.2,
+            crossover_rate=0.5,
+            inputs=inputs,
+            file_name="results/for_loop_index",
+        ),
+    ],
+).run()

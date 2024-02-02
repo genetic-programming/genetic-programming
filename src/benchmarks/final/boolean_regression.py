@@ -1,4 +1,4 @@
-from gp_algorithm.genetic_algorithm import GeneticAlgorithm
+from gp_algorithm.genetic_algorithm import GeneticAlgorithm, GeneticAlgorithmStep
 
 
 def generate_bool_table(k: int) -> list[list[str]]:
@@ -11,9 +11,9 @@ def generate_bool_table(k: int) -> list[list[str]]:
     return [row + ["true"] for row in table] + [row + ["false"] for row in table]
 
 
-inputs = generate_bool_table(5)
+inputs = generate_bool_table(3)
 
-bool_function = "{0} or {1} and {2} or not {3} and {4}"
+bool_function = "{0} or {1} and not {2}"
 expected_outputs = []
 
 for row in inputs:
@@ -34,12 +34,20 @@ def fitness(outputs: list[list[str]]) -> float:
     return total_error
 
 
-genetic_algorithm = GeneticAlgorithm(
-    fitness_function=fitness,
-    error_threshold=0.1,
+gp = GeneticAlgorithm(
     initial_individual_size=1,
-)
-best = genetic_algorithm.run(
-    inputs=inputs,
-    file_name="results/boolean_regression",
-)
+    population_size=1000,
+    int_max_value=100,
+    verbose=True,
+    steps=[
+        GeneticAlgorithmStep(
+            fitness_function=fitness,
+            error_threshold=0.1,
+            max_generations=200,
+            mutation_rate=0.2,
+            crossover_rate=0.5,
+            inputs=inputs,
+            file_name="results/boolean_regression",
+        ),
+    ],
+).run()

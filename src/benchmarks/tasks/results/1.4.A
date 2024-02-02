@@ -1,5 +1,9 @@
 Generation: 100
-Best fitness: 201.89999999999998
+Best fitness: 1116.0
 Best individual:
 
-print (v0 + (v3 + ((v0) + v5 + false) / 12 + v7 + v4 + (((v5 + v0 + (v4) - not (-10))) + v5 + false) / 12 + v1 + v6) + 12 + v2) / 12;
+read v2 v0;
+if v3 > v0 - (v1) {
+  read v1 48;
+} else {}
+print (v2 + v1 + (v4 + v3 + (v3 > -69)));

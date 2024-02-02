@@ -1,0 +1,2 @@
+print v0 > v1;
+print not (v3 == (not (-7) + - not - -27 > v1 - v0) / v3) * not not v0;

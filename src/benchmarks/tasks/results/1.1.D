@@ -2,4 +2,4 @@ Generation: 100
 Best fitness: 0.0
 Best individual:
 
-print (not v0 / v0);
+print 1;

@@ -19,12 +19,12 @@ def fitness(outputs: list[list[str]]) -> float:
     total_error = 0.0
     for input_data, output_data in zip(inputs, outputs):
         if len(output_data) != 1:
-            return float("inf")
+            return float("100000")
 
         try:
             result = int(output_data[0])
         except ValueError:
-            total_error += float("inf")
+            total_error += float("100000")
             continue
 
         expected_result = int(input_data[0]) + int(input_data[1])

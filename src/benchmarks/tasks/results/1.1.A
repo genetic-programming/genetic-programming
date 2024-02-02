@@ -1,5 +1,5 @@
-Generation: 10
+Generation: 100
 Best fitness: 0.0
 Best individual:
 
-print true + true * false;
+print v1 / v2 + (true);

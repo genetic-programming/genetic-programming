@@ -2,4 +2,4 @@ Generation: 100
 Best fitness: 0.0
 Best individual:
 
-print 786 + true + true + true;
+print (415 - -374);

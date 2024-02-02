@@ -146,7 +146,7 @@ class GeneticAlgorithm:
     def evolve(self) -> None:
         best_individuals = Tournament(
             population=self.population,
-            size=20,
+            size=5,
         ).select()
 
         worst_individuals = NegativeTournament(
